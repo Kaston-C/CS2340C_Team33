@@ -1,3 +1,3 @@
 # Sprint0.5F24
-> Kaston Carr
+> Kaston Carr  
 > Cole Fitzhenry
