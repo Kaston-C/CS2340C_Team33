@@ -8,5 +8,3 @@ This repository is meant to be used throughout the semester to help you organize
 > *Note that `Sprint0.5-main` is a Project folder, which means Android Studio will recognize it as a project if and only if it is opened at this level.* If you attempt to open the project by selecting any other parent or child directory, you will run into issues as the program will not know which *gradle* configurations to use.
 - `SOLID_GRASP` This directory will be used later in the semester for your group assignments related to SOLID/GRASP.
 - `Code Smell` This directory will be used later in the semester for your group assignments related to Code Smells.
-
-> Cole Fitzhenry
