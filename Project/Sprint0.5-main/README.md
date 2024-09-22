@@ -2,4 +2,5 @@
 > Kaston Carr  
 > Cole Fitzhenry  
 > Keith Burroughs  
-> Srihitha Jagarlamudi  
+> Srihitha Jagarlamudi 
+> Hawthorne Brown
