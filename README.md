@@ -7,6 +7,9 @@ This repository is meant to be used throughout the semester to help you organize
 - `Project` This directory currently contains an Android Studio Project called `Sprint0.5-main`. This is a template project you should feel free to use in order to set up your group's project for the semester. If you decide to start your own Android Studio Project from scratch, we recommend that you save it inside the `Project` folder as well.
 > *Note that `Sprint0.5-main` is a Project folder, which means Android Studio will recognize it as a project if and only if it is opened at this level.* If you attempt to open the project by selecting any other parent or child directory, you will run into issues as the program will not know which *gradle* configurations to use.
 - `SOLID_GRASP` This directory will be used later in the semester for your group assignments related to SOLID/GRASP.
-- `Code Smell` This directory will be used later in the semester for your group assignments related to Code Smells.
 
+<<<<<<< HEAD
 > Andrew Pilarczyk
+=======
+- `Code Smell` This directory will be used later in the semester for your group assignments related to Code Smells.
+>>>>>>> cd8b7dc9b7fecc09df5f1218eecefb8242f62909
