@@ -2,7 +2,7 @@
 <<<<<<< HEAD
 > Kaston Carr  
 > Cole Fitzhenry  
-> Keith Burroughs
+> Keith Burroughs  
 > Srihitha Jagarlamudi
 > Hawthorne Brown
 > Andrew Pilarczyk
