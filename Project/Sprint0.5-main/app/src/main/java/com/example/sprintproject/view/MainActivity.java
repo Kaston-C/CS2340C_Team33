@@ -8,7 +8,7 @@ import com.example.sprintproject.viewmodel.MainViewModel;
 public class MainActivity extends AppCompatActivity {
 
     private MainViewModel mainViewModel;
-    private ActivityMainBinding binding;  // ViewBinding to access views in activity_main.xml
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
