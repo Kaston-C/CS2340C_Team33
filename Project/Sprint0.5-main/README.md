@@ -3,5 +3,9 @@
 > Cole Fitzhenry  
 > Keith Burroughs  
 > Srihitha Jagarlamudi  
+<<<<<<< HEAD
 > Hawthorne Brown
+=======
+> Hawthorne Brown  
+>>>>>>> main
 > Andrew Pilarczyk  
