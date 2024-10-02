@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@color/primary"
+    android:padding="8dp"
+    android:layout_gravity="bottom">
+
+    <ImageButton
+        android:id="@+id/logistics_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@drawable/logistics"
+        android:contentDescription="logistics button"
+        android:background="@drawable/active_button"
+        android:padding="10dp" />
+
+    <ImageButton
+        android:id="@+id/destination_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@drawable/location"
+        android:contentDescription="destination button"
+        android:background="@color/primary"
+        android:padding="10dp" />
+
+    <ImageButton
+        android:id="@+id/dining_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@drawable/dining"
+        android:contentDescription="dining button"
+        android:background="@color/primary"
+        android:padding="10dp" />
+
+    <ImageButton
+        android:id="@+id/accommodation_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@drawable/accommodation"
+        android:contentDescription="accommodation button"
+        android:background="@color/primary"
+        android:padding="10dp" />
+
+    <ImageButton
+        android:id="@+id/transportation_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@drawable/transportation"
+        android:contentDescription="transportation button"
+        android:background="@color/primary"
+        android:padding="10dp" />
+
+    <ImageButton
+        android:id="@+id/community_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@drawable/community"
+        android:contentDescription="community button"
+        android:background="@color/primary"
+        android:padding="10dp" />
+
+</LinearLayout>
