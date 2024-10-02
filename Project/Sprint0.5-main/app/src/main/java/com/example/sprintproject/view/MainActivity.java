@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.sprintproject.databinding.ActivityMainBinding;  // Check this import
+import com.example.sprintproject.databinding.ActivityMainBinding;
 import com.example.sprintproject.viewmodel.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
