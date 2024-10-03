@@ -2,7 +2,6 @@ package com.example.sprintproject.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -45,7 +44,6 @@ public class LoginActivity extends AppCompatActivity {
            String password = password_input.getText().toString();
 
            if (!username.isEmpty() && !password.isEmpty()) {
-               DatabaseReference child = databaseReference.child(username);
                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                    @Override
                    public void onDataChange(DataSnapshot dataSnapshot) {

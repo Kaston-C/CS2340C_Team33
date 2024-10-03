@@ -10,7 +10,6 @@ import com.example.sprintproject.viewmodel.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MainViewModel mainViewModel;
     private ActivityMainBinding binding;
 
     @Override
