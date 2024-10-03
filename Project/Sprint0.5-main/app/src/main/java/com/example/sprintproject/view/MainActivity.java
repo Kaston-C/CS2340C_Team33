@@ -1,15 +1,15 @@
 package com.example.sprintproject.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sprintproject.databinding.ActivityMainBinding;
 import com.example.sprintproject.viewmodel.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MainViewModel mainViewModel;
     private ActivityMainBinding binding;
 
     @Override
@@ -17,9 +17,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        binding.onwardsButton.setOnClickListener(v -> {
-            mainViewModel.onStartButtonClick();
+        binding.onwardsButton.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
+            startActivity(intent);
         });
     }
 }
