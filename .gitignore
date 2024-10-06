@@ -26,6 +26,9 @@ render.experimental.xml
 *.jks
 *.keystore
 
+# MacOS Finder file
+**/.DS_Store
+
 # Google Services (e.g. APIs or Firebase)
 google-services.json
 

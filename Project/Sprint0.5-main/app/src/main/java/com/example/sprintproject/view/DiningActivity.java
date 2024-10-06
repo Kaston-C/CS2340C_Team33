@@ -1,6 +1,7 @@
 package com.example.sprintproject.view;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -17,6 +18,7 @@ public class DiningActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dining);
 
+
         //set menu buttons to switch current screen
         ImageButton logisticsButton = findViewById(R.id.logistics_button);
         logisticsButton.setOnClickListener(v -> startActivity(new Intent(DiningActivity.this, LogisticsActivity.class)));
@@ -25,6 +27,7 @@ public class DiningActivity extends AppCompatActivity {
         destinationButton.setOnClickListener(v -> startActivity(new Intent(DiningActivity.this, DestinationActivity.class)));
 
         ImageButton diningButton = findViewById(R.id.dining_button);
+        diningButton.setSelected(true);
         diningButton.setOnClickListener(v -> startActivity(new Intent(DiningActivity.this, DiningActivity.class)));
 
         ImageButton accomButton = findViewById(R.id.accommodation_button);
