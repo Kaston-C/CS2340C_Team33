@@ -20,7 +20,7 @@ public class LogisticsActivity extends AppCompatActivity {
 
         //set menu buttons to switch current screen
         ImageButton logisticsButton = findViewById(R.id.logistics_button);
-        logisticsButton.setBackground(Drawable.createFromPath("@drawable/active_button.xml") );
+        logisticsButton.setSelected(true);
         logisticsButton.setOnClickListener(v -> startActivity(new Intent(LogisticsActivity.this, LogisticsActivity.class)));
 
         ImageButton destinationButton = findViewById(R.id.destination_button);

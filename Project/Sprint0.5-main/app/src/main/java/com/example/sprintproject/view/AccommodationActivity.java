@@ -29,7 +29,7 @@ public class AccommodationActivity extends AppCompatActivity {
         diningButton.setOnClickListener(v -> startActivity(new Intent(AccommodationActivity.this, DiningActivity.class)));
 
         ImageButton accomButton = findViewById(R.id.accommodation_button);
-        accomButton.setBackground(Drawable.createFromPath("@drawable/active_button.xml") );
+        accomButton.setSelected(true);
         accomButton.setOnClickListener(v -> startActivity(new Intent(AccommodationActivity.this, AccommodationActivity.class)));
 
         ImageButton communityButton = findViewById(R.id.community_button);

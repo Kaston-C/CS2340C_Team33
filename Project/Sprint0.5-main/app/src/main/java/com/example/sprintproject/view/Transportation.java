@@ -34,7 +34,7 @@ public class Transportation extends AppCompatActivity {
         communityButton.setOnClickListener(v -> startActivity(new Intent(Transportation.this, CommunityActivity.class)));
 
         ImageButton transportButton = findViewById(R.id.transportation_button);
-        transportButton.setBackground(Drawable.createFromPath("@drawable/active_button.xml") );
+        transportButton.setSelected(true);
         transportButton.setOnClickListener(v -> startActivity(new Intent(Transportation.this, Transportation.class)));
 
     }

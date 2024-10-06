@@ -18,6 +18,7 @@ public class DiningActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dining);
 
+
         //set menu buttons to switch current screen
         ImageButton logisticsButton = findViewById(R.id.logistics_button);
         logisticsButton.setOnClickListener(v -> startActivity(new Intent(DiningActivity.this, LogisticsActivity.class)));
@@ -26,7 +27,7 @@ public class DiningActivity extends AppCompatActivity {
         destinationButton.setOnClickListener(v -> startActivity(new Intent(DiningActivity.this, DestinationActivity.class)));
 
         ImageButton diningButton = findViewById(R.id.dining_button);
-        diningButton.setBackground(Drawable.createFromPath("@drawable/active_button.xml") );
+        diningButton.setSelected(true);
         diningButton.setOnClickListener(v -> startActivity(new Intent(DiningActivity.this, DiningActivity.class)));
 
         ImageButton accomButton = findViewById(R.id.accommodation_button);

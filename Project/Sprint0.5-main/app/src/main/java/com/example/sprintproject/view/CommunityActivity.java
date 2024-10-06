@@ -32,7 +32,7 @@ public class CommunityActivity extends AppCompatActivity {
         accomButton.setOnClickListener(v -> startActivity(new Intent(CommunityActivity.this, AccommodationActivity.class)));
 
         ImageButton communityButton = findViewById(R.id.community_button);
-        communityButton.setBackground(Drawable.createFromPath("@drawable/active_button.xml") );
+        communityButton.setSelected(true);
         communityButton.setOnClickListener(v -> startActivity(new Intent(CommunityActivity.this, CommunityActivity.class)));
 
         ImageButton transportButton = findViewById(R.id.transportation_button);

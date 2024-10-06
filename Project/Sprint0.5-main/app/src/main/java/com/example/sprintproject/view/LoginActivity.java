@@ -20,10 +20,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText username_input;
-    EditText password_input;
-    Button submit_user_pass;
-    Button register_button;
+    private EditText username_input;
+    private EditText password_input;
+    private Button submit_user_pass;
+    private Button register_button;
 
     DatabaseReference databaseReference;
     FirebaseAuth mAuth;
@@ -50,6 +50,9 @@ public class LoginActivity extends AppCompatActivity {
         submit_user_pass.setOnClickListener(view -> {
             //set the values of the username and password according to entered values
            String username = username_input.getText().toString();
+            if (!username.contains("@") && !username.contains(".")) {
+                username += "@wandersync.com";
+            }
            String password = password_input.getText().toString();
 
            //check if the inputs are valid
@@ -64,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                                 if (user != null) {
                                     //log in to account
                                     Toast.makeText(LoginActivity.this, "Login successful.", Toast.LENGTH_SHORT).show();
-                                    Intent go_home = new Intent(LoginActivity.this, MainActivity.class);
+                                    Intent go_home = new Intent(LoginActivity.this, LogisticsActivity.class);
                                     startActivity(go_home);
                                 }
                             } else {

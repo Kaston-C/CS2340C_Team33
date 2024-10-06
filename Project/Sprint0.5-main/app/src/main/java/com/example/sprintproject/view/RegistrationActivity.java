@@ -47,11 +47,15 @@ public class RegistrationActivity extends AppCompatActivity {
         register_button.setOnClickListener(view -> {
             //set the username and password strings to the current entered values
             String username = username_input.getText().toString();
+            if (!username.contains("@") && !username.contains(".")) {
+                username += "@wandersync.com";
+            }
             String password = password_input.getText().toString();
 
             //check if the inputs are valid
             if (!username.isBlank() && !password.isBlank()) {
                 //attempt to create account in firebase authentication
+                String finalUsername = username;
                 mAuth.createUserWithEmailAndPassword(username, password).addOnCompleteListener(task -> {
                     //check if account properly created
                     if (task.isSuccessful()) {
@@ -59,7 +63,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         FirebaseUser user = mAuth.getCurrentUser();
                         // log in user if account properly created
                         if (user != null) {
-                            databaseReference.child(user.getUid()).setValue(username);
+                            databaseReference.child(user.getUid()).setValue(finalUsername);
                             Intent go_login = new Intent(RegistrationActivity.this, LoginActivity.class);
                             startActivity(go_login);
                         }
@@ -68,9 +72,6 @@ public class RegistrationActivity extends AppCompatActivity {
                     }
                 });
             } else {        //invalid inputs for username/password
-                if (username.isEmpty()) {
-                    username_input.setError("Please enter a username.");
-                }
                 if (password.isEmpty()) {
                     password_input.setError("Please enter a password.");
                 }
