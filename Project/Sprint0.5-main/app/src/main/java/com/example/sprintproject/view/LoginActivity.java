@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.sprintproject.R;
+import com.example.sprintproject.viewmodel.LoginViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -34,14 +35,12 @@ public class LoginActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         //set view to login screen
         setContentView(R.layout.activity_login);
-
-        //connect firebase database and firebase authentication
-        databaseReference = FirebaseDatabase.getInstance().getReference("users");
-        mAuth = FirebaseAuth.getInstance();
+        DatabaseReference databaseReference = LoginViewModel.firebaseConnect();
+        FirebaseAuth mAuth = LoginViewModel.firebaseAuthorization();
 
         //set up username and password fields
-        username_input = findViewById(R.id.input_username);
-        password_input = findViewById(R.id.input_password);
+        EditText username_input = findViewById(R.id.input_username);
+        EditText password_input = findViewById(R.id.input_password);
 
         //set up login submit button
         submit_user_pass = findViewById(R.id.submit_button);
@@ -49,11 +48,8 @@ public class LoginActivity extends AppCompatActivity {
         //log in verification process
         submit_user_pass.setOnClickListener(view -> {
             //set the values of the username and password according to entered values
-           String username = username_input.getText().toString();
-            if (!username.contains("@") && !username.contains(".")) {
-                username += "@wandersync.com";
-            }
-           String password = password_input.getText().toString();
+            String username = LoginViewModel.getInputUsername(username_input);
+            String password = LoginViewModel.getInputPassword(password_input);
 
            //check if the inputs are valid
             if (!username.isBlank() && !password.isBlank()) {
@@ -67,8 +63,8 @@ public class LoginActivity extends AppCompatActivity {
                                 if (user != null) {
                                     //log in to account
                                     Toast.makeText(LoginActivity.this, "Login successful.", Toast.LENGTH_SHORT).show();
-                                    Intent go_home = new Intent(LoginActivity.this, LogisticsActivity.class);
-                                    startActivity(go_home);
+                                    Intent goHome = new Intent(LoginActivity.this, LogisticsActivity.class);
+                                    startActivity(goHome);
                                 }
                             } else {
                                 //username and/or password invalid

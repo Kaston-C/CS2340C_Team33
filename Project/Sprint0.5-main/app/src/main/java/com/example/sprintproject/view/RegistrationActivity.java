@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.sprintproject.R;
+import com.example.sprintproject.viewmodel.LoginViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -33,8 +34,8 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
 
         //connect firebase database and firebase authentication
-        databaseReference = FirebaseDatabase.getInstance().getReference("users");
-        mAuth = FirebaseAuth.getInstance();
+        databaseReference = LoginViewModel.firebaseConnect();
+        mAuth = LoginViewModel.firebaseAuthorization();
 
         //set up username and password fields
         username_input = findViewById(R.id.input_username);
@@ -46,16 +47,12 @@ public class RegistrationActivity extends AppCompatActivity {
         //check for click of account creation button to create account
         register_button.setOnClickListener(view -> {
             //set the username and password strings to the current entered values
-            String username = username_input.getText().toString();
-            if (!username.contains("@") && !username.contains(".")) {
-                username += "@wandersync.com";
-            }
-            String password = password_input.getText().toString();
+            String username = LoginViewModel.getInputUsername(username_input);
+            String password = LoginViewModel.getInputPassword(password_input);
 
             //check if the inputs are valid
             if (!username.isBlank() && !password.isBlank()) {
                 //attempt to create account in firebase authentication
-                String finalUsername = username;
                 mAuth.createUserWithEmailAndPassword(username, password).addOnCompleteListener(task -> {
                     //check if account properly created
                     if (task.isSuccessful()) {
@@ -63,7 +60,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         FirebaseUser user = mAuth.getCurrentUser();
                         // log in user if account properly created
                         if (user != null) {
-                            databaseReference.child(user.getUid()).setValue(finalUsername);
+                            databaseReference.child(user.getUid()).setValue(username);
                             Intent go_login = new Intent(RegistrationActivity.this, LoginActivity.class);
                             startActivity(go_login);
                         }
