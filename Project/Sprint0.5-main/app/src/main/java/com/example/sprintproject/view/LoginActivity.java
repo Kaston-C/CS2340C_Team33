@@ -85,6 +85,11 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(go_register);
         });
 
+        exit_button = findViewById(R.id.go_exit_button);
+        exit_button.setOnClickListener(view -> {
+            finishAffinity();
+        });
+
         //create window insets if needed
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
