@@ -14,7 +14,7 @@
         android:layout_weight="1"
         android:src="@drawable/logistics"
         android:contentDescription="logistics button"
-        android:background="@drawable/active_button"
+        android:background="@color/primary"
         android:padding="10dp" />
 
     <ImageButton
