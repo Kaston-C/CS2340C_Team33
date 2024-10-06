@@ -19,7 +19,8 @@ public class LogisticsActivity extends AppCompatActivity {
 
         //set menu buttons to switch current screen
         ImageButton logisticsButton = findViewById(R.id.logistics_button);
-        logisticsButton.setOnClickListener(v -> startActivity(new Intent(LogisticsActivity.this, LogisticsActivity.class)));
+        logisticsButton.setSelected(true);
+        //logisticsButton.setOnClickListener(v -> startActivity(new Intent(LogisticsActivity.this, LogisticsActivity.class)));
 
         ImageButton destinationButton = findViewById(R.id.destination_button);
         destinationButton.setOnClickListener(v -> startActivity(new Intent(LogisticsActivity.this, DestinationActivity.class)));

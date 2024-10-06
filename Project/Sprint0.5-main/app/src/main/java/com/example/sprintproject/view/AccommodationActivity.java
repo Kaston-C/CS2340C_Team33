@@ -28,7 +28,8 @@ public class AccommodationActivity extends AppCompatActivity {
         diningButton.setOnClickListener(v -> startActivity(new Intent(AccommodationActivity.this, DiningActivity.class)));
 
         ImageButton accomButton = findViewById(R.id.accommodation_button);
-        accomButton.setOnClickListener(v -> startActivity(new Intent(AccommodationActivity.this, AccommodationActivity.class)));
+        //accomButton.setOnClickListener(v -> startActivity(new Intent(AccommodationActivity.this, AccommodationActivity.class)));
+        accomButton.setSelected(true);
 
         ImageButton communityButton = findViewById(R.id.community_button);
         communityButton.setOnClickListener(v -> startActivity(new Intent(AccommodationActivity.this, CommunityActivity.class)));

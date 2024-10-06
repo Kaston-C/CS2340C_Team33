@@ -22,7 +22,8 @@ public class DestinationActivity extends AppCompatActivity {
         logisticsButton.setOnClickListener(v -> startActivity(new Intent(DestinationActivity.this, LogisticsActivity.class)));
 
         ImageButton destinationButton = findViewById(R.id.destination_button);
-        destinationButton.setOnClickListener(v -> startActivity(new Intent(DestinationActivity.this, DestinationActivity.class)));
+        //destinationButton.setOnClickListener(v -> startActivity(new Intent(DestinationActivity.this, DestinationActivity.class)));
+        destinationButton.setSelected(true);
 
         ImageButton diningButton = findViewById(R.id.dining_button);
         diningButton.setOnClickListener(v -> startActivity(new Intent(DestinationActivity.this, DiningActivity.class)));
