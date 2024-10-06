@@ -24,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText password_input;
     Button submit_user_pass;
     Button register_button;
+    Button exit_button;
 
     DatabaseReference databaseReference;
     FirebaseAuth mAuth;
@@ -84,6 +85,11 @@ public class LoginActivity extends AppCompatActivity {
         register_button.setOnClickListener(view -> {
             Intent go_register = new Intent(LoginActivity.this, RegistrationActivity.class);
             startActivity(go_register);
+        });
+
+        exit_button = findViewById(R.id.go_exit_button);
+        exit_button.setOnClickListener(view -> {
+            finishAffinity();
         });
 
         //create window insets if needed
