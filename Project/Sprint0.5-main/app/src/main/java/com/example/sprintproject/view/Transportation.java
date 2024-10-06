@@ -13,9 +13,11 @@ public class Transportation extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //set current view to transportation activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transportation);
 
+        //set menu buttons to switch current screen
         ImageButton logisticsButton = findViewById(R.id.logistics_button);
         logisticsButton.setOnClickListener(v -> startActivity(new Intent(Transportation.this, LogisticsActivity.class)));
 
