@@ -29,23 +29,35 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
+        //set view to account creation screen
         setContentView(R.layout.activity_registration);
 
+        //connect firebase database and firebase authentication
         databaseReference = FirebaseDatabase.getInstance().getReference("users");
         mAuth = FirebaseAuth.getInstance();
 
+        //set up username and password fields
         username_input = findViewById(R.id.input_username);
         password_input = findViewById(R.id.input_password);
+
+        //set up account registration button
         Button register_button = findViewById(R.id.register_button);
 
+        //check for click of account creation button to create account
         register_button.setOnClickListener(view -> {
+            //set the username and password strings to the current entered values
             String username = username_input.getText().toString();
             String password = password_input.getText().toString();
 
-            if (!username.isEmpty() && !password.isEmpty()) {
+            //check if the inputs are valid
+            if (!username.isBlank() && !password.isBlank()) {
+                //attempt to create account in firebase authentication
                 mAuth.createUserWithEmailAndPassword(username, password).addOnCompleteListener(task -> {
+                    //check if account properly created
                     if (task.isSuccessful()) {
+                        //set user to the current firebase auth user
                         FirebaseUser user = mAuth.getCurrentUser();
+                        // log in user if account properly created
                         if (user != null) {
                             databaseReference.child(user.getUid()).setValue(username);
                             Intent go_login = new Intent(RegistrationActivity.this, LoginActivity.class);
@@ -55,7 +67,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         Toast.makeText(RegistrationActivity.this, "Registration failed.", Toast.LENGTH_SHORT).show();
                     }
                 });
-            } else {
+            } else {        //invalid inputs for username/password
                 if (username.isEmpty()) {
                     username_input.setError("Please enter a username.");
                 }
@@ -65,12 +77,14 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
 
+        //create button to return to log in
         Button login_button = findViewById(R.id.go_back_login_button);
         login_button.setOnClickListener(view -> {
             Intent go_login = new Intent(RegistrationActivity.this, LoginActivity.class);
             startActivity(go_login);
         });
 
+        //create window insets if needed
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);

@@ -14,9 +14,11 @@ public class DiningActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //set current view to dining activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dining);
 
+        //set menu buttons to switch current screen
         ImageButton logisticsButton = findViewById(R.id.logistics_button);
         logisticsButton.setOnClickListener(v -> startActivity(new Intent(DiningActivity.this, LogisticsActivity.class)));
 

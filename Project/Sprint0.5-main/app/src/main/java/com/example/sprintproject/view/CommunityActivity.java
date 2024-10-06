@@ -14,9 +14,11 @@ public class CommunityActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //set current view to community activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_community);
 
+        //set menu buttons to switch current screen
         ImageButton logisticsButton = findViewById(R.id.logistics_button);
         logisticsButton.setOnClickListener(v -> startActivity(new Intent(CommunityActivity.this, LogisticsActivity.class)));
 
