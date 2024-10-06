@@ -1,8 +1,8 @@
 package com.example.sprintproject.view;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,7 +34,8 @@ public class Transportation extends AppCompatActivity {
         communityButton.setOnClickListener(v -> startActivity(new Intent(Transportation.this, CommunityActivity.class)));
 
         ImageButton transportButton = findViewById(R.id.transportation_button);
-        //transportButton.setOnClickListener(v -> startActivity(new Intent(Transportation.this, Transportation.class)));
         transportButton.setSelected(true);
+        transportButton.setOnClickListener(v -> startActivity(new Intent(Transportation.this, Transportation.class)));
+
     }
 }

@@ -1,6 +1,7 @@
 package com.example.sprintproject.view;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -26,8 +27,8 @@ public class DiningActivity extends AppCompatActivity {
         destinationButton.setOnClickListener(v -> startActivity(new Intent(DiningActivity.this, DestinationActivity.class)));
 
         ImageButton diningButton = findViewById(R.id.dining_button);
-        //diningButton.setOnClickListener(v -> startActivity(new Intent(DiningActivity.this, DiningActivity.class)));
         diningButton.setSelected(true);
+        diningButton.setOnClickListener(v -> startActivity(new Intent(DiningActivity.this, DiningActivity.class)));
 
         ImageButton accomButton = findViewById(R.id.accommodation_button);
         accomButton.setOnClickListener(v -> startActivity(new Intent(DiningActivity.this, AccommodationActivity.class)));
