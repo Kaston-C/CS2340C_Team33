@@ -77,8 +77,13 @@ public class LoginActivity extends AppCompatActivity {
                 });
             } else {
                 //invalid inputs for username/password
-                usernameInput.setError("Please enter a username.");
-                passwordInput.setError("Please enter a password.");
+                if (username.isBlank() && password.isBlank()) {
+                    usernameInput.setError("Please enter a username.");
+                } else if (username.isBlank()) {
+                    usernameInput.setError("Please enter a username.");
+                } else {
+                    passwordInput.setError("Please enter a password.");
+                }
             }
         });
 

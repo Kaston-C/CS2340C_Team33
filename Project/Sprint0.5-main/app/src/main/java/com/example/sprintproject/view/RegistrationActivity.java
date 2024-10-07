@@ -52,33 +52,41 @@ public class RegistrationActivity extends AppCompatActivity {
             //check if the inputs are valid
             if (!username.isBlank() && !password.isBlank()) {
                 //attempt to create account in firebase authentication
-                mAuth.createUserWithEmailAndPassword(username, password).addOnCompleteListener(task -> {
-                    //check if account properly created
-                    if (task.isSuccessful()) {
-                        //set user to the current firebase auth user
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        // log in user if account properly created
-                        if (user != null) {
-                            databaseReference.child(user.getUid()).setValue(username);
-                            Intent go_login = new Intent(RegistrationActivity.this, LoginActivity.class);
-                            startActivity(go_login);
-                        }
-                    } else {
-                        Toast.makeText(RegistrationActivity.this, "Registration failed.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            } else {        //invalid inputs for username/password
-                if (password.isEmpty()) {
+                mAuth.createUserWithEmailAndPassword(username, password).addOnCompleteListener(
+                        task -> {
+                            //check if account properly created
+                            if (task.isSuccessful()) {
+                                //set user to the current firebase auth user
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                // log in user if account properly created
+                                if (user != null) {
+                                    databaseReference.child(user.getUid()).setValue(username);
+                                    Intent goLogin = new Intent(
+                                            RegistrationActivity.this, LoginActivity.class);
+                                    startActivity(goLogin);
+                                }
+                            } else {
+                                Toast.makeText(RegistrationActivity.this, "Registration failed.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            } else {
+                //invalid inputs for username/password
+                if (username.isBlank() && password.isBlank()) {
+                    usernameInput.setError("Please enter a username.");
+                } else if (username.isBlank()) {
+                    usernameInput.setError("Please enter a username.");
+                } else {
                     passwordInput.setError("Please enter a password.");
                 }
             }
         });
 
         //create button to return to log in
-        Button login_button = findViewById(R.id.go_back_login_button);
-        login_button.setOnClickListener(view -> {
-            Intent go_login = new Intent(RegistrationActivity.this, LoginActivity.class);
-            startActivity(go_login);
+        Button loginButton = findViewById(R.id.go_back_login_button);
+        loginButton.setOnClickListener(view -> {
+            Intent goLogin = new Intent(RegistrationActivity.this, LoginActivity.class);
+            startActivity(goLogin);
         });
 
         //create window insets if needed
