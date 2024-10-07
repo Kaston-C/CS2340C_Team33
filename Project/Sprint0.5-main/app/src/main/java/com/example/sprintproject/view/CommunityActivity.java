@@ -30,8 +30,8 @@ public class CommunityActivity extends AppCompatActivity {
                 new Intent(CommunityActivity.this, DiningActivity.class)
         ));
 
-        ImageButton accomButton = findViewById(R.id.accommodation_button);
-        accomButton.setOnClickListener(v -> startActivity(
+        ImageButton accomodationButton = findViewById(R.id.accommodation_button);
+        accomodationButton.setOnClickListener(v -> startActivity(
                 new Intent(CommunityActivity.this, AccommodationActivity.class)
         ));
 
