@@ -2,32 +2,35 @@ package com.example.sprintproject.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
 import com.example.sprintproject.R;
 import com.example.sprintproject.viewmodel.LoginViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
+/**
+ * The LoginActivity class extends AppCompatActivity.
+ * This class is part of the ViewModel folder within the MVVM architecture.
+ * The class handles username and password inputs and validation.
+ * It also helps with Firebase authentication and connection in tandem with Model.
+ */
 public class LoginActivity extends AppCompatActivity {
+    private EditText usernameInput;
+    private EditText passwordInput;
+    private Button submitUserPass;
+    private Button registerButton;
 
-    private EditText username_input;
-    private EditText password_input;
-    private Button submit_user_pass;
-    private Button register_button;
-
-    DatabaseReference databaseReference;
-    FirebaseAuth mAuth;
+    private DatabaseReference databaseReference;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,58 +38,59 @@ public class LoginActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         //set view to login screen
         setContentView(R.layout.activity_login);
-        DatabaseReference databaseReference = LoginViewModel.firebaseConnect();
-        FirebaseAuth mAuth = LoginViewModel.firebaseAuthorization();
+        databaseReference = LoginViewModel.firebaseConnect();
+        mAuth = LoginViewModel.firebaseAuthorization();
 
         //set up username and password fields
-        EditText username_input = findViewById(R.id.input_username);
-        EditText password_input = findViewById(R.id.input_password);
+        EditText usernameInput = findViewById(R.id.input_username);
+        EditText passwordInput = findViewById(R.id.input_password);
 
         //set up login submit button
-        submit_user_pass = findViewById(R.id.submit_button);
+        submitUserPass = findViewById(R.id.submit_button);
 
         //log in verification process
-        submit_user_pass.setOnClickListener(view -> {
+        submitUserPass.setOnClickListener(view -> {
             //set the values of the username and password according to entered values
-            String username = LoginViewModel.getInputUsername(username_input);
-            String password = LoginViewModel.getInputPassword(password_input);
+            String username = LoginViewModel.getInputUsername(usernameInput);
+            String password = LoginViewModel.getInputPassword(passwordInput);
 
-           //check if the inputs are valid
+            //check if the inputs are valid
+            int length = Toast.LENGTH_SHORT;
             if (!username.isBlank() && !password.isBlank()) {
                 //send the inputs to the firebase authentication to determine if valid account
                 mAuth.signInWithEmailAndPassword(username, password).addOnCompleteListener(task -> {
-                            //check if log in occurs
-                            if (task.isSuccessful()) {
-                                //set user to current user
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                //check value of user to determine if a valid user is found
-                                if (user != null) {
-                                    //log in to account
-                                    Toast.makeText(LoginActivity.this, "Login successful.", Toast.LENGTH_SHORT).show();
-                                    Intent goHome = new Intent(LoginActivity.this, LogisticsActivity.class);
-                                    startActivity(goHome);
-                                }
-                            } else {
-                                //username and/or password invalid
-                                Toast.makeText(LoginActivity.this, "Login failed.", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                    //check if log in occurs
+                    if (task.isSuccessful()) {
+                        //set user to current user
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        //check value of user to determine if a valid user is found
+                        if (user != null) {
+                            //log in to account
+                            Toast.makeText(LoginActivity.this, "Login successful.", length).show();
+                            Intent goHome = new Intent(LoginActivity.this, LogisticsActivity.class);
+                            startActivity(goHome);
+                        }
+                    } else {
+                        //username and/or password invalid
+                        Toast.makeText(LoginActivity.this, "Login failed.", length).show();
+                    }
+                });
             } else {
                 //invalid inputs for username/password
-                username_input.setError("Please enter a username.");
-                password_input.setError("Please enter a password.");
+                usernameInput.setError("Please enter a username.");
+                passwordInput.setError("Please enter a password.");
             }
         });
 
         //set up button to account creation screen
-        register_button = findViewById(R.id.go_register_button);
-        register_button.setOnClickListener(view -> {
-            Intent go_register = new Intent(LoginActivity.this, RegistrationActivity.class);
-            startActivity(go_register);
+        registerButton = findViewById(R.id.goRegisterButton);
+        registerButton.setOnClickListener(view -> {
+            Intent goRegister = new Intent(LoginActivity.this, RegistrationActivity.class);
+            startActivity(goRegister);
         });
 
-        exit_button = findViewById(R.id.go_exit_button);
-        exit_button.setOnClickListener(view -> {
+        View exitButton = findViewById(R.id.go_exitButton);
+        exitButton.setOnClickListener(view -> {
             finishAffinity();
         });
 

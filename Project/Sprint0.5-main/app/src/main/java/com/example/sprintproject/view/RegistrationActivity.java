@@ -17,13 +17,12 @@ import com.example.sprintproject.viewmodel.LoginViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class RegistrationActivity extends AppCompatActivity {
 
     private DatabaseReference databaseReference;
-    private EditText username_input;
-    private EditText password_input;
+    private EditText usernameInput;
+    private EditText passwordInput;
     private FirebaseAuth mAuth;
 
     @Override
@@ -38,17 +37,17 @@ public class RegistrationActivity extends AppCompatActivity {
         mAuth = LoginViewModel.firebaseAuthorization();
 
         //set up username and password fields
-        username_input = findViewById(R.id.input_username);
-        password_input = findViewById(R.id.input_password);
+        usernameInput = findViewById(R.id.input_username);
+        passwordInput = findViewById(R.id.input_password);
 
         //set up account registration button
-        Button register_button = findViewById(R.id.register_button);
+        Button registerButton = findViewById(R.id.registerButton);
 
         //check for click of account creation button to create account
-        register_button.setOnClickListener(view -> {
+        registerButton.setOnClickListener(view -> {
             //set the username and password strings to the current entered values
-            String username = LoginViewModel.getInputUsername(username_input);
-            String password = LoginViewModel.getInputPassword(password_input);
+            String username = LoginViewModel.getInputUsername(usernameInput);
+            String password = LoginViewModel.getInputPassword(passwordInput);
 
             //check if the inputs are valid
             if (!username.isBlank() && !password.isBlank()) {
@@ -70,7 +69,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 });
             } else {        //invalid inputs for username/password
                 if (password.isEmpty()) {
-                    password_input.setError("Please enter a password.");
+                    passwordInput.setError("Please enter a password.");
                 }
             }
         });
