@@ -14,11 +14,11 @@ public class LoginViewModel {
         return MainModel.getFirebaseAuthorization();
     }
 
-    public static String getInputUsername(EditText username_input) {
-        return MainModel.getInputUsername(username_input);
+    public static String getInputUsername(EditText usernameInput) {
+        return MainModel.getInputUsername(usernameInput);
     }
 
-    public static String getInputPassword(EditText password_input) {
-        return MainModel.getInputPassword(password_input);
+    public static String getInputPassword(EditText passwordInput) {
+        return MainModel.getInputPassword(passwordInput);
     }
 }
