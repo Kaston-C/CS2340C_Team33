@@ -1,6 +1,6 @@
 import java.util.Date;
 
-public class RecurringTask extends BaseTask {
+public class RecurringTask extends Task {
     private int recurrencePattern; // in days
 
     public RecurringTask(String title, String description, Date dueDate, String status, int priority, int recurrencePattern) {

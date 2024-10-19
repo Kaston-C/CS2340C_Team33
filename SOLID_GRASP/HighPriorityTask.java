@@ -1,6 +1,6 @@
 import java.util.Date;
 
-public class HighPriorityTask extends BaseTask {
+public class HighPriorityTask extends Task {
     private String escalationContact;
 
     public HighPriorityTask(String title, String description, Date dueDate, String status, int priority, String escalationContact) {
