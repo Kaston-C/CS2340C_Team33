@@ -1,4 +1,5 @@
 import java.util.Date;
+
 public class HighPriorityTask extends BaseTask {
     private String escalationContact;
 
