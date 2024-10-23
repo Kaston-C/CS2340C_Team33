@@ -8,6 +8,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Date;
+
 public class MainViewModel extends ViewModel {
 
     private final MutableLiveData<Boolean> isStartButtonClicked = new MutableLiveData<>();
@@ -31,5 +33,9 @@ public class MainViewModel extends ViewModel {
 
     public void onStartButtonClick() {
         isStartButtonClicked.setValue(true);
+    }
+
+    public void setDate(int Day, int Month, int Year) {
+
     }
 }

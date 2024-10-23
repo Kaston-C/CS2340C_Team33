@@ -21,7 +21,7 @@
             android:paddingRight="20dp">
 
             <EditText
-                android:id="@+id/begin_date"
+                android:id="@+id/begin_date_field"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -31,17 +31,17 @@
                 android:hint="start of trip" />
 
             <EditText
-                android:id="@+id/end_date"
+                android:id="@+id/end_date_field"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/begin_date"
-                android:layout_alignRight="@id/begin_date"
+                android:layout_alignTop="@id/begin_date_field"
+                android:layout_alignRight="@id/begin_date_field"
                 android:textColorHint="@color/tertiary"
                 android:hint="end of trip" />
         </LinearLayout>
 
         <EditText
-            android:id="@+id/duration"
+            android:id="@+id/duration_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="100dp"
@@ -50,6 +50,7 @@
             android:hint="duration" />
 
         <Button
+            android:id="@+id/submit_trip_details_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="50dp"
