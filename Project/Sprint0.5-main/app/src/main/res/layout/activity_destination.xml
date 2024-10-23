@@ -6,13 +6,57 @@
     android:layout_height="match_parent"
     tools:context=".view.DestinationActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Destination"
-        android:textSize="30dp"
-        android:textStyle="bold"
-        android:layout_centerInParent="true"/>
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="206dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <EditText
+                android:id="@+id/begin_date"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="20dp"
+                android:textColorHint="@color/tertiary"
+                android:hint="start of trip" />
+
+            <EditText
+                android:id="@+id/end_date"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/begin_date"
+                android:layout_alignRight="@id/begin_date"
+                android:textColorHint="@color/tertiary"
+                android:hint="end of trip" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/duration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="100dp"
+            android:textColorHint="@color/tertiary"
+            android:hint="duration" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:backgroundTint="@color/primary"
+            android:text="Submit Trip Details"/>
+    </LinearLayout>
 
     <include
         layout="@layout/navbar"
