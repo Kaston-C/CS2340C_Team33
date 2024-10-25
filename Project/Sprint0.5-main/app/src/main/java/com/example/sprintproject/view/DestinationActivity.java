@@ -102,7 +102,7 @@ public class DestinationActivity extends AppCompatActivity {
                 try {
                     if (duration_select) duration = Integer.parseInt(durationText.getText().toString());
                 } catch (NumberFormatException e) {
-                    Toast.makeText(DestinationActivity.this, "Invalid Duration", Toast.LENGTH_SHORT);
+                    Toast.makeText(DestinationActivity.this, "Invalid Duration", Toast.LENGTH_SHORT).show();
                 }
             }
         });
