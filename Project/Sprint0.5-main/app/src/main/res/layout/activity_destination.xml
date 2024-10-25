@@ -92,11 +92,11 @@
 
 
         <Button
-            android:id="@+id/submit_trip_details_button"
+            android:id="@+id/calculate_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/primary"
-            android:text="Submit Trip Details" />
+            android:text="Calculate Trip Details" />
     </LinearLayout>
 
     <include

@@ -111,15 +111,15 @@ public class DestinationActivity extends AppCompatActivity {
 
         EditText durationText = findViewById(R.id.duration_field);
 
-        Button submitDestination = findViewById(R.id.submit_trip_details_button);
-        submitDestination.setOnClickListener(new View.OnClickListener() {
+        Button calculateButton = findViewById(R.id.calculate_button);
+        calculateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
                     duration_select = !durationText.getText().toString().isBlank();
                     if (duration_select) duration = Integer.parseInt(durationText.getText().toString());
                     if (duration_select && end_select && start_select) {
-                        Toast.makeText(DestinationActivity.this, "Something Went Wrong", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DestinationActivity.this, "All 3 Fields Filled", Toast.LENGTH_SHORT).show();
                     } else {
                         if (end_select && start_select) {
                             if ((end_year - start_year) * 365 + (end_doy - start_doy) < 0) {
