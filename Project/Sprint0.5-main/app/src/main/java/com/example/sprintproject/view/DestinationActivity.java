@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,8 +52,9 @@ public class DestinationActivity extends AppCompatActivity {
         ImageButton transportButton = findViewById(R.id.transportation_button);
         transportButton.setOnClickListener(v -> startActivity(new Intent(DestinationActivity.this, Transportation.class)));
 
-        EditText startDate = findViewById(R.id.begin_date_field);
-        startDate.setOnClickListener(new View.OnClickListener() {
+        Button startDateButton = findViewById(R.id.begin_date_button);
+        TextView startDate = findViewById(R.id.begin_date_field);
+        startDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar calendar = Calendar.getInstance();
@@ -65,15 +67,17 @@ public class DestinationActivity extends AppCompatActivity {
                         start_day = i2;
                         start_month = i1;
                         start_year = i;
+                        start_select = true;
+                        startDate.setText(start_month + "/" + start_day + "/" + start_year);
                     }
                 }, year, month, day);
-                start_select = true;
-                startDate.setText(start_month + "/" + start_day + "/" + start_year);
+                dateSelect.show();
             }
         });
 
-        EditText endDate = findViewById(R.id.end_date_field);
-        startDate.setOnClickListener(new View.OnClickListener() {
+        TextView endDate = findViewById(R.id.end_date_field);
+        Button endDateButton = findViewById(R.id.end_date_button);
+        endDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar calendar = Calendar.getInstance();
@@ -86,10 +90,11 @@ public class DestinationActivity extends AppCompatActivity {
                         end_day = i2;
                         end_month = i1;
                         end_year = i;
+                        end_select = true;
+                        endDate.setText(end_month + "/" + end_day + "/" + end_year);
                     }
                 }, year, month, day);
-                end_select = true;
-                endDate.setText(end_month + "/" + end_day + "/" + end_year);
+                dateSelect.show();
             }
         });
 

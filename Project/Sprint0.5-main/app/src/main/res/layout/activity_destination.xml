@@ -19,7 +19,30 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp">
 
-            <EditText
+            <Button
+                android:id="@+id/begin_date_button"
+                android:layout_width="180dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="20dp"
+                android:backgroundTint="@color/primary"
+                android:text="Start Date" />
+
+            <Button
+                android:id="@+id/end_date_button"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/tertiary"
+                android:backgroundTint="@color/primary"
+                android:text="End Date" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <TextView
                 android:id="@+id/begin_date_field"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
@@ -27,16 +50,16 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="20dp"
                 android:textColorHint="@color/tertiary"
-                android:hint="Start of Trip" />
+                android:gravity="center"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/end_date_field"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/begin_date_field"
                 android:layout_alignRight="@id/begin_date_field"
                 android:textColorHint="@color/tertiary"
-                android:hint="End of Trip" />
+                android:gravity="center"/>
         </LinearLayout>
 
         <EditText
