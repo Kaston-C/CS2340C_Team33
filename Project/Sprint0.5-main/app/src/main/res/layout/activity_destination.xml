@@ -27,7 +27,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="20dp"
                 android:textColorHint="@color/tertiary"
-                android:hint="start of trip" />
+                android:hint="Start of Trip" />
 
             <EditText
                 android:id="@+id/end_date_field"
@@ -36,7 +36,7 @@
                 android:layout_alignTop="@id/begin_date_field"
                 android:layout_alignRight="@id/begin_date_field"
                 android:textColorHint="@color/tertiary"
-                android:hint="end of trip" />
+                android:hint="End of Trip" />
         </LinearLayout>
 
         <EditText
@@ -47,7 +47,7 @@
             android:layout_marginRight="100dp"
             android:inputType="number"
             android:textColorHint="@color/tertiary"
-            android:hint="duration" />
+            android:hint="Duration" />
 
         <Button
             android:id="@+id/submit_trip_details_button"

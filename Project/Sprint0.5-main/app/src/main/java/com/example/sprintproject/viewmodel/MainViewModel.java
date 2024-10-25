@@ -35,7 +35,7 @@ public class MainViewModel extends ViewModel {
         isStartButtonClicked.setValue(true);
     }
 
-    public void setDate(int Day, int Month, int Year) {
+    public void setDate(int day, int month, int year) {
 
     }
 }
