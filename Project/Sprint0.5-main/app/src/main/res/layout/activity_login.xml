@@ -58,13 +58,13 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
         android:text="Don't have an account?"
-        app:layout_constraintBottom_toTopOf="@+id/go_register_button"
+        app:layout_constraintBottom_toTopOf="@+id/goRegisterButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/go_register_button"
+        android:id="@+id/goRegisterButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="148dp"
@@ -80,13 +80,13 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
         android:text="Exit WanderSync?"
-        app:layout_constraintBottom_toTopOf="@+id/go_exit_button"
+        app:layout_constraintBottom_toTopOf="@+id/go_exitButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/go_exit_button"
+        android:id="@+id/go_exitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="36dp"
