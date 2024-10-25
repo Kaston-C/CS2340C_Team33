@@ -4,9 +4,11 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,13 +18,18 @@ import java.util.Calendar;
 
 public class DestinationActivity extends AppCompatActivity {
 
-    int start_day, start_month, start_year, end_day, end_month, end_year;
+    int start_day, start_month, start_year, end_day, end_month, end_year, duration;
+    boolean start_select, end_select, duration_select;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //set current view to destination activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_destination);
+
+        start_select = false;
+        end_select = false;
+        duration_select = false;
 
         //set menu buttons to switch current screen
         ImageButton logisticsButton = findViewById(R.id.logistics_button);
@@ -59,6 +66,8 @@ public class DestinationActivity extends AppCompatActivity {
                         start_year = i;
                     }
                 }, year, month, day);
+                start_select = true;
+                startDate.setText(start_month + "/" + start_day + "/" + start_year);
             }
         });
 
@@ -78,6 +87,23 @@ public class DestinationActivity extends AppCompatActivity {
                         end_year = i;
                     }
                 }, year, month, day);
+                end_select = true;
+                endDate.setText(end_month + "/" + end_day + "/" + end_year);
+            }
+        });
+
+        EditText durationText = findViewById(R.id.duration_field);
+
+        Button submitDestination = findViewById(R.id.submit_trip_details_button);
+        submitDestination.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                duration_select = !durationText.getText().toString().isBlank();
+                try {
+                    if (duration_select) duration = Integer.parseInt(durationText.getText().toString());
+                } catch (NumberFormatException e) {
+                    Toast.makeText(DestinationActivity.this, "Invalid Duration", Toast.LENGTH_SHORT);
+                }
             }
         });
     }
