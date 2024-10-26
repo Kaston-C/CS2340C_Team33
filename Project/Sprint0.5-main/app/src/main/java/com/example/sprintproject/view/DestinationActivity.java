@@ -73,6 +73,26 @@ public class DestinationActivity extends AppCompatActivity implements Destinatio
         transportButton.setOnClickListener(v -> navigateToActivity(Transportation.class));
     }
 
+        databaseReference = DestinationViewModel.firebaseConnect();
+        mAuth = LoginViewModel.firebaseAuthorization();
+
+        //sets up start, end, and destination fields
+        EditText startInput = findViewById(R.id.start_input);
+        EditText endInput = findViewById(R.id.end_input);
+        EditText travelInput = findViewById(R.id.destination_input);
+
+        //sets up submit and cancel log button
+        Button submitDestination = findViewById(R.id.submit_log_button);
+        Button CancelDestination = findViewById(R.id.cancel_log_button);
+
+        submitDestination.setOnClickListener(view -> {
+            String start = DestinationViewModel.getInputStart(startInput);
+            String end = DestinationViewModel.getInputEnd(endInput);
+            String destination = DestinationViewModel.getInputDestination(travelInput);
+
+            databaseReference.child("destinations").child(destination).setValue(start + " - " + end);
+        });
+
     private void navigateToActivity(Class<?> activityClass) {
         Intent intent = new Intent(DestinationActivity.this, activityClass);
         startActivity(intent);
