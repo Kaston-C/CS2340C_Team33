@@ -87,8 +87,6 @@ public class DestinationActivity extends AppCompatActivity {
 
             databaseReference.child("destinations").child(destination).setValue(start + " - " + end);
         });
-    }
-}
 
     
 
