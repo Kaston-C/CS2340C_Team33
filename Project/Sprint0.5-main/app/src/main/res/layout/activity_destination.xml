@@ -6,7 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".view.DestinationActivity">
 
+    <TextView
+        #DestinationInput+FireBase
+        android:id="@+id/title_registration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="119dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="121dp"
+        android:text="Destinations"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+  #--
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -58,10 +76,127 @@
             android:backgroundTint="@color/primary"
             android:text="Submit Trip Details"/>
     </LinearLayout>
-
+#--
     <include
         layout="@layout/navbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" />
+
+  
+    <Button
+        android:id="@+id/logDestinationButton"
+        android:layout_width="104dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_registration"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="147dp"
+        android:text="Log Travel"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@+id/title_registration"/>
+
+    <EditText
+        android:id="@+id/destination_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_location_input"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="179dp"
+        android:height="49dp"
+        android:ems="10"
+        android:hint="Atlanta, New York, e.g." />
+
+    <EditText
+        android:id="@+id/start_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_start_input"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@+id/end_input"
+        android:height="48dp"
+        android:ems="10"
+        android:hint="MM/DD/YYYY" />
+
+    <EditText
+        android:id="@+id/end_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_end_input"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="10dp"
+        android:height="48dp"
+        android:ems="10"
+        android:hint='MM/DD/YYYY' />
+
+    <TextView
+        android:id="@+id/title_location_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logDestinationButton"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="288dp"
+        android:text="Travel Location"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/title_start_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/destination_input"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="270dp"
+        android:text="Estimated Start:"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/title_end_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logDestinationButton"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="209dp"
+        android:layout_marginTop="77dp"
+        android:layout_marginEnd="76dp"
+        android:text="Estimated End:"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/cancel_log_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/start_input"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="58dp"
+        android:layout_marginTop="24dp"
+        android:text="Cancel" />
+
+    <Button
+        android:id="@+id/submit_log_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/cancel_log_button"
+        android:layout_marginStart="130dp"
+        android:layout_marginTop="0dp"
+        android:layout_toEndOf="@+id/cancel_log_button"
+        android:text="Submit" />
+
+
 </RelativeLayout>
+
