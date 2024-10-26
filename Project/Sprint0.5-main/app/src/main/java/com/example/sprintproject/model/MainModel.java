@@ -19,8 +19,8 @@ public class MainModel {
         this.welcomeMessage = message;
     }
 
-    public static DatabaseReference firebaseConnect() {
-        return FirebaseDatabase.getInstance().getReference("users");
+    public static DatabaseReference firebaseConnect(String databaseName) {
+        return FirebaseDatabase.getInstance().getReference(databaseName);
     }
     public static FirebaseAuth getFirebaseAuthorization() {
         return FirebaseAuth.getInstance();
@@ -37,6 +37,18 @@ public class MainModel {
 
     public static String getInputPassword(EditText passwordInput) {
         return passwordInput.getText().toString();
+    }
+
+    public static String getInputStart(EditText startInput) {
+        return startInput.getText().toString();
+    }
+
+    public static String getInputEnd(EditText endInput) {
+        return endInput.getText().toString();
+    }
+
+    public static String getInputDestination(EditText destinationInput) {
+        return destinationInput.getText().toString();
     }
 
 }

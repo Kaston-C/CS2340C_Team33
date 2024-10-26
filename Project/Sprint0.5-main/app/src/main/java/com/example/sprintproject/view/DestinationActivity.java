@@ -6,9 +6,12 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -17,12 +20,19 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sprintproject.R;
+import com.example.sprintproject.viewmodel.DestinationViewModel;
+import com.example.sprintproject.viewmodel.LoginViewModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 
 import java.time.LocalDate;
 import java.util.Calendar;
 
 public class DestinationActivity extends AppCompatActivity {
 
+    private DatabaseReference databaseReference;
+    private FirebaseAuth mAuth;
+  
     int duration;
     String end_string, start_string;
     Calendar startSel, endSel;
@@ -57,6 +67,31 @@ public class DestinationActivity extends AppCompatActivity {
         communityButton.setOnClickListener(v -> startActivity(new Intent(DestinationActivity.this, CommunityActivity.class)));
 
         ImageButton transportButton = findViewById(R.id.transportation_button);
+
+        databaseReference = DestinationViewModel.firebaseConnect();
+        mAuth = LoginViewModel.firebaseAuthorization();
+
+        //sets up start, end, and destination fields
+        EditText startInput = findViewById(R.id.start_input);
+        EditText endInput = findViewById(R.id.end_input);
+        EditText travelInput = findViewById(R.id.destination_input);
+
+        //sets up submit and cancel log button
+        Button submitDestination = findViewById(R.id.submit_log_button);
+        Button CancelDestination = findViewById(R.id.cancel_log_button);
+
+        submitDestination.setOnClickListener(view -> {
+            String start = DestinationViewModel.getInputStart(startInput);
+            String end = DestinationViewModel.getInputEnd(endInput);
+            String destination = DestinationViewModel.getInputDestination(travelInput);
+
+            databaseReference.child("destinations").child(destination).setValue(start + " - " + end);
+        });
+    }
+}
+
+    
+
         transportButton.setOnClickListener(v -> startActivity(new Intent(DestinationActivity.this, Transportation.class)));
 
         Button startDateButton = findViewById(R.id.begin_date_button);

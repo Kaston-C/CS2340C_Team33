@@ -8,7 +8,7 @@ import com.example.sprintproject.model.MainModel;
 public class LoginViewModel {
 
     public static DatabaseReference firebaseConnect() {
-        return MainModel.firebaseConnect();
+        return MainModel.firebaseConnect("users");
     }
     public static FirebaseAuth firebaseAuthorization() {
         return MainModel.getFirebaseAuthorization();
