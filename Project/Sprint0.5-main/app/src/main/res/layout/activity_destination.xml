@@ -1,242 +1,104 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.DestinationActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        #DestinationInput+FireBase
-        android:id="@+id/title_registration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="119dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="121dp"
-        android:text="Destinations"
-        android:textSize="30dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
+        <import type="android.view.View" />
 
-  #--
-    <LinearLayout
-        android:layout_width="392dp"
-        android:layout_height="316dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:gravity="center"
-        android:orientation="vertical">
+        <variable
+            name="viewModel"
+            type="com.example.sprintproject.viewmodel.DestinationViewModel" />
+    </data>
 
-        <LinearLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.DestinationActivity">
+
+        <TextView
+            android:id="@+id/title_registration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="Destinations"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/logDestinationButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title_registration"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="Log Travel"
+            android:textSize="12sp"
+            android:onClick="@{(view) -> viewModel.onLogTravelClicked(view)}" />
+
+        <EditText
+            android:id="@+id/destination_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="140dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/begin_date_field"
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="40dp"
-                android:gravity="center"
-                android:textColorHint="@color/tertiary" />
-
-            <TextView
-                android:id="@+id/end_date_field"
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColorHint="@color/tertiary" />
-        </LinearLayout>
+            android:layout_below="@id/logDestinationButton"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:hint="Atlanta, New York, e.g."
+            android:visibility="@{viewModel.showInputs ? View.VISIBLE : View.GONE}"
+            android:text="@={viewModel.location}" />
 
         <LinearLayout
+            android:id="@+id/date_input_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/begin_date_button"
-                android:layout_width="160dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="40dp"
-                android:backgroundTint="@color/primary"
-                android:text="Start Date" />
-
-            <Button
-                android:id="@+id/end_date_button"
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/primary"
-                android:text="End Date"
-                android:textColorHint="@color/tertiary" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/dur_text"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Duration:"
-                android:textColorHint="@color/tertiary"
-                android:textSize="20dp" />
+            android:layout_below="@id/destination_input"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:visibility="@{viewModel.showInputs ? View.VISIBLE : View.GONE}">
 
             <EditText
-                android:id="@+id/duration_field"
-                android:layout_width="80dp"
+                android:id="@+id/start_input"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:inputType="number"
-                android:textColorHint="@color/tertiary" />
-        </LinearLayout>
+                android:hint="Start Date (MM/DD/YYYY)"
+                android:text="@={viewModel.startDate}"
+                android:onClick="@{viewModel::onStartDateClicked}" />
 
+            <EditText
+                android:id="@+id/end_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="End Date (MM/DD/YYYY)"
+                android:text="@={viewModel.endDate}"
+                android:onClick="@{viewModel::onEndDateClicked}" />
+
+            <EditText
+                android:id="@+id/duration_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Duration (days)"
+                android:text="@={viewModel.duration}" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/calculate_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/primary"
-            android:text="Calculate Trip Details" />
-    </LinearLayout>
-#--
-    <include
-        layout="@layout/navbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
+            android:layout_below="@id/date_input_section"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="Calculate Vacation Time"
+            android:onClick="@{viewModel::onCalculateDuration}" />
 
-  
-    <Button
-        android:id="@+id/logDestinationButton"
-        android:layout_width="104dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/title_registration"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="147dp"
-        android:text="Log Travel"
-        android:textSize="12sp"
-        app:layout_constraintTop_toBottomOf="@+id/title_registration"/>
+        <include
+            layout="@layout/navbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" />
 
-    <EditText
-        android:id="@+id/destination_input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/title_location_input"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="179dp"
-        android:height="49dp"
-        android:ems="10"
-        android:hint="Atlanta, New York, e.g." />
-
-    <EditText
-        android:id="@+id/start_input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/title_start_input"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="10dp"
-        android:layout_toStartOf="@+id/end_input"
-        android:height="48dp"
-        android:ems="10"
-        android:hint="MM/DD/YYYY" />
-
-    <EditText
-        android:id="@+id/end_input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/title_end_input"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="10dp"
-        android:height="48dp"
-        android:ems="10"
-        android:hint='MM/DD/YYYY' />
-
-    <TextView
-        android:id="@+id/title_location_input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/logDestinationButton"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="288dp"
-        android:text="Travel Location"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/title_start_input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/destination_input"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="270dp"
-        android:text="Estimated Start:"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/title_end_input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/logDestinationButton"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="209dp"
-        android:layout_marginTop="77dp"
-        android:layout_marginEnd="76dp"
-        android:text="Estimated End:"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/cancel_log_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/start_input"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="58dp"
-        android:layout_marginTop="24dp"
-        android:text="Cancel" />
-
-    <Button
-        android:id="@+id/submit_log_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/cancel_log_button"
-        android:layout_marginStart="130dp"
-        android:layout_marginTop="0dp"
-        android:layout_toEndOf="@+id/cancel_log_button"
-        android:text="Submit" />
-
-
-</RelativeLayout>
-
+    </RelativeLayout>
+</layout>
