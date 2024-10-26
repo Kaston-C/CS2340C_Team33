@@ -26,55 +26,95 @@
 
   #--
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="392dp"
+        android:layout_height="316dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="206dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp">
+            android:layout_marginTop="140dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-            <EditText
+            <TextView
                 android:id="@+id/begin_date_field"
-                android:layout_width="180dp"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginEnd="20dp"
-                android:textColorHint="@color/tertiary"
-                android:hint="Start of Trip" />
+                android:layout_marginEnd="40dp"
+                android:gravity="center"
+                android:textColorHint="@color/tertiary" />
 
-            <EditText
+            <TextView
                 android:id="@+id/end_date_field"
-                android:layout_width="180dp"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/begin_date_field"
-                android:layout_alignRight="@id/begin_date_field"
-                android:textColorHint="@color/tertiary"
-                android:hint="End of Trip" />
+                android:gravity="center"
+                android:textColorHint="@color/tertiary" />
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/duration_field"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:layout_marginRight="100dp"
-            android:inputType="number"
-            android:textColorHint="@color/tertiary"
-            android:hint="Duration" />
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/begin_date_button"
+                android:layout_width="160dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="40dp"
+                android:backgroundTint="@color/primary"
+                android:text="Start Date" />
+
+            <Button
+                android:id="@+id/end_date_button"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/primary"
+                android:text="End Date"
+                android:textColorHint="@color/tertiary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/dur_text"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Duration:"
+                android:textColorHint="@color/tertiary"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/duration_field"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:inputType="number"
+                android:textColorHint="@color/tertiary" />
+        </LinearLayout>
+
 
         <Button
-            android:id="@+id/submit_trip_details_button"
+            android:id="@+id/calculate_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="50dp"
-            android:layout_marginLeft="50dp"
             android:backgroundTint="@color/primary"
-            android:text="Submit Trip Details"/>
+            android:text="Calculate Trip Details" />
     </LinearLayout>
 #--
     <include
