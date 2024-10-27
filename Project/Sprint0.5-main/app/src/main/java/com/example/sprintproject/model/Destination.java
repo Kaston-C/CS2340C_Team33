@@ -8,7 +8,6 @@ import java.util.Date;
 
 public class Destination {
     private String id;
-    private String name;
     private String location;
     private String startDate;
     private String endDate;
@@ -20,7 +19,6 @@ public class Destination {
 
     public Destination(String id, String location, String startDate, String endDate, int duration) {
         this.id = id;
-        this.name = "someDestination";
         this.location = location;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -35,8 +33,6 @@ public class Destination {
     public String getStartDate() { return startDate; }
 
     public String getEndDate() { return endDate; }
-
-    public String getName() { return name; }
 
     public static int calculateDurationInDays(String startDateStr, String endDateStr) {
         Calendar startDate = parseDate(startDateStr);
