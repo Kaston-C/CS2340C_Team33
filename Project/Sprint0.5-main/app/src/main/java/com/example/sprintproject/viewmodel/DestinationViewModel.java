@@ -107,7 +107,7 @@ public class DestinationViewModel extends AndroidViewModel {
                 Integer.parseInt(duration.get())
         );
 
-        databaseReference.child(userId).child("destinations").child(destination.getId())
+        databaseReference.child(userId).child("destinations").child(destination.getName())
                 .setValue(destination.getId());
         databaseReference.child("destinations").child(destination.getId())
                 .setValue(destination)

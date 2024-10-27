@@ -36,6 +36,8 @@ public class Destination {
 
     public String getEndDate() { return endDate; }
 
+    public String getName() { return name; }
+
     public static int calculateDurationInDays(String startDateStr, String endDateStr) {
         Calendar startDate = parseDate(startDateStr);
         Calendar endDate = parseDate(endDateStr);
