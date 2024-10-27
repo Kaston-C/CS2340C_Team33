@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.sprintproject.R;
 import com.example.sprintproject.databinding.ActivityDestinationBinding;
-import com.example.sprintproject.model.DestinationModel;
+import com.example.sprintproject.model.Destination;
 import com.example.sprintproject.viewmodel.DestinationViewModel;
 
 import java.util.Calendar;
@@ -80,30 +80,30 @@ public class DestinationActivity extends AppCompatActivity implements Destinatio
         binding.destinationsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.destinationsRecyclerView.setAdapter(destinationAdapter);
 
-        viewModel.destinationsList.addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<DestinationModel>>() {
-            public void onChanged(ObservableList<DestinationModel> sender) {
+        viewModel.destinationsList.addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<Destination>>() {
+            public void onChanged(ObservableList<Destination> sender) {
                 destinationAdapter.notifyDataSetChanged();
             }
 
-            public void onItemRangeChanged(ObservableList<DestinationModel> sender, int positionStart, int itemCount) {
+            public void onItemRangeChanged(ObservableList<Destination> sender, int positionStart, int itemCount) {
                 destinationAdapter.notifyItemRangeChanged(positionStart, itemCount);
             }
 
-            public void onItemRangeInserted(ObservableList<DestinationModel> sender, int positionStart, int itemCount) {
+            public void onItemRangeInserted(ObservableList<Destination> sender, int positionStart, int itemCount) {
                 destinationAdapter.notifyItemRangeInserted(positionStart, itemCount);
             }
 
-            public void onItemRangeMoved(ObservableList<DestinationModel> sender, int fromPosition, int toPosition, int itemCount) {
+            public void onItemRangeMoved(ObservableList<Destination> sender, int fromPosition, int toPosition, int itemCount) {
                 destinationAdapter.notifyDataSetChanged();
             }
 
-            public void onItemRangeRemoved(ObservableList<DestinationModel> sender, int positionStart, int itemCount) {
+            public void onItemRangeRemoved(ObservableList<Destination> sender, int positionStart, int itemCount) {
                 destinationAdapter.notifyItemRangeRemoved(positionStart, itemCount);
             }
         });
     }
 
-    private void showDestinationDetails(DestinationModel destination) {
+    private void showDestinationDetails(Destination destination) {
         Toast.makeText(this, "Destination: " + destination.getLocation(), Toast.LENGTH_SHORT).show();
     }
 

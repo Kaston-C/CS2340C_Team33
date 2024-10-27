@@ -9,7 +9,7 @@ import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.example.sprintproject.model.DestinationModel;
+import com.example.sprintproject.model.Destination;
 import com.example.sprintproject.model.MainModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
@@ -26,12 +26,12 @@ public class DestinationViewModel extends AndroidViewModel {
     public ObservableField<String> endDate = new ObservableField<>("");
     public ObservableField<String> duration = new ObservableField<>("");
     public ObservableBoolean showInputs = new ObservableBoolean(false);
-    public ObservableArrayList<DestinationModel> destinationsList = new ObservableArrayList<>();
+    public ObservableArrayList<Destination> destinationsList = new ObservableArrayList<>();
 
     private DatePickerListener datePickerListener;
     private DatabaseReference databaseReference;
     private FirebaseAuth mAuth;
-    private DestinationModel model;
+    private Destination model;
 
     public DestinationViewModel(Application application) {
         super(application);
@@ -99,7 +99,7 @@ public class DestinationViewModel extends AndroidViewModel {
             return;
         }
 
-        DestinationModel destination = new DestinationModel(
+        Destination destination = new Destination(
                 destinationId,
                 location.get(),
                 startDate.get(),
@@ -107,7 +107,17 @@ public class DestinationViewModel extends AndroidViewModel {
                 Integer.parseInt(duration.get())
         );
 
-        databaseReference.child(userId).child("destinations").child(destinationId)
+        databaseReference.child(userId).child("destinations")
+                .setValue(destination.getId())
+                .addOnSuccessListener(aVoid -> {
+                    location.set("");
+                    startDate.set("");
+                    endDate.set("");
+                    duration.set("");
+                    showInputs.set(false);
+                    loadDestinations();
+                });
+        databaseReference.child("destinations").child(destinationId)
                 .setValue(destination)
                 .addOnSuccessListener(aVoid -> {
                     location.set("");
@@ -126,7 +136,7 @@ public class DestinationViewModel extends AndroidViewModel {
                     public void onDataChange(DataSnapshot snapshot) {
                         destinationsList.clear();
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            DestinationModel destination = dataSnapshot.getValue(DestinationModel.class);
+                            Destination destination = dataSnapshot.getValue(Destination.class);
                             destinationsList.add(destination);
                         }
                     }
@@ -139,7 +149,7 @@ public class DestinationViewModel extends AndroidViewModel {
 
     private int calculateDurationInDays(String startDateStr, String endDateStr) {
         int diffInDays;
-        diffInDays = DestinationModel.calculateDurationInDays(startDateStr, endDateStr);
+        diffInDays = Destination.calculateDurationInDays(startDateStr, endDateStr);
         if (diffInDays < 0) {
             Toast.makeText(getApplication(), "Invalid date format", Toast.LENGTH_SHORT).show();
         }
@@ -147,7 +157,7 @@ public class DestinationViewModel extends AndroidViewModel {
     }
 
     private String calculateEndDate(String startDateStr, int durationDays) {
-        String endDateStr = DestinationModel.calculateEndDate(startDateStr, durationDays);
+        String endDateStr = Destination.calculateEndDate(startDateStr, durationDays);
         if (endDateStr == null) {
             Toast.makeText(getApplication(), "Invalid start date format", Toast.LENGTH_SHORT).show();
             return "";
@@ -156,7 +166,7 @@ public class DestinationViewModel extends AndroidViewModel {
     }
 
     private String calculateStartDate(String endDateStr, int durationDays) {
-        String startDateStr = DestinationModel.calculateStartDate(endDateStr, durationDays);
+        String startDateStr = Destination.calculateStartDate(endDateStr, durationDays);
         if (startDateStr == null) {
             Toast.makeText(getApplication(), "Invalid end date format", Toast.LENGTH_SHORT).show();
             return "";

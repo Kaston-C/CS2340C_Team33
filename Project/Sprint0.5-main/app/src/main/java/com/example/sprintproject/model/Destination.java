@@ -6,18 +6,18 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class DestinationModel {
+public class Destination {
     private String id;
     private String location;
     private String startDate;
     private String endDate;
     private int duration;
 
-    public DestinationModel() {
+    public Destination() {
         this("", "", "", "", 0);
     }
 
-    public DestinationModel(String id, String location, String startDate, String endDate, int duration) {
+    public Destination(String id, String location, String startDate, String endDate, int duration) {
         this.id = id;
         this.location = location;
         this.startDate = startDate;
