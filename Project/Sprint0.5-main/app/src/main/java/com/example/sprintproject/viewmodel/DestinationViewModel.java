@@ -171,20 +171,20 @@ public class DestinationViewModel extends AndroidViewModel {
     }
 
     private Calendar parseDate(String dateStr) {
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         try {
-            Date date = sdf.parse(dateStr);
+            Date date = dateFormat.parse(dateStr);
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
             return calendar;
-        } catch (ParseException e) {
+        } catch (Exception e) {
             return null;
         }
     }
 
     private String formatDate(Calendar date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        return sdf.format(date.getTime());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        return dateFormat.format(date.getTime());
     }
 
     public interface DatePickerListener {
