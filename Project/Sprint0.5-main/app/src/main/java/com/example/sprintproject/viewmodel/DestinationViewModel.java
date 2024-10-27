@@ -31,6 +31,7 @@ public class DestinationViewModel extends AndroidViewModel {
     private DatePickerListener datePickerListener;
     private DatabaseReference databaseReference;
     private FirebaseAuth mAuth;
+    private DestinationModel model;
 
     public DestinationViewModel(Application application) {
         super(application);
@@ -147,54 +148,30 @@ public class DestinationViewModel extends AndroidViewModel {
     }
 
     private int calculateDurationInDays(String startDateStr, String endDateStr) {
-        Calendar startDate = parseDate(startDateStr);
-        Calendar endDate = parseDate(endDateStr);
-        if (startDate == null || endDate == null) {
+        int diffInDays;
+        diffInDays = DestinationModel.calculateDurationInDays(startDateStr, endDateStr);
+        if (diffInDays < 0) {
             Toast.makeText(getApplication(), "Invalid date format", Toast.LENGTH_SHORT).show();
-            return -1;
         }
-        int diffInMillis = (int) (endDate.getTimeInMillis() - startDate.getTimeInMillis());
-        int diffInDays = (int) (diffInMillis / (1000 * 60 * 60 * 24));
         return diffInDays;
     }
 
     private String calculateEndDate(String startDateStr, int durationDays) {
-        Calendar startDate = parseDate(startDateStr);
-        if (startDate == null) {
+        String endDateStr = DestinationModel.calculateEndDate(startDateStr, durationDays);
+        if (endDateStr == null) {
             Toast.makeText(getApplication(), "Invalid start date format", Toast.LENGTH_SHORT).show();
             return "";
         }
-        Calendar endDate = (Calendar) startDate.clone();
-        endDate.add(Calendar.DAY_OF_YEAR, durationDays);
-        return formatDate(endDate);
+        return endDateStr;
     }
 
     private String calculateStartDate(String endDateStr, int durationDays) {
-        Calendar endDate = parseDate(endDateStr);
-        if (endDate == null) {
+        String startDateStr = DestinationModel.calculateStartDate(endDateStr, durationDays);
+        if (startDateStr == null) {
             Toast.makeText(getApplication(), "Invalid end date format", Toast.LENGTH_SHORT).show();
             return "";
         }
-        Calendar startDate = (Calendar) endDate.clone();
-        startDate.add(Calendar.DAY_OF_YEAR, -durationDays);
-        return formatDate(startDate);
-    }
-
-    private Calendar parseDate(String dateStr) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        try {
-            Date date = dateFormat.parse(dateStr);
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(date);
-            return calendar;
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    private String formatDate(Calendar date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        return dateFormat.format(date.getTime());
+        return startDateStr;
     }
 
     public interface DatePickerListener {
