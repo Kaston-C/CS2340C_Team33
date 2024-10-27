@@ -29,14 +29,16 @@ public class DestinationViewModel extends AndroidViewModel {
     public ObservableArrayList<Destination> destinationsList = new ObservableArrayList<>();
 
     private DatePickerListener datePickerListener;
-    private DatabaseReference databaseReference;
+    private DatabaseReference userDatabaseReference;
+    private DatabaseReference destinationsDatabaseReference;
     private FirebaseAuth mAuth;
     private Destination model;
 
     public DestinationViewModel(Application application) {
         super(application);
         mAuth = MainModel.getFirebaseAuthorization();
-        databaseReference = MainModel.firebaseConnect("users");
+        userDatabaseReference = MainModel.firebaseConnect("users");
+        destinationsDatabaseReference = MainModel.firebaseConnect("destinations");
         loadDestinations();
     }
 
@@ -107,9 +109,9 @@ public class DestinationViewModel extends AndroidViewModel {
                 Integer.parseInt(duration.get())
         );
 
-        databaseReference.child(userId).child("destinations").child(destination.getName())
+        userDatabaseReference.child(userId).child("destinations").child(destination.getName())
                 .setValue(destination.getId());
-        databaseReference.child("destinations").child(destination.getId())
+        destinationsDatabaseReference.child(destination.getId())
                 .setValue(destination)
                 .addOnSuccessListener(aVoid -> {
                     location.set("");
