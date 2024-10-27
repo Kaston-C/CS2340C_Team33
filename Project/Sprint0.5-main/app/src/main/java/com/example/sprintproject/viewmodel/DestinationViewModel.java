@@ -31,7 +31,7 @@ public class DestinationViewModel extends AndroidViewModel {
     private DatePickerListener datePickerListener;
     private DatabaseReference databaseReference;
     private FirebaseAuth mAuth;
-    private DestinationModel model;
+    private Destination model;
 
     public DestinationViewModel(Application application) {
         super(application);
@@ -149,7 +149,7 @@ public class DestinationViewModel extends AndroidViewModel {
 
     private int calculateDurationInDays(String startDateStr, String endDateStr) {
         int diffInDays;
-        diffInDays = DestinationModel.calculateDurationInDays(startDateStr, endDateStr);
+        diffInDays = Destination.calculateDurationInDays(startDateStr, endDateStr);
         if (diffInDays < 0) {
             Toast.makeText(getApplication(), "Invalid date format", Toast.LENGTH_SHORT).show();
         }
@@ -157,7 +157,7 @@ public class DestinationViewModel extends AndroidViewModel {
     }
 
     private String calculateEndDate(String startDateStr, int durationDays) {
-        String endDateStr = DestinationModel.calculateEndDate(startDateStr, durationDays);
+        String endDateStr = Destination.calculateEndDate(startDateStr, durationDays);
         if (endDateStr == null) {
             Toast.makeText(getApplication(), "Invalid start date format", Toast.LENGTH_SHORT).show();
             return "";
@@ -166,7 +166,7 @@ public class DestinationViewModel extends AndroidViewModel {
     }
 
     private String calculateStartDate(String endDateStr, int durationDays) {
-        String startDateStr = DestinationModel.calculateStartDate(endDateStr, durationDays);
+        String startDateStr = Destination.calculateStartDate(endDateStr, durationDays);
         if (startDateStr == null) {
             Toast.makeText(getApplication(), "Invalid end date format", Toast.LENGTH_SHORT).show();
             return "";
