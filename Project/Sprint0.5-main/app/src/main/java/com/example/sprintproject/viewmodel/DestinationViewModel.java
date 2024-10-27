@@ -109,10 +109,18 @@ public class DestinationViewModel extends AndroidViewModel {
                 Integer.parseInt(duration.get())
         );
 
-        userDatabaseReference.child(userId).child("destinations").child(destination.getName())
-                .setValue(destination.getId());
         destinationsDatabaseReference.child(destination.getId())
                 .setValue(destination)
+                .addOnSuccessListener(aVoid -> {
+                    location.set("");
+                    startDate.set("");
+                    endDate.set("");
+                    duration.set("");
+                    showInputs.set(false);
+                    loadDestinations();
+                });
+        userDatabaseReference.child(userId).child("destinations").child(destination.getName())
+                .setValue(destination.getId())
                 .addOnSuccessListener(aVoid -> {
                     location.set("");
                     startDate.set("");
@@ -125,7 +133,7 @@ public class DestinationViewModel extends AndroidViewModel {
 
     private void loadDestinations() {
         String userId = mAuth.getCurrentUser().getUid();
-        databaseReference.child(userId).child("destinations")
+        userDatabaseReference.child(userId).child("destinations").child("someDestination")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     public void onDataChange(DataSnapshot snapshot) {
                         destinationsList.clear();

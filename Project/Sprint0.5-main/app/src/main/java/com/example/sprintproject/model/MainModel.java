@@ -22,6 +22,7 @@ public class MainModel {
     }
 
     public static DatabaseReference firebaseConnect(String databaseName) {
+        System.out.println(databaseName);
         return FirebaseDatabase.getInstance().getReference(databaseName);
     }
 
