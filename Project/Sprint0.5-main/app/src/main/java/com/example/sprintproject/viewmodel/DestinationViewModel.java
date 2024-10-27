@@ -143,7 +143,7 @@ public class DestinationViewModel extends AndroidViewModel {
             Toast.makeText(getApplication(), "Invalid date format", Toast.LENGTH_SHORT).show();
             return -1;
         }
-        long diffInMillis = endDate.getTimeInMillis() - startDate.getTimeInMillis();
+        int diffInMillis = (int) (endDate.getTimeInMillis() - startDate.getTimeInMillis());
         int diffInDays = (int) (diffInMillis / (1000 * 60 * 60 * 24));
         return diffInDays;
     }
