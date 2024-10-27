@@ -38,7 +38,7 @@ public class DestinationViewModel extends AndroidViewModel {
         super(application);
         mAuth = MainModel.getFirebaseAuthorization();
         userDatabaseReference = MainModel.firebaseConnect("users");
-        destinationsDatabaseReference = MainModel.firebaseConnect("users");
+        destinationsDatabaseReference = MainModel.firebaseConnect("destinations");
         loadDestinations();
     }
 
