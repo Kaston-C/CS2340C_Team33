@@ -9,7 +9,7 @@ import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.example.sprintproject.model.DestinationModel;
+import com.example.sprintproject.model.Destination;
 import com.example.sprintproject.model.MainModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
@@ -26,7 +26,7 @@ public class DestinationViewModel extends AndroidViewModel {
     public ObservableField<String> endDate = new ObservableField<>("");
     public ObservableField<String> duration = new ObservableField<>("");
     public ObservableBoolean showInputs = new ObservableBoolean(false);
-    public ObservableArrayList<DestinationModel> destinationsList = new ObservableArrayList<>();
+    public ObservableArrayList<Destination> destinationsList = new ObservableArrayList<>();
 
     private DatePickerListener datePickerListener;
     private DatabaseReference databaseReference;
@@ -98,7 +98,7 @@ public class DestinationViewModel extends AndroidViewModel {
             return;
         }
 
-        DestinationModel destination = new DestinationModel(
+        Destination destination = new Destination(
                 destinationId,
                 location.get(),
                 startDate.get(),
@@ -125,7 +125,7 @@ public class DestinationViewModel extends AndroidViewModel {
                     public void onDataChange(DataSnapshot snapshot) {
                         destinationsList.clear();
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            DestinationModel destination = dataSnapshot.getValue(DestinationModel.class);
+                            Destination destination = dataSnapshot.getValue(Destination.class);
                             destinationsList.add(destination);
                         }
                     }

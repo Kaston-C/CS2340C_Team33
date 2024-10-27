@@ -9,18 +9,18 @@ import androidx.databinding.ObservableArrayList;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sprintproject.R;
-import com.example.sprintproject.model.DestinationModel;
+import com.example.sprintproject.model.Destination;
 
 public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.DestinationViewHolder> {
 
-    private ObservableArrayList<DestinationModel> destinations;
+    private ObservableArrayList<Destination> destinations;
     private OnDestinationClickListener listener;
 
     public interface OnDestinationClickListener {
-        void onDestinationClick(DestinationModel destination);
+        void onDestinationClick(Destination destination);
     }
 
-    public DestinationAdapter(ObservableArrayList<DestinationModel> destinations, OnDestinationClickListener listener) {
+    public DestinationAdapter(ObservableArrayList<Destination> destinations, OnDestinationClickListener listener) {
         this.destinations = destinations;
         this.listener = listener;
     }
@@ -31,7 +31,7 @@ public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.
     }
 
     public void onBindViewHolder(DestinationViewHolder holder, int position) {
-        DestinationModel destination = destinations.get(position);
+        Destination destination = destinations.get(position);
         holder.bind(destination);
     }
 
@@ -49,7 +49,7 @@ public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.
             datesTextView = itemView.findViewById(R.id.destination_dates);
         }
 
-        public void bind(DestinationModel destination) {
+        public void bind(Destination destination) {
             locationTextView.setText(destination.getLocation());
             datesTextView.setText(destination.getStartDate() + " - " + destination.getEndDate());
 

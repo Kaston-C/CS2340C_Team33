@@ -1,15 +1,15 @@
 package com.example.sprintproject.model;
 
-public class DestinationModel {
+public class Destination {
     private String id;
     private String location;
     private String startDate;
     private String endDate;
     private int duration;
 
-    public DestinationModel() {}
+    public Destination() {}
 
-    public DestinationModel(String id, String location, String startDate, String endDate, int duration) {
+    public Destination(String id, String location, String startDate, String endDate, int duration) {
         this.id = id;
         this.location = location;
         this.startDate = startDate;
@@ -18,6 +18,7 @@ public class DestinationModel {
     }
 
     public String getId() { return id; }
+
     public void setId(String id) { this.id = id; }
 
     public String getLocation() { return location; }
