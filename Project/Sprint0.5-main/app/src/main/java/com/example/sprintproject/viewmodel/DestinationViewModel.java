@@ -119,7 +119,7 @@ public class DestinationViewModel extends AndroidViewModel {
                     showInputs.set(false);
                     loadDestinations();
                 });
-        userDatabaseReference.child(userId).child("destinations").child(destination.getName())
+        userDatabaseReference.child(userId).child("destinations").child(destination.getLocation())
                 .setValue(destination.getId())
                 .addOnSuccessListener(aVoid -> {
                     location.set("");
