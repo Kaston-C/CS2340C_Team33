@@ -129,4 +129,5 @@ public class DestinationActivity extends AppCompatActivity implements Destinatio
     private interface OnDateSetListener {
         void onDateSet(String date);
     }
+
 }
