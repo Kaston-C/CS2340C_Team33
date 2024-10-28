@@ -21,14 +21,6 @@ public class MainModel {
         this.welcomeMessage = message;
     }
 
-    public static DatabaseReference firebaseConnect(String databaseName) {
-        return FirebaseDatabase.getInstance().getReference(databaseName);
-    }
-
-    public static FirebaseAuth getFirebaseAuthorization() {
-        return FirebaseAuth.getInstance();
-    }
-
     public static String getInputUsername(EditText usernameInput) {
         String username = usernameInput.getText().toString();
         if (!username.contains("@")) {
