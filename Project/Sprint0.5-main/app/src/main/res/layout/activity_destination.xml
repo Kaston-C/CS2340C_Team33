@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.DestinationActivity">
+
         <TextView
             android:id="@+id/title_registration"
             android:layout_width="wrap_content"
@@ -20,11 +21,20 @@
             android:text="Destinations"
             android:textSize="30dp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/total_days_planned"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title_registration"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@{viewModel.totalDaysPlanned}" />
         <Button
             android:id="@+id/logDestinationButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/title_registration"
+            android:layout_below="@id/total_days_planned"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:text="Log Travel"
@@ -43,6 +53,7 @@
             android:hint="Atlanta, New York, e.g."
             android:visibility="@{viewModel.showInputs ? View.VISIBLE : View.GONE}"
             android:text="@={viewModel.location}" />
+
         <LinearLayout
             android:id="@+id/date_input_section"
             android:layout_width="match_parent"
@@ -53,7 +64,6 @@
             android:layout_below="@id/destination_input"
             android:layout_marginTop="20dp"
             android:visibility="@{viewModel.showInputs ? View.VISIBLE : View.GONE}">
-
             <EditText
                 android:id="@+id/start_input"
                 android:layout_width="match_parent"
@@ -61,7 +71,6 @@
                 android:hint="Start Date (MM/DD/YYYY)"
                 android:text="@={viewModel.startDate}"
                 android:onClick="@{viewModel::onStartDateClicked}" />
-
             <EditText
                 android:id="@+id/end_input"
                 android:layout_width="match_parent"
@@ -76,6 +85,7 @@
                 android:hint="Duration (days)"
                 android:text="@={viewModel.duration}" />
         </LinearLayout>
+
         <Button
             android:id="@+id/calculate_button"
             android:layout_width="match_parent"
@@ -105,7 +115,6 @@
                 android:id="@+id/cancel_button"
                 android:text="Cancel"
                 android:onClick="@{viewModel::onCancelClicked}" />
-
             <Button
                 android:id="@+id/submit_button"
                 android:layout_width="0dp"
@@ -123,6 +132,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="10dp" />
+
         <include
             android:id="@+id/navbar"
             layout="@layout/navbar"
@@ -130,5 +140,5 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true" />
     </RelativeLayout>
-
 </layout>
+

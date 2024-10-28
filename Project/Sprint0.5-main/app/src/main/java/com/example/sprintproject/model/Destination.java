@@ -34,6 +34,12 @@ public class Destination {
 
     public String getEndDate() { return endDate; }
 
+    public int getDuration() { return duration; }
+
+    public String getName() {
+        return location;
+    }
+
     public static int calculateDurationInDays(String startDateStr, String endDateStr) {
         Calendar startDate = parseDate(startDateStr);
         Calendar endDate = parseDate(endDateStr);
@@ -81,4 +87,5 @@ public class Destination {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         return dateFormat.format(date.getTime());
     }
+
 }
