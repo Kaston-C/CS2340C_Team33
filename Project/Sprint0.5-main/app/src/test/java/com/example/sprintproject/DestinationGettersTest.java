@@ -1,4 +1,3 @@
-// DestinationTest.java
 package com.example.sprintproject.model;
 
 import org.junit.Test;
