@@ -25,6 +25,7 @@ public class DestinationViewModel extends AndroidViewModel {
     public ObservableField<String> duration = new ObservableField<>("");
     public ObservableField<String> totalDaysPlanned = new ObservableField<>("0 days planned");
     public ObservableBoolean showInputs = new ObservableBoolean(false);
+    public ObservableBoolean showVacationInputs = new ObservableBoolean(false);
     public ObservableArrayList<Destination> destinationsList = new ObservableArrayList<>();
 
     private DatePickerListener datePickerListener;
@@ -46,11 +47,24 @@ public class DestinationViewModel extends AndroidViewModel {
 
     public void onLogTravelClicked(View view) {
         showInputs.set(true);
+        showVacationInputs.set(false);
+    }
+
+    public void onLogVacationClicked(View view) {
+        showVacationInputs.set(true);
+        showInputs.set(false);
     }
 
     public void onCancelClicked(View view) {
         showInputs.set(false);
         location.set("");
+        startDate.set("");
+        endDate.set("");
+        duration.set("");
+    }
+
+    public void onCancelVacationClicked(View view) {
+        showVacationInputs.set(false);
         startDate.set("");
         endDate.set("");
         duration.set("");
@@ -125,6 +139,44 @@ public class DestinationViewModel extends AndroidViewModel {
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(getApplication(), "Failed to save destination ID", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    public void onSubmitVacation(View view) {
+        String userId = mAuth.getCurrentUser().getUid();
+
+        if (startDate.get().isEmpty() || endDate.get().isEmpty() || duration.get().isEmpty()) {
+            Toast.makeText(getApplication(), "You need to fill all fields before submitting.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        userDatabaseReference.child(userId).child("startVacation")
+                .setValue(startDate.get())
+                .addOnSuccessListener(aVoid -> {
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getApplication(), "Failed to save vacation", Toast.LENGTH_SHORT).show();
+                });
+
+        userDatabaseReference.child(userId).child("endVacation")
+                .setValue(endDate.get())
+                .addOnSuccessListener(aVoid -> {
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getApplication(), "Failed to save vacation", Toast.LENGTH_SHORT).show();
+                });
+
+        userDatabaseReference.child(userId).child("vacationDuration")
+                .setValue(Integer.parseInt(duration.get()))
+                .addOnSuccessListener(aVoid -> {
+                    startDate.set("");
+                    endDate.set("");
+                    duration.set("");
+                    showVacationInputs.set(false);
+                    loadDestinations();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getApplication(), "Failed to save vacation", Toast.LENGTH_SHORT).show();
                 });
     }
 
