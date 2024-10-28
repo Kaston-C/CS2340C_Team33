@@ -59,7 +59,7 @@ public class LogisticsActivity extends AppCompatActivity {
         ImageButton transportButton = findViewById(R.id.transportation_button);
 
         logisticsButton.setSelected(true);
-        logisticsButton.setOnClickListener(v -> {});
+        logisticsButton.setOnClickListener(v -> { });
 
         destinationButton.setOnClickListener(v -> {
             Intent intent = new Intent(LogisticsActivity.this, DestinationActivity.class);
@@ -103,113 +103,127 @@ public class LogisticsActivity extends AppCompatActivity {
     private void fetchAndDisplayChartData() {
         String userId = mAuth.getCurrentUser().getUid();
 
-        userDatabaseReference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot userSnapshot) {
-                if (userSnapshot.exists()) {
-                    String startVacationStr = userSnapshot.child("startVacation").getValue(String.class);
-                    String endVacationStr = userSnapshot.child("endVacation").getValue(String.class);
+        userDatabaseReference.child(userId).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot userSnapshot) {
+                    if (userSnapshot.exists()) {
+                        String startVacationStr = userSnapshot.child("startVacation")
+                                .getValue(String.class);
+                        String endVacationStr = userSnapshot.child("endVacation")
+                                .getValue(String.class);
 
-                    if (startVacationStr == null || endVacationStr == null) {
-                        Toast.makeText(LogisticsActivity.this, "Vacation dates not set", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    Date startVacationDate, endVacationDate;
-                    try {
-                        startVacationDate = dateFormat.parse(startVacationStr);
-                        endVacationDate = dateFormat.parse(endVacationStr);
-                    } catch (ParseException e) {
-                        Toast.makeText(LogisticsActivity.this, "Invalid vacation date format", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    if (startVacationDate == null || endVacationDate == null || startVacationDate.after(endVacationDate)) {
-                        Toast.makeText(LogisticsActivity.this, "Invalid vacation dates", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    int vacationDuration = calculateDaysBetween(startVacationDate, endVacationDate);
-
-                    DataSnapshot destinationsSnapshot = userSnapshot.child("destinations");
-                    if (destinationsSnapshot.exists()) {
-                        List<String> destinationIds = new ArrayList<>();
-                        for (DataSnapshot destinationEntry : destinationsSnapshot.getChildren()) {
-                            String destinationId = destinationEntry.getValue(String.class);
-                            if (destinationId != null) {
-                                destinationIds.add(destinationId);
-                            }
+                        if (startVacationStr == null || endVacationStr == null) {
+                            Toast.makeText(LogisticsActivity.this,
+                                    "Vacation dates not set", Toast.LENGTH_SHORT).show();
+                            return;
                         }
 
-                        if (!destinationIds.isEmpty()) {
-                            fetchDestinationsAndCalculateTotalDuration(destinationIds, vacationDuration, startVacationDate, endVacationDate);
+                        Date startVacationDate;
+                        Date endVacationDate;
+                        try {
+                            startVacationDate = dateFormat.parse(startVacationStr);
+                            endVacationDate = dateFormat.parse(endVacationStr);
+                        } catch (ParseException e) {
+                            Toast.makeText(LogisticsActivity.this,
+                                    "Invalid vacation date format", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        if (startVacationDate == null || endVacationDate == null
+                                || startVacationDate.after(endVacationDate)) {
+                            Toast.makeText(LogisticsActivity.this,
+                                    "Invalid vacation dates", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        int vacDur = calculateDaysBetween(startVacationDate, endVacationDate);
+
+                        DataSnapshot destinationsSnapshot = userSnapshot.child("destinations");
+                        if (destinationsSnapshot.exists()) {
+                            List<String> destinationIds = new ArrayList<>();
+                            for (DataSnapshot dEntry : destinationsSnapshot.getChildren()) {
+                                String destinationId = dEntry.getValue(String.class);
+                                if (destinationId != null) {
+                                    destinationIds.add(destinationId);
+                                }
+                            }
+
+                            if (!destinationIds.isEmpty()) {
+                                fetchDestinationsAndCalculateTotalDuration(destinationIds,
+                                        vacDur, startVacationDate, endVacationDate);
+                            } else {
+                                displayPieChart(vacDur, 0);
+                            }
                         } else {
-                            displayPieChart(vacationDuration, 0);
+                            displayPieChart(vacDur, 0);
                         }
                     } else {
-                        displayPieChart(vacationDuration, 0);
+                        Toast.makeText(LogisticsActivity.this,
+                                "User data not found", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(LogisticsActivity.this, "User data not found", Toast.LENGTH_SHORT).show();
                 }
-            }
 
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(LogisticsActivity.this, "Failed to fetch user data", Toast.LENGTH_SHORT).show();
-            }
-        });
+                public void onCancelled(DatabaseError databaseError) {
+                    Toast.makeText(LogisticsActivity.this,
+                            "Failed to fetch user data", Toast.LENGTH_SHORT).show();
+                }
+            });
     }
 
-    private void fetchDestinationsAndCalculateTotalDuration(List<String> destinationIds, int vacationDuration, Date startVacationDate, Date endVacationDate) {
+    private void fetchDestinationsAndCalculateTotalDuration(
+            List<String> destinationIds, int vacDur, Date startVacationDate, Date endVacationDate) {
         final int[] destinationsFetched = {0};
         final int totalDestinations = destinationIds.size();
         final int[] totalPlannedDays = {0};
         final int[] overlappingDays = {0};
 
         if (totalDestinations == 0) {
-            displayPieChart(vacationDuration, 0);
+            displayPieChart(vacDur, 0);
             return;
         }
 
         for (String destinationId : destinationIds) {
-            destinationsDatabaseReference.child(destinationId).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot destinationSnapshot) {
-                    destinationsFetched[0]++;
-                    if (destinationSnapshot.exists()) {
-                        Destination destination = destinationSnapshot.getValue(Destination.class);
-                        if (destination != null) {
-                            int tripDuration = destination.getDuration();
-                            totalPlannedDays[0] += tripDuration;
-
-                            try {
-                                Date tripStartDate = dateFormat.parse(destination.getStartDate());
-                                Date tripEndDate = dateFormat.parse(destination.getEndDate());
-
-                                if (tripStartDate != null && tripEndDate != null) {
-                                    int overlap = calculateOverlappingDays(tripStartDate, tripEndDate, startVacationDate, endVacationDate);
-                                    overlappingDays[0] += overlap;
+            destinationsDatabaseReference.child(destinationId).addListenerForSingleValueEvent(
+                    new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot destinationSnapshot) {
+                        destinationsFetched[0]++;
+                        if (destinationSnapshot.exists()) {
+                            Destination dest = destinationSnapshot.getValue(Destination.class);
+                            if (dest != null) {
+                                int tripDuration = dest.getDuration();
+                                totalPlannedDays[0] += tripDuration;
+    
+                                try {
+                                    Date tSDate = dateFormat.parse(dest.getStartDate());
+                                    Date tripEndDate = dateFormat.parse(dest.getEndDate());
+    
+                                    if (tSDate != null && tripEndDate != null) {
+                                        int overlap = calculateOverlappingDays(tSDate,
+                                                tripEndDate, startVacationDate, endVacationDate);
+                                        overlappingDays[0] += overlap;
+                                    }
+                                } catch (Exception e) {
+                                    // error
                                 }
-                            } catch (Exception e) {
-                                // error
                             }
                         }
+                        if (destinationsFetched[0] == totalDestinations) {
+                            int adjustedPlannedDays = totalPlannedDays[0] - overlappingDays[0];
+                            displayPieChart(vacDur + overlappingDays[0], adjustedPlannedDays);
+                        }
                     }
-                    if (destinationsFetched[0] == totalDestinations) {
-                        int adjustedPlannedDays = totalPlannedDays[0] - overlappingDays[0];
-                        displayPieChart(vacationDuration + overlappingDays[0], adjustedPlannedDays);
+    
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        destinationsFetched[0]++;
+                        if (destinationsFetched[0] == totalDestinations) {
+                            int adjustedPlannedDays = totalPlannedDays[0] - overlappingDays[0];
+                            displayPieChart(vacDur + overlappingDays[0], adjustedPlannedDays);
+                        }
                     }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    destinationsFetched[0]++;
-                    if (destinationsFetched[0] == totalDestinations) {
-                        int adjustedPlannedDays = totalPlannedDays[0] - overlappingDays[0];
-                        displayPieChart(vacationDuration + overlappingDays[0], adjustedPlannedDays);
-                    }
-                }
-            });
+                });
         }
     }
 
@@ -218,7 +232,8 @@ public class LogisticsActivity extends AppCompatActivity {
         return (int) (diffInMillis / (1000 * 60 * 60 * 24)) + 1;
     }
 
-    private int calculateOverlappingDays(Date tripStart, Date tripEnd, Date vacationStart, Date vacationEnd) {
+    private int calculateOverlappingDays(
+            Date tripStart, Date tripEnd, Date vacationStart, Date vacationEnd) {
         Date maxStart = tripStart.after(vacationStart) ? tripStart : vacationStart;
         Date minEnd = tripEnd.before(vacationEnd) ? tripEnd : vacationEnd;
         if (maxStart.after(minEnd)) {
@@ -242,7 +257,8 @@ public class LogisticsActivity extends AppCompatActivity {
             int totalDays = vacDays + planTripDays;
 
             if (totalDays == 0) {
-                Toast.makeText(LogisticsActivity.this, "No data to display in chart", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LogisticsActivity.this,
+                        "No data to display in chart", Toast.LENGTH_SHORT).show();
                 pieChart.setVisibility(android.view.View.GONE);
                 return;
             }

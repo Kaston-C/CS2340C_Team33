@@ -11,26 +11,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sprintproject.R;
 import com.example.sprintproject.model.Destination;
 
-public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.DestinationViewHolder> {
+public class DestinationAdapter extends
+        RecyclerView.Adapter<DestinationAdapter.DestinationViewHolder> {
 
     private ObservableArrayList<Destination> destinations;
     private OnDestinationClickListener listener;
 
-    public interface OnDestinationClickListener {
-        void onDestinationClick(Destination destination);
-    }
-
-    public DestinationAdapter(ObservableArrayList<Destination> destinations, OnDestinationClickListener listener) {
-        this.destinations = destinations;
-        this.listener = listener;
-    }
 
     @Override
     public DestinationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_destination, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.item_destination, parent, false);
         return new DestinationViewHolder(v);
     }
 
+    public DestinationAdapter(
+            ObservableArrayList<Destination> destinations, OnDestinationClickListener listener) {
+        this.destinations = destinations;
+        this.listener = listener;
+    }
     @Override
     public void onBindViewHolder(DestinationViewHolder holder, int position) {
         Destination destination = destinations.get(position);
@@ -43,9 +42,9 @@ public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.
     }
 
     public class DestinationViewHolder extends RecyclerView.ViewHolder {
-        TextView locationTextView;
-        TextView datesTextView;
-        TextView daysPlannedTextView;
+        private TextView locationTextView;
+        private TextView datesTextView;
+        private TextView daysPlannedTextView;
 
         public DestinationViewHolder(View itemView) {
             super(itemView);
@@ -59,7 +58,8 @@ public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.
             datesTextView.setText(destination.getStartDate() + " - " + destination.getEndDate());
 
             int daysPlanned = destination.getDuration();
-            daysPlannedTextView.setText(daysPlanned > 0 ? daysPlanned + " days planned" : "0 days planned");
+            daysPlannedTextView.setText(
+                    daysPlanned > 0 ? daysPlanned + " days planned" : "0 days planned");
 
             itemView.setOnClickListener(v -> {
                 if (listener != null) {
@@ -67,5 +67,9 @@ public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.
                 }
             });
         }
+    }
+
+    public interface OnDestinationClickListener {
+        void onDestinationClick(Destination destination);
     }
 }

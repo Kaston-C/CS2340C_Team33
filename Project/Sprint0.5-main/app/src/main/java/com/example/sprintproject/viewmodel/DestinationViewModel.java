@@ -11,7 +11,6 @@ import androidx.lifecycle.AndroidViewModel;
 
 import com.example.sprintproject.model.DatabaseSingleton;
 import com.example.sprintproject.model.Destination;
-import com.example.sprintproject.model.MainModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 
@@ -20,14 +19,39 @@ import java.util.List;
 import java.util.UUID;
 
 public class DestinationViewModel extends AndroidViewModel {
-    public ObservableField<String> location = new ObservableField<>("");
-    public ObservableField<String> startDate = new ObservableField<>("");
-    public ObservableField<String> endDate = new ObservableField<>("");
-    public ObservableField<String> duration = new ObservableField<>("");
-    public ObservableField<String> totalDaysPlanned = new ObservableField<>("0 days planned");
-    public ObservableBoolean showInputs = new ObservableBoolean(false);
-    public ObservableBoolean showVacationInputs = new ObservableBoolean(false);
-    public ObservableArrayList<Destination> destinationsList = new ObservableArrayList<>();
+    private ObservableField<String> location = new ObservableField<>("");
+    private ObservableField<String> startDate = new ObservableField<>("");
+    private ObservableField<String> endDate = new ObservableField<>("");
+    private ObservableField<String> duration = new ObservableField<>("");
+    private ObservableField<String> totalDaysPlanned = new ObservableField<>("0 days planned");
+    private ObservableBoolean showInputs = new ObservableBoolean(false);
+    private ObservableBoolean showVacationInputs = new ObservableBoolean(false);
+    private ObservableArrayList<Destination> destinationsList = new ObservableArrayList<>();
+
+    public ObservableField<String> getLocation() {
+        return location;
+    }
+    public ObservableField<String> getStartDate() {
+        return startDate;
+    }
+    public ObservableField<String> getEndDate() {
+        return endDate;
+    }
+    public ObservableField<String> getDuration() {
+        return duration;
+    }
+    public ObservableField<String> getTotalDaysPlanned() {
+        return totalDaysPlanned;
+    }
+    public ObservableBoolean getShowInputs() {
+        return showInputs;
+    }
+    public ObservableBoolean getShowVacationInputs() {
+        return showVacationInputs;
+    }
+    public ObservableArrayList<Destination> getDestinationsList() {
+        return destinationsList;
+    }
 
     private DatePickerListener datePickerListener;
     private DatabaseReference userDatabaseReference;
@@ -90,20 +114,27 @@ public class DestinationViewModel extends AndroidViewModel {
             int calculatedDuration = calculateDurationInDays(startDate.get(), endDate.get());
             if (calculatedDuration >= 0) {
                 duration.set(String.valueOf(calculatedDuration));
-                Toast.makeText(getApplication(), "Trip Duration: " + calculatedDuration + " days", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(), "Trip Duration: "
+                        + calculatedDuration + " days", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getApplication(), "End date must be after start date", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(), "End date must be after start date",
+                        Toast.LENGTH_SHORT).show();
             }
         } else if (!startDate.get().isEmpty() && !duration.get().isEmpty()) {
-            String calculatedEndDate = calculateEndDate(startDate.get(), Integer.parseInt(duration.get()));
+            String calculatedEndDate = calculateEndDate(startDate.get(),
+                    Integer.parseInt(duration.get()));
             endDate.set(calculatedEndDate);
-            Toast.makeText(getApplication(), "Calculated End Date: " + calculatedEndDate, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplication(), "Calculated End Date: "
+                    + calculatedEndDate, Toast.LENGTH_SHORT).show();
         } else if (!endDate.get().isEmpty() && !duration.get().isEmpty()) {
-            String calculatedStartDate = calculateStartDate(endDate.get(), Integer.parseInt(duration.get()));
+            String calculatedStartDate = calculateStartDate(endDate.get(),
+                    Integer.parseInt(duration.get()));
             startDate.set(calculatedStartDate);
-            Toast.makeText(getApplication(), "Calculated Start Date: " + calculatedStartDate, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplication(), "Calculated Start Date: "
+                    + calculatedStartDate, Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getApplication(), "You must provide at least two inputs", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplication(), "You must provide at least two inputs",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -111,8 +142,11 @@ public class DestinationViewModel extends AndroidViewModel {
         String userId = mAuth.getCurrentUser().getUid();
         String destinationId = UUID.randomUUID().toString();
 
-        if (location.get().isEmpty() || startDate.get().isEmpty() || endDate.get().isEmpty() || duration.get().isEmpty()) {
-            Toast.makeText(getApplication(), "You need to fill all fields before submitting.", Toast.LENGTH_SHORT).show();
+        if (location.get().isEmpty()
+                || startDate.get().isEmpty()
+                || endDate.get().isEmpty() || duration.get().isEmpty()) {
+            Toast.makeText(getApplication(),
+                    "You need to fill all fields before submitting.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -137,11 +171,13 @@ public class DestinationViewModel extends AndroidViewModel {
                                 loadDestinations();
                             })
                             .addOnFailureListener(e -> {
-                                Toast.makeText(getApplication(), "Failed to save destination", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplication(), "Failed to save destination",
+                                        Toast.LENGTH_SHORT).show();
                             });
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(getApplication(), "Failed to save destination ID", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(),
+                            "Failed to save destination ID", Toast.LENGTH_SHORT).show();
                 });
     }
 
@@ -149,7 +185,8 @@ public class DestinationViewModel extends AndroidViewModel {
         String userId = mAuth.getCurrentUser().getUid();
 
         if (startDate.get().isEmpty() || endDate.get().isEmpty() || duration.get().isEmpty()) {
-            Toast.makeText(getApplication(), "You need to fill all fields before submitting.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplication(),
+                    "You need to fill all fields before submitting.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -158,7 +195,8 @@ public class DestinationViewModel extends AndroidViewModel {
                 .addOnSuccessListener(aVoid -> {
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(getApplication(), "Failed to save vacation", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(),
+                            "Failed to save vacation", Toast.LENGTH_SHORT).show();
                 });
 
         userDatabaseReference.child(userId).child("endVacation")
@@ -166,7 +204,8 @@ public class DestinationViewModel extends AndroidViewModel {
                 .addOnSuccessListener(aVoid -> {
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(getApplication(), "Failed to save vacation", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(),
+                            "Failed to save vacation", Toast.LENGTH_SHORT).show();
                 });
 
         userDatabaseReference.child(userId).child("vacationDuration")
@@ -179,7 +218,8 @@ public class DestinationViewModel extends AndroidViewModel {
                     loadDestinations();
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(getApplication(), "Failed to save vacation", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(),
+                            "Failed to save vacation", Toast.LENGTH_SHORT).show();
                 });
     }
 
@@ -196,18 +236,21 @@ public class DestinationViewModel extends AndroidViewModel {
                         int[] loadedCount = {0};
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             String destinationId = dataSnapshot.getValue(String.class);
-                            loadDestinationById(destinationId, tempDestinations, totalDestinations, loadedCount);
+                            loadDestinationById(destinationId,
+                                    tempDestinations, totalDestinations, loadedCount);
                         }
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        Toast.makeText(getApplication(), "Failed to load destinations", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplication(),
+                                "Failed to load destinations", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    private void loadDestinationById(String destinationId, List<Destination> tempDestinations, int totalDestinations, int[] loadedCount) {
+    private void loadDestinationById(String destinationId, List<Destination> tempDestinations,
+                                     int totalDestinations, int[] loadedCount) {
         destinationsDatabaseReference.child(destinationId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     public void onDataChange(DataSnapshot snapshot) {
@@ -222,7 +265,8 @@ public class DestinationViewModel extends AndroidViewModel {
                         }
                     }
                     public void onCancelled(DatabaseError error) {
-                        Toast.makeText(getApplication(), "Failed to load destination", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplication(),
+                                "Failed to load destination", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -240,7 +284,8 @@ public class DestinationViewModel extends AndroidViewModel {
     private String calculateEndDate(String startDateStr, int durationDays) {
         String endDateStr = Destination.calculateEndDate(startDateStr, durationDays);
         if (endDateStr == null) {
-            Toast.makeText(getApplication(), "Invalid start date format", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplication(),
+                    "Invalid start date format", Toast.LENGTH_SHORT).show();
             return "";
         }
         return endDateStr;

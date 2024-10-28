@@ -19,7 +19,8 @@ import com.example.sprintproject.viewmodel.DestinationViewModel;
 
 import java.util.Calendar;
 
-public class DestinationActivity extends AppCompatActivity implements DestinationViewModel.DatePickerListener {
+public class DestinationActivity extends AppCompatActivity
+        implements DestinationViewModel.DatePickerListener {
 
     private DestinationViewModel viewModel;
     private DestinationAdapter destinationAdapter;
@@ -27,7 +28,8 @@ public class DestinationActivity extends AppCompatActivity implements Destinatio
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityDestinationBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_destination);
+        ActivityDestinationBinding binding = DataBindingUtil.setContentView(
+                this, R.layout.activity_destination);
         viewModel = new ViewModelProvider(this).get(DestinationViewModel.class);
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
@@ -74,55 +76,63 @@ public class DestinationActivity extends AppCompatActivity implements Destinatio
     }
 
     private void setupRecyclerView(ActivityDestinationBinding binding) {
-        destinationAdapter = new DestinationAdapter(viewModel.destinationsList, destination -> {
-            showDestinationDetails(destination);
-        });
+        destinationAdapter = new DestinationAdapter(
+                viewModel.getDestinationsList(), destination -> {
+                    showDestinationDetails(destination);
+                });
         binding.destinationsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.destinationsRecyclerView.setAdapter(destinationAdapter);
 
-        viewModel.destinationsList.addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<Destination>>() {
-            public void onChanged(ObservableList<Destination> sender) {
-                destinationAdapter.notifyDataSetChanged();
-            }
+        viewModel.getDestinationsList().addOnListChangedCallback(
+                new ObservableList.OnListChangedCallback<ObservableList<Destination>>() {
+                    public void onChanged(ObservableList<Destination> sender) {
+                        destinationAdapter.notifyDataSetChanged();
+                    }
 
-            public void onItemRangeChanged(ObservableList<Destination> sender, int positionStart, int itemCount) {
-                destinationAdapter.notifyItemRangeChanged(positionStart, itemCount);
-            }
+                    public void onItemRangeChanged(
+                            ObservableList<Destination> sender, int positionStart, int itemCount) {
+                        destinationAdapter.notifyItemRangeChanged(positionStart, itemCount);
+                    }
 
-            public void onItemRangeInserted(ObservableList<Destination> sender, int positionStart, int itemCount) {
-                destinationAdapter.notifyItemRangeInserted(positionStart, itemCount);
-            }
+                    public void onItemRangeInserted(
+                            ObservableList<Destination> sender, int positionStart, int itemCount) {
+                        destinationAdapter.notifyItemRangeInserted(positionStart, itemCount);
+                    }
 
-            public void onItemRangeMoved(ObservableList<Destination> sender, int fromPosition, int toPosition, int itemCount) {
-                destinationAdapter.notifyDataSetChanged();
-            }
-
-            public void onItemRangeRemoved(ObservableList<Destination> sender, int positionStart, int itemCount) {
-                destinationAdapter.notifyItemRangeRemoved(positionStart, itemCount);
-            }
-        });
+                    public void onItemRangeMoved(ObservableList<Destination> sender,
+                                                 int fromPosition, int toPosition, int itemCount) {
+                        destinationAdapter.notifyDataSetChanged();
+                    }
+                    public void onItemRangeRemoved(
+                            ObservableList<Destination> sender, int positionStart, int itemCount) {
+                        destinationAdapter.notifyItemRangeRemoved(positionStart, itemCount);
+                    }
+                });
     }
 
     private void showDestinationDetails(Destination destination) {
-        Toast.makeText(this, "Destination: " + destination.getLocation(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Destination: " + destination.getLocation(), Toast.LENGTH_SHORT).
+                show();
     }
 
     @Override
     public void onStartDateClick() {
-        showDatePickerDialog(date -> viewModel.startDate.set(date));
+        showDatePickerDialog(date -> viewModel.getStartDate().set(date));
     }
 
     @Override
     public void onEndDateClick() {
-        showDatePickerDialog(date -> viewModel.endDate.set(date));
+        showDatePickerDialog(date -> viewModel.getEndDate().set(date));
     }
 
     private void showDatePickerDialog(OnDateSetListener listener) {
         Calendar calendar = Calendar.getInstance();
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this, (view, year, month, dayOfMonth) -> {
             String selectedDate = (month + 1) + "/" + dayOfMonth + "/" + year;
             listener.onDateSet(selectedDate);
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
     }
 

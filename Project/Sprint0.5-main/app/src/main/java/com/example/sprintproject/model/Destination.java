@@ -1,7 +1,5 @@
 package com.example.sprintproject.model;
 
-import android.widget.Toast;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,18 +23,32 @@ public class Destination {
         this.duration = duration;
     }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public void setName(String name) { this.location = location; }
+    public void setName(String name) {
+        this.location = location;
+    }
 
-    public String getLocation() { return location; }
+    public String getLocation() {
+        return location;
+    }
 
-    public String getStartDate() { return startDate; }
+    public String getStartDate() {
+        return startDate;
+    }
 
-    public String getEndDate() { return endDate; }
+    public String getEndDate() {
+        return endDate;
+    }
 
-    public int getDuration() { return duration; }
+    public int getDuration() {
+        return duration;
+    }
 
     public String getName() {
         return location;

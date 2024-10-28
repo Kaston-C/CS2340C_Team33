@@ -60,7 +60,8 @@ public class RegistrationActivity extends AppCompatActivity {
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 // log in user if account properly created
                                 if (user != null) {
-                                    databaseReference.child(user.getUid()).child("username").setValue(username);
+                                    databaseReference.child(user.getUid())
+                                            .child("username").setValue(username);
                                     Intent goLogin = new Intent(
                                             RegistrationActivity.this, LoginActivity.class);
                                     startActivity(goLogin);
