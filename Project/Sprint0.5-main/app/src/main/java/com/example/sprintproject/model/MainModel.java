@@ -9,6 +9,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MainModel {
     private String welcomeMessage;
 
+
     public MainModel() {
         this.welcomeMessage = "Welcome to WanderSync!";
     }
@@ -27,6 +28,14 @@ public class MainModel {
             username += "@wandersync.com";
         }
         return username;
+    }
+
+    public static DatabaseReference firebaseConnect(String databaseName) {
+        return FirebaseDatabase.getInstance().getReference(databaseName);
+    }
+
+    public static FirebaseAuth getFirebaseAuthorization() {
+        return FirebaseAuth.getInstance();
     }
 
     public static String getInputPassword(EditText passwordInput) {
