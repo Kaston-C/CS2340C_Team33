@@ -17,7 +17,7 @@ public class KastonTest {
 
         assertEquals(FirebaseAuth.class, db.getFirebaseAuthorization().getClass());
         assertEquals(DatabaseReference.class, db.userDb().getClass());
-        assertEquals(DatabaseReference.class, db.destinationDb().getClass());
+        assertEquals(DatabaseReference.class, db.destinationsDb().getClass());
     }
 
     @Test
