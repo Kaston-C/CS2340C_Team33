@@ -30,6 +30,9 @@ public class Destination {
 
     public void setName(String name) { this.location = location; }
 
+    public void setLocation(String location) { this.location = location; }
+    public void setStartDate(String startDate) { this.startDate = startDate; }
+
     public String getLocation() { return location; }
 
     public String getStartDate() { return startDate; }
@@ -90,4 +93,11 @@ public class Destination {
         return dateFormat.format(date.getTime());
     }
 
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
 }
