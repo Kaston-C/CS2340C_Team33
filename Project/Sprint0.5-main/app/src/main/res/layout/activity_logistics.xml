@@ -51,15 +51,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" />
-        android:text="Alloted vs Planned Days Data Visualization"
-        android:backgroundTint="@color/primary"
-        android:layout_marginTop="90dp"
-        android:layout_centerHorizontal="true"/>
-
-     <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pieChart"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:visibility="gone" />
 
 </RelativeLayout>
