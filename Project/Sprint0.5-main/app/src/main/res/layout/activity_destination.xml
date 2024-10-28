@@ -39,6 +39,7 @@
             android:layout_marginTop="20dp"
             android:text="Log Travel"
             android:textSize="12sp"
+            android:backgroundTint="@color/secondary"
             android:onClick="@{(view) -> viewModel.onLogTravelClicked(view)}"
             android:enabled="@{!viewModel.showInputs}" />
 
@@ -95,6 +96,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:text="Calculate Vacation Time"
+            android:backgroundTint="@color/primary"
             android:onClick="@{viewModel::onCalculateDuration}"
             android:visibility="@{viewModel.showInputs ? View.VISIBLE : View.GONE}" />
 
@@ -114,6 +116,7 @@
                 android:layout_weight="1"
                 android:id="@+id/cancel_button"
                 android:text="Cancel"
+                android:backgroundTint="@color/secondary"
                 android:onClick="@{viewModel::onCancelClicked}" />
             <Button
                 android:id="@+id/submit_button"
@@ -121,6 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Submit"
+                android:backgroundTint="@color/secondary"
                 android:onClick="@{viewModel::onSubmitDestination}" />
         </LinearLayout>
 
