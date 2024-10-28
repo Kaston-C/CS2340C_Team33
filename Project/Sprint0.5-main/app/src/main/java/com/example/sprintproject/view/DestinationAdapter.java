@@ -25,16 +25,19 @@ public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.
         this.listener = listener;
     }
 
+    @Override
     public DestinationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_destination, parent, false);
         return new DestinationViewHolder(v);
     }
 
+    @Override
     public void onBindViewHolder(DestinationViewHolder holder, int position) {
         Destination destination = destinations.get(position);
         holder.bind(destination);
     }
 
+    @Override
     public int getItemCount() {
         return destinations.size();
     }
@@ -42,16 +45,21 @@ public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.
     public class DestinationViewHolder extends RecyclerView.ViewHolder {
         TextView locationTextView;
         TextView datesTextView;
+        TextView daysPlannedTextView;
 
         public DestinationViewHolder(View itemView) {
             super(itemView);
             locationTextView = itemView.findViewById(R.id.destination_location);
             datesTextView = itemView.findViewById(R.id.destination_dates);
+            daysPlannedTextView = itemView.findViewById(R.id.destination_days_planned);
         }
 
         public void bind(Destination destination) {
             locationTextView.setText(destination.getLocation());
             datesTextView.setText(destination.getStartDate() + " - " + destination.getEndDate());
+
+            int daysPlanned = destination.getDuration();
+            daysPlannedTextView.setText(daysPlanned > 0 ? daysPlanned + " days planned" : "0 days planned");
 
             itemView.setOnClickListener(v -> {
                 if (listener != null) {
