@@ -17,8 +17,7 @@ public class MainModel {
         return this.welcomeMessage;
     }
 
-    public void setWelcomeMessage(String message) {
-        this.welcomeMessage = message;
+    public void setWelcomeMessage(String message) {this.welcomeMessage = message;
     }
 
     public static String getInputUsername(EditText usernameInput) {
