@@ -28,6 +28,8 @@ public class Destination {
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
+    public void setName(String name) { this.location = location; }
+
     public String getLocation() { return location; }
 
     public String getStartDate() { return startDate; }
