@@ -102,4 +102,11 @@ public class Destination {
         return dateFormat.format(date.getTime());
     }
 
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
 }
