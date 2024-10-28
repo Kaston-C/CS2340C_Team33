@@ -9,6 +9,7 @@ import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.AndroidViewModel;
 
+import com.example.sprintproject.model.DatabaseSingleton;
 import com.example.sprintproject.model.Destination;
 import com.example.sprintproject.model.MainModel;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,12 +33,14 @@ public class DestinationViewModel extends AndroidViewModel {
     private DatabaseReference userDatabaseReference;
     private DatabaseReference destinationsDatabaseReference;
     private FirebaseAuth mAuth;
+    private DatabaseSingleton db;
 
     public DestinationViewModel(Application application) {
         super(application);
-        mAuth = MainModel.getFirebaseAuthorization();
-        userDatabaseReference = MainModel.firebaseConnect("users");
-        destinationsDatabaseReference = MainModel.firebaseConnect("destinations");
+        db = DatabaseSingleton.getDatabase();
+        mAuth = db.getFirebaseAuthorization();
+        userDatabaseReference = db.userDb();
+        destinationsDatabaseReference = db.destinationsDb();
         loadDestinations();
     }
 

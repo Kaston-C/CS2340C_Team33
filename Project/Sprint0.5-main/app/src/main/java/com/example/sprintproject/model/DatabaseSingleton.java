@@ -6,13 +6,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class DatabaseSingleton {
     private static DatabaseSingleton instance;
-    private final DatabaseReference reference;
-    private final FirebaseAuth mAuth;
     private final String databaseName = "users";
 
     public DatabaseSingleton() {
-        mAuth = FirebaseAuth.getInstance();
-        reference = FirebaseDatabase.getInstance().getReference(databaseName);
     }
 
     public static synchronized DatabaseSingleton getDatabase() {
@@ -20,5 +16,17 @@ public class DatabaseSingleton {
             instance = new DatabaseSingleton();
         }
         return instance;
+    }
+
+    public FirebaseAuth getFirebaseAuthorization() {
+        return FirebaseAuth.getInstance();
+    }
+
+    public DatabaseReference userDb() {
+        return FirebaseDatabase.getInstance().getReference("users");
+    }
+
+    public DatabaseReference destinationsDb() {
+        return FirebaseDatabase.getInstance().getReference("destinations");
     }
 }
