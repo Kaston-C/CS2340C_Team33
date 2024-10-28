@@ -14,6 +14,8 @@ import com.example.sprintproject.model.MainModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -133,13 +135,18 @@ public class DestinationViewModel extends AndroidViewModel {
 
     private void loadDestinations() {
         String userId = mAuth.getCurrentUser().getUid();
-        userDatabaseReference.child(userId).child("destinations").child("someDestination")
+        userDatabaseReference.child(userId).child("destinations")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     public void onDataChange(DataSnapshot snapshot) {
-                        destinationsList.clear();
+                        ArrayList<Destination> tempDestinations = new ArrayList<>();
+                        int totalDestinations = (int) snapshot.getChildrenCount();
+                        if (totalDestinations == 0) {
+                            destinationsList.clear();
+                        }
+                        int[] loadedCount = {0};
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            Destination destination = dataSnapshot.getValue(Destination.class);
-                            destinationsList.add(destination);
+                            String destinationId = dataSnapshot.getValue(String.class);
+                            loadDestinationById(destinationId, tempDestinations, totalDestinations, loadedCount);
                         }
                     }
 
@@ -148,6 +155,27 @@ public class DestinationViewModel extends AndroidViewModel {
                     }
                 });
     }
+
+    private void loadDestinationById(String destinationId, List<Destination> tempDestinations, int totalDestinations, int[] loadedCount) {
+        destinationsDatabaseReference.child(destinationId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    public void onDataChange(DataSnapshot snapshot) {
+                        Destination destination = snapshot.getValue(Destination.class);
+                        if (destination != null) {
+                            tempDestinations.add(destination);
+                        }
+                        loadedCount[0]++;
+                        if (loadedCount[0] == totalDestinations) {
+                            destinationsList.clear();
+                            destinationsList.addAll(tempDestinations);
+                        }
+                    }
+                    public void onCancelled(DatabaseError error) {
+                        Toast.makeText(getApplication(), "Failed to load destination", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
 
     private int calculateDurationInDays(String startDateStr, String endDateStr) {
         int diffInDays;
