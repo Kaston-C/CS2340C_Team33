@@ -1,0 +1,15 @@
+a) Code Smells Ex:
+	1) Passing customerName and customerEmail to multiple methods is an example of "Data Clumps"
+	2) Method calculateTotalPrice is an example of "Long Method"
+	3)
+	4)
+	5)
+	6)
+
+b) Code Smells Solutions
+	1) Create a Customer class
+	2) Extract interior of for loop in calculateTotalPrice
+	3)
+	4)
+	5)
+	6)
