@@ -71,22 +71,6 @@ public class Order {
         this.items = items;
     }
 
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public String getCustomerEmail() {
-        return customerEmail;
-    }
-
-    public void setCustomerEmail(String customerEmail) {
-        this.customerEmail = customerEmail;
-    }
-
     public boolean hasGiftCard() {
         boolean has_gift_card = false;
         for (Item item : items) {
