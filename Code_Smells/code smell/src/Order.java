@@ -2,36 +2,17 @@ import java.util.List;
 
 public class Order {
     private List<Item> items;
-    private String customerName;
-    private String customerEmail;
+    private Customer customer;
 
-    public Order(List<Item> items, String customerName, String customerEmail) {
+    public Order(List<Item> items, Customer customer) {
         this.items = items;
-        this.customerName = customerName;
-        this.customerEmail = customerEmail;
+        this.customer = customer;
     }
 
     public double calculateTotalPrice() {
     	double total = 0.0;
     	for (Item item : items) {
-        	double price = item.getPrice();
-        	switch (item.getDiscountType()) {
-            	case PERCENTAGE:
-                	price -= item.getDiscountAmount() * price;
-                	break;
-            	case AMOUNT:
-                	price -= item.getDiscountAmount();
-                	break;
-            	default:
-                	// no discount
-                	break;
-        	}
-        	total += price * item.getQuantity();
-       	    if (item instanceof TaxableItem) {
-                TaxableItem taxableItem = (TaxableItem) item;
-                double tax = taxableItem.getTaxRate() / 100.0 * item.getPrice();
-                total += tax;
-            }
+        	total += calculateItemNetPrice(item);
         }
     	if (hasGiftCard()) {
         	total -= 10.0; // subtract $10 for gift card
@@ -42,6 +23,27 @@ public class Order {
     	return total;
     }
 
+    private double calculateItemNetPrice(Item item) {
+        double price = item.getPrice();
+        switch (item.getDiscountType()) {
+            case PERCENTAGE:
+                price -= item.getDiscountAmount() * price;
+                break;
+            case AMOUNT:
+                price -= item.getDiscountAmount();
+                break;
+            default:
+                // no discount
+                break;
+        }
+        price = price * item.getQuantity();
+        if (item instanceof TaxableItem taxableItem) {
+            double tax = taxableItem.getTaxRate() / 100.0 * item.getPrice();
+            price += tax;
+        }
+        return price;
+    }
+
     public void sendConfirmationEmail() {
         String message = "Thank you for your order, " + customerName + "!\n\n" +
                 "Your order details:\n";
@@ -49,7 +51,7 @@ public class Order {
             message += item.getName() + " - " + item.getPrice() + "\n";
         }
         message += "Total: " + calculateTotalPrice();
-        EmailSender.sendEmail(customerEmail, "Order Confirmation", message);
+        EmailSender.sendEmail(customer, "Order Confirmation", message);
     }
 
 
