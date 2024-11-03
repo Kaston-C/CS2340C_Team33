@@ -23,6 +23,7 @@ public class Order {
     	return total;
     }
 
+
     private double calculateItemNetPrice(Item item) {
         double price = item.getPrice();
         switch (item.getDiscountType()) {
@@ -45,13 +46,19 @@ public class Order {
     }
 
     public void sendConfirmationEmail() {
-        String message = "Thank you for your order, " + customerName + "!\n\n" +
-                "Your order details:\n";
+        //String message = "Thank you for your order, " + customerName + "!\n\n" +
+        //        "Your order details:\n";
+        String message;
+        StringBuilder messageBuilder = new StringBuilder();
+        messageBuilder.append("Thank you for your order, " + customerName + "!\n\n" +
+                "Your order details:\n");
         for (Item item : items) {
-            message += item.getName() + " - " + item.getPrice() + "\n";
+            //message += item.getName() + " - " + item.getPrice() + "\n";
+            messageBuilder.append(item.getName() + " - " + item.getPrice() + "\n");
         }
-        message += "Total: " + calculateTotalPrice();
-        EmailSender.sendEmail(customer, "Order Confirmation", message);
+        messageBuilder.append("Total: " + calculateTotalPrice());
+        message = messageBuilder.toString();
+        EmailSender.sendEmail(customerEmail, "Order Confirmation", message);
     }
 
 
