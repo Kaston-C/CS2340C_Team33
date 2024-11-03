@@ -42,13 +42,20 @@ public class Order {
     	return total;
     }
 
+    //updated string creation
     public void sendConfirmationEmail() {
-        String message = "Thank you for your order, " + customerName + "!\n\n" +
-                "Your order details:\n";
+        //String message = "Thank you for your order, " + customerName + "!\n\n" +
+        //        "Your order details:\n";
+        String message;
+        StringBuilder messageBuilder = new StringBuilder();
+        messageBuilder.append("Thank you for your order, " + customerName + "!\n\n" +
+                "Your order details:\n");
         for (Item item : items) {
-            message += item.getName() + " - " + item.getPrice() + "\n";
+            //message += item.getName() + " - " + item.getPrice() + "\n";
+            messageBuilder.append(item.getName() + " - " + item.getPrice() + "\n");
         }
-        message += "Total: " + calculateTotalPrice();
+        messageBuilder.append("Total: " + calculateTotalPrice());
+        message = messageBuilder.toString();
         EmailSender.sendEmail(customerEmail, "Order Confirmation", message);
     }
 
