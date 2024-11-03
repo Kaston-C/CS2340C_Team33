@@ -1,7 +1,7 @@
 a) Code Smells Ex:
 	1) Passing customerName and customerEmail to multiple methods is an example of "Data Clumps"
 	2) Method calculateTotalPrice is an example of "Long Method"
-	3)
+	3) String creation in sendConfirmationEmail inefficiently builds the final string
 	4)
 	5)
 	6)
@@ -9,7 +9,7 @@ a) Code Smells Ex:
 b) Code Smells Solutions
 	1) Create a Customer class
 	2) Extract interior of for loop in calculateTotalPrice
-	3)
+	3) Use a StringBuilder in order to avoid the contiunous creation of new strings
 	4)
 	5)
 	6)
