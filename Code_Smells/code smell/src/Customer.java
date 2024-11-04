@@ -1,7 +1,7 @@
 public class Customer {
     private String name;
     private String email;
-
+  
     public Customer( String name, String email){
         this.email = email;
         this.name = name;

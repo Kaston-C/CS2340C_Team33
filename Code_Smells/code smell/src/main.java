@@ -12,8 +12,8 @@ public class main {
         items.add(item2);
         items.add(item3);
 
-        Customer john = new Customer("John Doe", "johndoe@example.com");
-        Order order = new Order(items, john, true);
+        Customer johnDoe = new Customer("John Doe", "johndoe@example.com");
+        Order order = new Order(items, johnDoe);
 
         System.out.println("Total Price: " + order.calculateTotalPrice());
 
