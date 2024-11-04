@@ -5,29 +5,20 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Destination {
-    private String id;
     private String location;
     private String startDate;
     private String endDate;
     private int duration;
 
     public Destination() {
-        this("", "", "", "", 0);
+        this("", "", "", 0);
     }
 
-    public Destination(String id, String location, String startDate, String endDate, int duration) {
-        this.id = id;
+    public Destination(String location, String startDate, String endDate, int duration) {
         this.location = location;
         this.startDate = startDate;
         this.endDate = endDate;
         this.duration = duration;
-    }
-
-    public String getId() {
-        return id;
-    }
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getLocation() {
@@ -44,10 +35,6 @@ public class Destination {
 
     public int getDuration() {
         return duration;
-    }
-
-    public String getName() {
-        return location;
     }
 
     public static int calculateDurationInDays(String startDateStr, String endDateStr) {

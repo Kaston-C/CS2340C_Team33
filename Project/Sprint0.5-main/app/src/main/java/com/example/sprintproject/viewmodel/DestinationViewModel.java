@@ -54,6 +54,7 @@ public class DestinationViewModel extends AndroidViewModel {
     }
 
     private DatePickerListener datePickerListener;
+    private DatabaseReference tripDatabaseReference;
     private DatabaseReference userDatabaseReference;
     private DatabaseReference destinationsDatabaseReference;
     private FirebaseAuth mAuth;
@@ -63,8 +64,9 @@ public class DestinationViewModel extends AndroidViewModel {
         super(application);
         db = DatabaseSingleton.getDatabase();
         mAuth = db.getFirebaseAuthorization();
-        userDatabaseReference = db.userDb();
+        tripDatabaseReference = db.tripDb();
         destinationsDatabaseReference = db.destinationsDb();
+        userDatabaseReference = db.userDb();
         loadDestinations();
     }
 
@@ -151,33 +153,34 @@ public class DestinationViewModel extends AndroidViewModel {
         }
 
         Destination destination = new Destination(
-                destinationId,
                 location.get(),
                 startDate.get(),
                 endDate.get(),
                 Integer.parseInt(duration.get())
         );
-        userDatabaseReference.child(userId).child("destinations").child(destination.getName())
-                .setValue(destination.getId())
-                .addOnSuccessListener(aVoid -> {
-                    destinationsDatabaseReference.child(destination.getId())
-                            .setValue(destination)
-                            .addOnSuccessListener(aVoid1 -> {
-                                location.set("");
-                                startDate.set("");
-                                endDate.set("");
-                                duration.set("");
-                                showInputs.set(false);
-                                loadDestinations();
-                            })
-                            .addOnFailureListener(e -> {
+
+        destinationsDatabaseReference.child(destinationId).setValue(destination)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        userDatabaseReference.child(userId).child("trip").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.exists()) {
+                                    String tripId = dataSnapshot.getValue(String.class);
+
+                                    tripDatabaseReference.child(tripId).child("destinations").child(destination.getLocation()).setValue(destinationId)
+                                            .addOnCompleteListener(task -> {
+                                            });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
                                 Toast.makeText(getApplication(), "Failed to save destination",
                                         Toast.LENGTH_SHORT).show();
-                            });
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(getApplication(),
-                            "Failed to save destination ID", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                 });
     }
 
@@ -225,28 +228,45 @@ public class DestinationViewModel extends AndroidViewModel {
 
     private void loadDestinations() {
         String userId = mAuth.getCurrentUser().getUid();
-        userDatabaseReference.child(userId).child("destinations")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    public void onDataChange(DataSnapshot snapshot) {
-                        ArrayList<Destination> tempDestinations = new ArrayList<>();
-                        int totalDestinations = (int) snapshot.getChildrenCount();
-                        if (totalDestinations == 0) {
-                            destinationsList.clear();
-                        }
-                        int[] loadedCount = {0};
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            String destinationId = dataSnapshot.getValue(String.class);
-                            loadDestinationById(destinationId,
-                                    tempDestinations, totalDestinations, loadedCount);
-                        }
-                    }
+        userDatabaseReference.child(userId).child("trip").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String tripId = dataSnapshot.getValue(String.class);
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Toast.makeText(getApplication(),
-                                "Failed to load destinations", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    tripDatabaseReference.child(tripId).child("destinations").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot destinationSnapshot) {
+                            if (destinationSnapshot.exists()) {
+                                ArrayList<Destination> tempDestinations = new ArrayList<>();
+                                int totalDestinations = (int) destinationSnapshot.getChildrenCount();
+                                if (totalDestinations == 0) {
+                                    destinationsList.clear();
+                                }
+                                int[] loadedCount = {0};
+                                for (DataSnapshot dataSnapshot : destinationSnapshot.getChildren()) {
+                                    String destinationId = dataSnapshot.getValue(String.class);
+                                    loadDestinationById(destinationId,
+                                            tempDestinations, totalDestinations, loadedCount);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Toast.makeText(getApplication(),
+                                    "Failed to load destination", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getApplication(),
+                        "Failed to load destination", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void loadDestinationById(String destinationId, List<Destination> tempDestinations,

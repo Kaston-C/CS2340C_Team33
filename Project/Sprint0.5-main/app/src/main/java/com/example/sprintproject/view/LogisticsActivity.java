@@ -3,6 +3,7 @@ package com.example.sprintproject.view;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sprintproject.R;
+import com.example.sprintproject.model.DatabaseSingleton;
 import com.example.sprintproject.model.Destination;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.*;
@@ -24,6 +26,7 @@ import java.util.*;
 public class LogisticsActivity extends AppCompatActivity {
 
     private DatabaseReference userDatabaseReference;
+    private DatabaseReference tripDatabaseReference;
     private DatabaseReference destinationsDatabaseReference;
     private FirebaseAuth mAuth;
     private PieChart pieChart;
@@ -35,9 +38,10 @@ public class LogisticsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logistics);
 
-        mAuth = FirebaseAuth.getInstance();
-        userDatabaseReference = FirebaseDatabase.getInstance().getReference("users");
-        destinationsDatabaseReference = FirebaseDatabase.getInstance().getReference("destinations");
+        mAuth = DatabaseSingleton.getDatabase().getFirebaseAuthorization();
+        userDatabaseReference = DatabaseSingleton.getDatabase().userDb();
+        tripDatabaseReference = DatabaseSingleton.getDatabase().tripDb();
+        destinationsDatabaseReference = DatabaseSingleton.getDatabase().destinationsDb();
 
         btnVisualizeTrip = findViewById(R.id.btnVisualizeTrip);
         pieChart = findViewById(R.id.pieChart);
@@ -105,70 +109,77 @@ public class LogisticsActivity extends AppCompatActivity {
 
         userDatabaseReference.child(userId).addListenerForSingleValueEvent(
                 new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot userSnapshot) {
-                    if (userSnapshot.exists()) {
-                        String startVacationStr = userSnapshot.child("startVacation")
-                                .getValue(String.class);
-                        String endVacationStr = userSnapshot.child("endVacation")
-                                .getValue(String.class);
+                    @Override
+                    public void onDataChange(DataSnapshot userSnapshot) {
+                        if (userSnapshot.exists()) {
+                            String startVacationStr = userSnapshot.child("startVacation").getValue(String.class);
+                            String endVacationStr = userSnapshot.child("endVacation").getValue(String.class);
 
-                        if (startVacationStr == null || endVacationStr == null) {
-                            Toast.makeText(LogisticsActivity.this,
-                                    "Vacation dates not set", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        Date startVacationDate;
-                        Date endVacationDate;
-                        try {
-                            startVacationDate = dateFormat.parse(startVacationStr);
-                            endVacationDate = dateFormat.parse(endVacationStr);
-                        } catch (ParseException e) {
-                            Toast.makeText(LogisticsActivity.this,
-                                    "Invalid vacation date format", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        if (startVacationDate == null || endVacationDate == null
-                                || startVacationDate.after(endVacationDate)) {
-                            Toast.makeText(LogisticsActivity.this,
-                                    "Invalid vacation dates", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        int vacDur = calculateDaysBetween(startVacationDate, endVacationDate);
-
-                        DataSnapshot destinationsSnapshot = userSnapshot.child("destinations");
-                        if (destinationsSnapshot.exists()) {
-                            List<String> destinationIds = new ArrayList<>();
-                            for (DataSnapshot dEntry : destinationsSnapshot.getChildren()) {
-                                String destinationId = dEntry.getValue(String.class);
-                                if (destinationId != null) {
-                                    destinationIds.add(destinationId);
-                                }
+                            if (startVacationStr == null || endVacationStr == null) {
+                                Toast.makeText(LogisticsActivity.this, "Vacation dates not set", Toast.LENGTH_SHORT).show();
+                                return;
                             }
 
-                            if (!destinationIds.isEmpty()) {
-                                fetchDestinationsAndCalculateTotalDuration(destinationIds,
-                                        vacDur, startVacationDate, endVacationDate);
-                            } else {
-                                displayPieChart(vacDur, 0);
+                            Date startVacationDate;
+                            Date endVacationDate;
+                            try {
+                                startVacationDate = dateFormat.parse(startVacationStr);
+                                endVacationDate = dateFormat.parse(endVacationStr);
+                            } catch (ParseException e) {
+                                Toast.makeText(LogisticsActivity.this, "Invalid vacation date format", Toast.LENGTH_SHORT).show();
+                                return;
                             }
+
+                            if (startVacationDate == null || endVacationDate == null || startVacationDate.after(endVacationDate)) {
+                                Toast.makeText(LogisticsActivity.this, "Invalid vacation dates", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            int vacDur = calculateDaysBetween(startVacationDate, endVacationDate);
+
+                            String tripId = userSnapshot.child("trip").getValue(String.class);
+                            if (tripId == null) {
+                                Toast.makeText(LogisticsActivity.this, "User's trip not found", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            tripDatabaseReference.child(tripId).child("destinations").addListenerForSingleValueEvent(
+                                    new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot destinationsSnapshot) {
+                                            if (destinationsSnapshot.exists()) {
+                                                List<String> destinationIds = new ArrayList<>();
+                                                for (DataSnapshot dEntry : destinationsSnapshot.getChildren()) {
+                                                    String destinationId = dEntry.getValue(String.class);
+                                                    if (destinationId != null) {
+                                                        destinationIds.add(destinationId);
+                                                    }
+                                                }
+                                                if (!destinationIds.isEmpty()) {
+                                                    fetchDestinationsAndCalculateTotalDuration(destinationIds, vacDur, startVacationDate, endVacationDate);
+                                                } else {
+                                                    displayPieChart(vacDur, 0);
+                                                }
+                                            } else {
+                                                displayPieChart(vacDur, 0);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                            Toast.makeText(LogisticsActivity.this, "Failed to fetch destinations", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                         } else {
-                            displayPieChart(vacDur, 0);
+                            Toast.makeText(LogisticsActivity.this, "User data not found", Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        Toast.makeText(LogisticsActivity.this,
-                                "User data not found", Toast.LENGTH_SHORT).show();
                     }
-                }
 
-                public void onCancelled(DatabaseError databaseError) {
-                    Toast.makeText(LogisticsActivity.this,
-                            "Failed to fetch user data", Toast.LENGTH_SHORT).show();
-                }
-            });
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(LogisticsActivity.this, "Failed to fetch user data", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void fetchDestinationsAndCalculateTotalDuration(
