@@ -30,10 +30,6 @@ public class Destination {
         this.id = id;
     }
 
-    public void setName(String name) {
-        this.location = location;
-    }
-
     public String getLocation() {
         return location;
     }

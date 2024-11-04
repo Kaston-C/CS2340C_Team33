@@ -3,7 +3,7 @@ a) Code Smells Ex:
 	2) Method calculateTotalPrice is an example of "Long Method"
 	3) String creation in sendConfirmationEmail inefficiently builds the final string
 	4) Redundancy as specific methods related to Customer existed still in Order.
-	5)
+	5) Useless method inside of Destination removed
 	6)
 
 b) Code Smells Solutions
@@ -11,5 +11,5 @@ b) Code Smells Solutions
 	2) Extract interior of for loop in calculateTotalPrice
 	3) Use a StringBuilder in order to avoid the contiunous creation of new strings
 	4) Methods in Order class that were related to Customer were moved to the newly created Customer class.
-	5)
+	5) Removed method since it provided no functionality
 	6)
