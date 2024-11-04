@@ -13,3 +13,5 @@ b) Code Smells Solutions
 	4) Methods in Order class that were related to Customer were moved to the newly created Customer class.
 	5) Replaced the use of these instance variables by simply using .getName() from Customer class.
 	6)
+
+Team Member Names: Andrew Pilarczyk, Keith Burroughs, Cole Fitzhenry, Hawthorne Brown, Kaston Carr, Srihitha Jagarlamudi
