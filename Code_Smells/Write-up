@@ -1,15 +1,15 @@
 a) Code Smells Ex:
 	1) Passing customerName and customerEmail to multiple methods is an example of "Data Clumps"
 	2) Method calculateTotalPrice is an example of "Long Method"
-	3) String creation in sendConfirmationEmail inefficiently builds the final string
-	4) Redundancy as specific methods related to Customer existed still in Order.
-	5) Useless method inside of Destination removed
+	3) EmailSender is an example of "Middle Man"
+	4) Switch in Order class is an example of "Switch Statements"
+	5) 
 	6)
 
 b) Code Smells Solutions
 	1) Create a Customer class
 	2) Extract interior of for loop in calculateTotalPrice
-	3) Use a StringBuilder in order to avoid the contiunous creation of new strings
-	4) Methods in Order class that were related to Customer were moved to the newly created Customer class.
-	5) Removed method since it provided no functionality
+	3) Remove EmailSender class and update sendConfirmationEmail in Order class
+	4) Replace switch with simple if-elif
+	5) 
 	6)

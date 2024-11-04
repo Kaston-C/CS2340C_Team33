@@ -3,16 +3,10 @@ import java.util.List;
 public class Order {
     private List<Item> items;
     private Customer customer;
-    private String customerName;
-    private String customerEmail;
-    private boolean hasGiftCard;
 
-    public Order(List<Item> items, Customer customer, boolean hasGiftCard) {
+    public Order(List<Item> items, Customer customer) {
         this.items = items;
         this.customer = customer;
-        this.customerName = customer.getName();
-        this.customerEmail = customer.getEmail();
-        this.hasGiftCard = hasGiftCard;
     }
 
     public double calculateTotalPrice() {
@@ -20,7 +14,7 @@ public class Order {
         for (Item item : items) {
             total += calculateItemNetPrice(item);
         }
-        if (hasGiftCard) {
+        if (hasGiftCard()) {
             total -= 10.0; // subtract $10 for gift card
         }
         if (total > 100.0) {
@@ -31,16 +25,10 @@ public class Order {
 
     private double calculateItemNetPrice(Item item) {
         double price = item.getPrice();
-        switch (item.getDiscountType()) {
-            case PERCENTAGE:
-                price -= item.getDiscountAmount() * price;
-                break;
-            case AMOUNT:
-                price -= item.getDiscountAmount();
-                break;
-            default:
-                // no discount
-                break;
+        if (item.getDiscountType() == DiscountType.PERCENTAGE) {
+            price -= item.getDiscountAmount() * price;
+        } else if (item.getDiscountType() == DiscountType.AMOUNT) {
+            price -= item.getDiscountAmount();
         }
         price = price * item.getQuantity();
         if (item instanceof TaxableItem taxableItem) {
@@ -50,17 +38,21 @@ public class Order {
         return price;
     }
 
-    public void sendConfirmationEmail() {
-        String message;
-        StringBuilder messageBuilder = new StringBuilder();
-        messageBuilder.append("Thank you for your order, " + customerName + "!\n\n" +
-                "Your order details:\n");
+    private boolean hasGiftCard() {
         for (Item item : items) {
-            messageBuilder.append(item.getName() + " - " + item.getPrice() + "\n");
+            if (item instanceof GiftCardItem) {
+                return true;
+            }
         }
-        messageBuilder.append("Total: " + calculateTotalPrice());
-        message = messageBuilder.toString();
-        EmailSender.sendEmail(customerEmail, "Order Confirmation", message);
+        return false;
+    }
+
+    public void sendConfirmationEmail() {
+        System.out.println("Email to: " + customer.getEmail());
+        System.out.println("Subject: Order Confirmation");
+        System.out.println("Body: Thank you for your order, " + customer.getName() + "!\n\n");
+        printOrder();
+        System.out.println("Total: " + calculateTotalPrice());
     }
 
     public void addItem(Item item) {
@@ -77,14 +69,6 @@ public class Order {
 
     public void setItems(List<Item> items) {
         this.items = items;
-    }
-
-    public boolean hasGiftCard() {
-        return hasGiftCard;
-    }
-
-    public void setHasGiftCard(boolean hasGiftCard) {
-        this.hasGiftCard = hasGiftCard;
     }
 
     public void printOrder() {
