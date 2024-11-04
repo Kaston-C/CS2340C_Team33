@@ -3,15 +3,11 @@ import java.util.List;
 public class Order {
     private List<Item> items;
     private Customer customer;
-    private String customerName;
-    private String customerEmail;
     private boolean hasGiftCard;
 
     public Order(List<Item> items, Customer customer, boolean hasGiftCard) {
         this.items = items;
         this.customer = customer;
-        this.customerName = customer.getName();
-        this.customerEmail = customer.getEmail();
         this.hasGiftCard = hasGiftCard;
     }
 
@@ -53,14 +49,14 @@ public class Order {
     public void sendConfirmationEmail() {
         String message;
         StringBuilder messageBuilder = new StringBuilder();
-        messageBuilder.append("Thank you for your order, " + customerName + "!\n\n" +
+        messageBuilder.append("Thank you for your order, " + customer.getName() + "!\n\n" +
                 "Your order details:\n");
         for (Item item : items) {
             messageBuilder.append(item.getName() + " - " + item.getPrice() + "\n");
         }
         messageBuilder.append("Total: " + calculateTotalPrice());
         message = messageBuilder.toString();
-        EmailSender.sendEmail(customerEmail, "Order Confirmation", message);
+        EmailSender.sendEmail(customer.getEmail(), "Order Confirmation", message);
     }
 
     public void addItem(Item item) {
