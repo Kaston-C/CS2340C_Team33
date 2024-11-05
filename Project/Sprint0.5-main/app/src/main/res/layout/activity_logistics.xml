@@ -1,55 +1,64 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.LogisticsActivity">
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <Button
-        android:id="@+id/btnVisualizeTrip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Visualize Allotted vs Planned Days"
-        android:layout_marginTop="90dp"
-        android:layout_centerHorizontal="true"/>
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="viewModel"
+            type="com.example.sprintproject.viewmodel.LogisticsViewModel" />
+    </data>
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pieChart"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_below="@id/btnVisualizeTrip"
-        android:layout_marginTop="20dp"
-        android:visibility="gone" />
+        android:layout_height="match_parent"
+        tools:context=".view.LogisticsActivity">
 
-    <ImageButton
-        android:id="@+id/contributor_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/rounded_secondary_button"
-        android:src="@drawable/add_person"
-        android:contentDescription="Add person button"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="75dp"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="15dp" />
+        <Button
+            android:id="@+id/btnVisualizeTrip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Visualize Allotted vs Planned Days"
+            android:layout_marginTop="90dp"
+            android:layout_centerHorizontal="true"/>
 
-    <ImageButton
-        android:id="@+id/notes_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/rounded_secondary_button"
-        android:src="@drawable/add_note"
-        android:contentDescription="Add note button"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="75dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="15dp" />
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChart"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_below="@id/btnVisualizeTrip"
+            android:layout_marginTop="20dp"
+            android:visibility="gone" />
 
-    <include
-        android:id="@+id/navbar"
-        layout="@layout/navbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
+        <ImageButton
+            android:id="@+id/contributor_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_secondary_button"
+            android:src="@drawable/add_person"
+            android:contentDescription="Add person button"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="75dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="15dp" />
 
-</RelativeLayout>
+        <ImageButton
+            android:id="@+id/notes_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_secondary_button"
+            android:src="@drawable/add_note"
+            android:contentDescription="Add note button"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="75dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp" />
+
+        <include
+            android:id="@+id/navbar"
+            layout="@layout/navbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+</layout>

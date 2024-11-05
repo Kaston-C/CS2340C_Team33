@@ -1,18 +1,24 @@
 package com.example.sprintproject.view;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sprintproject.R;
+import com.example.sprintproject.databinding.ActivityLogisticsBinding;
 import com.example.sprintproject.model.DatabaseSingleton;
 import com.example.sprintproject.model.Destination;
+import com.example.sprintproject.viewmodel.LogisticsViewModel;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.*;
 
@@ -32,11 +38,18 @@ public class LogisticsActivity extends AppCompatActivity {
     private PieChart pieChart;
     private Button btnVisualizeTrip;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+    private LogisticsViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logistics);
+
+        ActivityLogisticsBinding binding = DataBindingUtil.setContentView(
+                this, R.layout.activity_logistics);
+        viewModel = new ViewModelProvider(this).get(LogisticsViewModel.class);
+        binding.setViewModel(viewModel);
+        binding.setLifecycleOwner(this);
 
         mAuth = DatabaseSingleton.getDatabase().getFirebaseAuthorization();
         userDatabaseReference = DatabaseSingleton.getDatabase().userDb();
@@ -96,7 +109,22 @@ public class LogisticsActivity extends AppCompatActivity {
         ImageButton notesButton = findViewById(R.id.notes_button);
 
         contributorButton.setOnClickListener(v -> {
-            Toast.makeText(this, "Contributor button clicked", Toast.LENGTH_SHORT).show();
+            final EditText input = new EditText(this);
+            input.setHint("Enter contributor's username");
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Add a contributor")
+                    .setView(input)
+                    .setPositiveButton("Add", (dialog, which) -> {
+                        String friendName = input.getText().toString().trim();
+                        if (!friendName.isEmpty()) {
+                            viewModel.onSubmitContributor(friendName);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Name cannot be empty", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
         });
 
         notesButton.setOnClickListener(v -> {

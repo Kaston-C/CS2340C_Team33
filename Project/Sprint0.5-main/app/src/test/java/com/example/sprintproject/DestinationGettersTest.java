@@ -1,19 +1,13 @@
-package com.example.sprintproject.model;
+package com.example.sprintproject;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import com.example.sprintproject.model.Destination;
+
 public class DestinationGettersTest {
 
     private Destination destination;
-
-    @Test
-    public void testSetAndGetId() {
-        destination = new Destination();
-        String expectedId = "D12345";
-        destination.setId(expectedId);
-        assertEquals(expectedId, destination.getId());
-    }
 
     @Test
     public void testSetAndGetStartDate() {
