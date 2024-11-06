@@ -4,9 +4,12 @@ import android.app.Application;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.ObservableArrayList;
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.sprintproject.model.DatabaseSingleton;
 import com.example.sprintproject.model.Destination;
@@ -19,19 +22,15 @@ import java.util.List;
 import java.util.UUID;
 
 public class LogisticsViewModel extends AndroidViewModel {
-    private ObservableField<String> username = new ObservableField<>("");
+    private MutableLiveData<String> userKeyLiveData = new MutableLiveData<>();
     private ObservableField<String> note = new ObservableField<>("");
     private ObservableArrayList<User> contributorList = new ObservableArrayList<>();
 
-    public ObservableField<String> getLocation() {
-        return username;
-    }
-    public ObservableField<String> getStartDate() {
-        return note;
-    }
-    public ObservableArrayList<User> getDestinationsList() {
+    public ObservableField<String> getNote() { return note; }
+    public ObservableArrayList<User> getContributorList() {
         return contributorList;
     }
+    public LiveData<String> getUserKeyLiveData() { return userKeyLiveData; }
 
     private DatabaseSingleton db;
     private DatabaseReference tripDatabaseReference;
@@ -47,18 +46,54 @@ public class LogisticsViewModel extends AndroidViewModel {
         loadContributors();
     }
 
-    public void onSubmitContributor(String contributor) {
-        String contributorKey = getUserKey(contributor);
-        String userId = mAuth.getCurrentUser().getUid();
+    public void onSubmitContributor(String contributorName) {
+        getUserKey(contributorName, new UserKeyCallback() {
+            @Override
+            public void onUserKeyFound(String userKey) {
+                if (userKey != null) {
+                    String userId = mAuth.getCurrentUser().getUid();
+                    userDatabaseReference.child(userId).child("trip").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                String tripId = dataSnapshot.getValue(String.class);
+                                tripDatabaseReference.child(tripId).child("users").child(userKey).setValue(contributorName);
 
-        userDatabaseReference.child(userId).child("trip").addListenerForSingleValueEvent(new ValueEventListener() {
+                                userDatabaseReference.child(userKey).child("trip").addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        String oldTripId = snapshot.getValue(String.class);
+                                        tripDatabaseReference.child(oldTripId).removeValue();
+                                        userDatabaseReference.child(userKey).child("trip").setValue(tripId);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    private void getUserKey(String contributorName, final UserKeyCallback callback) {
+        Query query = userDatabaseReference.orderByChild("username").equalTo(contributorName);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    String tripId = dataSnapshot.getValue(String.class);
-                    tripDatabaseReference.child(tripId).child("users").child(contributorKey).setValue(username.get());
-
-                    userDatabaseReference.child(contributorKey).setValue(tripId);
+                    for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                        String userKey = childSnapshot.getKey();
+                        callback.onUserKeyFound(userKey);
+                    }
                 }
             }
             @Override
@@ -67,23 +102,8 @@ public class LogisticsViewModel extends AndroidViewModel {
         });
     }
 
-    private String getUserKey(String contributorName) {
-        final String[] toReturn = new String[1];
-        Query query = userDatabaseReference.orderByChild("username").equalTo(username.get());
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                        toReturn[0] = childSnapshot.getKey().toString();
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-        return toReturn[0];
+    public interface UserKeyCallback {
+        void onUserKeyFound(String userKey);
     }
 
     public void onSubmitNote(View view) {
@@ -123,7 +143,7 @@ public class LogisticsViewModel extends AndroidViewModel {
                                 }
                                 int[] loadedCount = {0};
                                 for (DataSnapshot dataSnapshot : userSnapshot.getChildren()) {
-                                    String contributorId = dataSnapshot.getValue(String.class);
+                                    String contributorId = dataSnapshot.getKey().toString();
                                     loadContributorById(contributorId,
                                             tempContributors, totalContributors, loadedCount);
                                 }

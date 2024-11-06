@@ -118,6 +118,9 @@ public class LogisticsActivity extends AppCompatActivity {
                     .setPositiveButton("Add", (dialog, which) -> {
                         String friendName = input.getText().toString().trim();
                         if (!friendName.isEmpty()) {
+                            if (!friendName.contains("@")) {
+                                friendName = friendName.concat("@wandersync.com");
+                            }
                             viewModel.onSubmitContributor(friendName);
                         } else {
                             Toast.makeText(getApplicationContext(), "Name cannot be empty", Toast.LENGTH_SHORT).show();
