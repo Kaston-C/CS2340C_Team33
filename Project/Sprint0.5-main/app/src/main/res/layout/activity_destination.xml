@@ -24,21 +24,11 @@
             android:textSize="30sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/total_days_planned"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/title_registration"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:text="@{viewModel.totalDaysPlanned}"
-            android:textSize="16sp" />
-
         <Button
             android:id="@+id/logDestinationButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/total_days_planned"
+            android:layout_below="@id/title_registration"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:text="Log Travel"

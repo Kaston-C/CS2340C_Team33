@@ -29,4 +29,8 @@ public class DatabaseSingleton {
     public DatabaseReference destinationsDb() {
         return FirebaseDatabase.getInstance().getReference("destinations");
     }
+
+    public DatabaseReference tripDb() {
+        return FirebaseDatabase.getInstance().getReference("trips");
+    }
 }

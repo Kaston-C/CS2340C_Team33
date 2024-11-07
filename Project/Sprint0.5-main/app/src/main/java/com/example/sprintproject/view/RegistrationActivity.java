@@ -13,10 +13,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.sprintproject.R;
+import com.example.sprintproject.model.DatabaseSingleton;
 import com.example.sprintproject.viewmodel.LoginViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+
+import java.util.UUID;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -33,8 +36,8 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
 
         //connect firebase database and firebase authentication
-        databaseReference = LoginViewModel.firebaseConnect();
-        mAuth = LoginViewModel.firebaseAuthorization();
+        databaseReference = DatabaseSingleton.getDatabase().userDb();
+        mAuth = DatabaseSingleton.getDatabase().getFirebaseAuthorization();
 
         //set up username and password fields
         usernameInput = findViewById(R.id.input_username);
@@ -62,6 +65,11 @@ public class RegistrationActivity extends AppCompatActivity {
                                 if (user != null) {
                                     databaseReference.child(user.getUid())
                                             .child("username").setValue(username);
+                                    String tripId = UUID.randomUUID().toString();
+                                    DatabaseSingleton.getDatabase().tripDb().child(tripId)
+                                            .child("users").child(user.getUid()).setValue(username);
+                                    databaseReference.child(user.getUid())
+                                            .child("trip").setValue(tripId);
                                     Intent goLogin = new Intent(
                                             RegistrationActivity.this, LoginActivity.class);
                                     startActivity(goLogin);

@@ -12,10 +12,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import com.example.sprintproject.R;
+import com.example.sprintproject.model.DatabaseSingleton;
 import com.example.sprintproject.viewmodel.LoginViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+
+import java.util.UUID;
 
 /**
  * The LoginActivity class extends AppCompatActivity.
@@ -38,8 +41,8 @@ public class LoginActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         //set view to login screen
         setContentView(R.layout.activity_login);
-        databaseReference = LoginViewModel.firebaseConnect();
-        mAuth = LoginViewModel.firebaseAuthorization();
+        databaseReference = DatabaseSingleton.getDatabase().userDb();
+        mAuth = DatabaseSingleton.getDatabase().getFirebaseAuthorization();
 
         //set up username and password fields
         EditText usernameInput = findViewById(R.id.input_username);

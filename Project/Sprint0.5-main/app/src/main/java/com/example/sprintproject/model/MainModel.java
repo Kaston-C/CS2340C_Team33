@@ -30,14 +30,6 @@ public class MainModel {
         return username;
     }
 
-    public static DatabaseReference firebaseConnect(String databaseName) {
-        return FirebaseDatabase.getInstance().getReference(databaseName);
-    }
-
-    public static FirebaseAuth getFirebaseAuthorization() {
-        return FirebaseAuth.getInstance();
-    }
-
     public static String getInputPassword(EditText passwordInput) {
         return passwordInput.getText().toString();
     }
