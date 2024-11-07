@@ -9,6 +9,14 @@ public class User {
 
     public User() { }
 
+    public User(String username, String trip, String startVacation, String endVacation, int vacationDuration) {
+        this.username = username;
+        this.trip = trip;
+        this.startVacation = startVacation;
+        this.endVacation = endVacation;
+        this.vacationDuration = vacationDuration;
+    }
+
     public String getUsername() {
         return username;
     }

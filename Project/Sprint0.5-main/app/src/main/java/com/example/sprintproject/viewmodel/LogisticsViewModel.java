@@ -19,18 +19,17 @@ import com.google.firebase.database.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class LogisticsViewModel extends AndroidViewModel {
-    private MutableLiveData<String> userKeyLiveData = new MutableLiveData<>();
-    private ObservableField<String> note = new ObservableField<>("");
+    private ObservableArrayList<String> noteList = new ObservableArrayList<>();
     private ObservableArrayList<User> contributorList = new ObservableArrayList<>();
 
-    public ObservableField<String> getNote() { return note; }
+    public ObservableArrayList<String> getNoteList() { return noteList; }
     public ObservableArrayList<User> getContributorList() {
         return contributorList;
     }
-    public LiveData<String> getUserKeyLiveData() { return userKeyLiveData; }
 
     private DatabaseSingleton db;
     private DatabaseReference tripDatabaseReference;
@@ -106,15 +105,15 @@ public class LogisticsViewModel extends AndroidViewModel {
         void onUserKeyFound(String userKey);
     }
 
-    public void onSubmitNote(View view) {
+    public void onSubmitNote(String note) {
         String userId = mAuth.getCurrentUser().getUid();
         userDatabaseReference.child(userId).child("trip").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     String tripId = dataSnapshot.getValue(String.class);
-
-                    tripDatabaseReference.child(tripId).child("notes").setValue(note.get());
+                    String key = UUID.randomUUID().toString();
+                    tripDatabaseReference.child(tripId).child("notes").child(key).setValue(note);
                 }
             }
 
@@ -190,5 +189,39 @@ public class LogisticsViewModel extends AndroidViewModel {
                                 "Failed to load contributors", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void loadNotes() {
+        String userId = mAuth.getCurrentUser().getUid();
+        userDatabaseReference.child(userId).child("trip").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String tripId = dataSnapshot.getValue(String.class);
+
+                    tripDatabaseReference.child(tripId).child("notes").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot notesSnapshot) {
+                            if (notesSnapshot.exists()) {
+                                for (DataSnapshot dataSnapshot : notesSnapshot.getChildren()) {
+                                    String noteValue = Objects.requireNonNull(dataSnapshot.getValue()).toString();
+                                    noteList.add(noteValue);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Toast.makeText(getApplication(),
+                                    "Failed to load destination", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 }

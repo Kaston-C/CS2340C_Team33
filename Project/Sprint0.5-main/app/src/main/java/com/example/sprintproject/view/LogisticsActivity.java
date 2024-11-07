@@ -1,7 +1,6 @@
 package com.example.sprintproject.view;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,14 +9,20 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ObservableList;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sprintproject.R;
+import com.example.sprintproject.databinding.ActivityDestinationBinding;
 import com.example.sprintproject.databinding.ActivityLogisticsBinding;
 import com.example.sprintproject.model.DatabaseSingleton;
 import com.example.sprintproject.model.Destination;
+import com.example.sprintproject.model.User;
 import com.example.sprintproject.viewmodel.LogisticsViewModel;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.*;
@@ -39,6 +44,9 @@ public class LogisticsActivity extends AppCompatActivity {
     private Button btnVisualizeTrip;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
     private LogisticsViewModel viewModel;
+    private RecyclerView logisticsRecyclerView;
+    private LogisticsAdapter adapter;
+    private List<User> userList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +73,7 @@ public class LogisticsActivity extends AppCompatActivity {
 
         setupNavigationButtons();
         setupAdditionalButtons();
+        setupLogisticsRecyclerView(binding);
     }
 
     private void setupNavigationButtons() {
@@ -131,8 +140,107 @@ public class LogisticsActivity extends AppCompatActivity {
         });
 
         notesButton.setOnClickListener(v -> {
-            Toast.makeText(this, "Notes button clicked", Toast.LENGTH_SHORT).show();
+            final EditText input = new EditText(this);
+            input.setHint("Enter note");
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Add a note")
+                    .setView(input)
+                    .setPositiveButton("Add", (dialog, which) -> {
+                        String note = input.getText().toString().trim();
+                        if (!note.isEmpty()) {
+                            viewModel.onSubmitNote(note);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Note cannot be empty", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();        });
+    }
+
+    private void setupLogisticsRecyclerView(ActivityLogisticsBinding binding) {
+        List<Object> combinedList = new ArrayList<>();
+        combinedList.addAll(viewModel.getContributorList());
+        combinedList.addAll(viewModel.getNoteList());
+
+        adapter = new LogisticsAdapter(combinedList, new LogisticsAdapter.OnLogisticsClickListener() {
+            @Override
+            public void onLogisticsClick(User user) {
+                showUserDetails(user);
+            }
         });
+
+        binding.logisticsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.logisticsRecyclerView.setAdapter(adapter);
+
+        viewModel.getContributorList().addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<User>>() {
+            @Override
+            public void onChanged(ObservableList<User> sender) {
+                refreshCombinedList();
+            }
+
+            @Override
+            public void onItemRangeChanged(ObservableList<User> sender, int positionStart, int itemCount) {
+                refreshCombinedList();
+            }
+
+            @Override
+            public void onItemRangeInserted(ObservableList<User> sender, int positionStart, int itemCount) {
+                refreshCombinedList();
+            }
+
+            @Override
+            public void onItemRangeMoved(ObservableList<User> sender, int fromPosition, int toPosition, int itemCount) {
+                refreshCombinedList();
+            }
+
+            @Override
+            public void onItemRangeRemoved(ObservableList<User> sender, int positionStart, int itemCount) {
+                refreshCombinedList();
+            }
+        });
+
+        viewModel.getNoteList().addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<String>>() {
+            @Override
+            public void onChanged(ObservableList<String> sender) {
+                refreshCombinedList();
+            }
+
+            @Override
+            public void onItemRangeChanged(ObservableList<String> sender, int positionStart, int itemCount) {
+                refreshCombinedList();
+            }
+
+            @Override
+            public void onItemRangeInserted(ObservableList<String> sender, int positionStart, int itemCount) {
+                refreshCombinedList();
+            }
+
+            @Override
+            public void onItemRangeMoved(ObservableList<String> sender, int fromPosition, int toPosition, int itemCount) {
+                refreshCombinedList();
+            }
+
+            @Override
+            public void onItemRangeRemoved(ObservableList<String> sender, int positionStart, int itemCount) {
+                refreshCombinedList();
+            }
+        });
+    }
+
+    private void refreshCombinedList() {
+        List<Object> combinedList = new ArrayList<>();
+        combinedList.addAll(viewModel.getContributorList());
+        combinedList.addAll(viewModel.getNoteList());
+        adapter.updateList(combinedList);
+    }
+
+    private void showUserDetails(User user) {
+        Toast.makeText(this, "User: " + user.getUsername(), Toast.LENGTH_SHORT).show();
+    }
+
+    private void showNoteDetails(String note) {
+        Toast.makeText(this, "Note: " + note, Toast.LENGTH_SHORT).show();
     }
 
     private void fetchAndDisplayChartData() {
