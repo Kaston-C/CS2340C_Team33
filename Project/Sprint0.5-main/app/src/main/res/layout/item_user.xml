@@ -13,17 +13,11 @@
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/startVacation"
+        android:id="@+id/vacation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Start Vacation"
         android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/endVacation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="End Vacation"
-        android:textSize="16sp" />
 
 </LinearLayout>

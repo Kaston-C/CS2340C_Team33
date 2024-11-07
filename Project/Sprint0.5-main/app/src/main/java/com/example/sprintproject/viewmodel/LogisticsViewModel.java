@@ -43,6 +43,7 @@ public class LogisticsViewModel extends AndroidViewModel {
         tripDatabaseReference = db.tripDb();
         userDatabaseReference = db.userDb();
         loadContributors();
+        loadNotes();
     }
 
     public void onSubmitContributor(String contributorName) {

@@ -165,8 +165,12 @@ public class LogisticsActivity extends AppCompatActivity {
 
         adapter = new LogisticsAdapter(combinedList, new LogisticsAdapter.OnLogisticsClickListener() {
             @Override
-            public void onLogisticsClick(User user) {
-                showUserDetails(user);
+            public void onLogisticsClick(Object object) {
+                if (object instanceof User) {
+                    showUserDetails((User) object);
+                } else {
+                    showNoteDetails((String) object);
+                }
             }
         });
 
@@ -230,7 +234,9 @@ public class LogisticsActivity extends AppCompatActivity {
 
     private void refreshCombinedList() {
         List<Object> combinedList = new ArrayList<>();
+        combinedList.add("Contributors:");
         combinedList.addAll(viewModel.getContributorList());
+        combinedList.add("\nNotes:");
         combinedList.addAll(viewModel.getNoteList());
         adapter.updateList(combinedList);
     }

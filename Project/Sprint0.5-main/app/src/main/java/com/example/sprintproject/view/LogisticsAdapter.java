@@ -57,14 +57,19 @@ public class LogisticsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (getItemViewType(position) == TYPE_USER) {
             User user = (User) itemList.get(position);
             UserViewHolder userHolder = (UserViewHolder) holder;
-            userHolder.username.setText("Username: " + user.getUsername());
-            userHolder.startVacation.setText("Start: " + user.getStartVacation());
-            userHolder.endVacation.setText("End: " + user.getEndVacation());
+            userHolder.username.setText(user.getUsername().substring(0, user.getUsername().indexOf('@')));
+            if (user.getStartVacation() == null) {
+                userHolder.vacation.setText("Vacation not set");
+
+            } else {
+                userHolder.vacation.setText("Vacation: " + user.getStartVacation() + "–" + user.getEndVacation());
+            }
             userHolder.itemView.setOnClickListener(v -> listener.onLogisticsClick(user));
         } else {
             String note = (String) itemList.get(position);
             NoteViewHolder noteHolder = (NoteViewHolder) holder;
             noteHolder.noteText.setText(note);
+            noteHolder.itemView.setOnClickListener(v -> listener.onLogisticsClick(note));
         }
     }
 
@@ -73,19 +78,16 @@ public class LogisticsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return itemList.size();
     }
 
-    // ViewHolder for User items
     static class UserViewHolder extends RecyclerView.ViewHolder {
-        TextView username, startVacation, endVacation;
+        TextView username, vacation;
 
         UserViewHolder(View itemView) {
             super(itemView);
             username = itemView.findViewById(R.id.username);
-            startVacation = itemView.findViewById(R.id.startVacation);
-            endVacation = itemView.findViewById(R.id.endVacation);
+            vacation = itemView.findViewById(R.id.vacation);
         }
     }
 
-    // ViewHolder for Note items
     static class NoteViewHolder extends RecyclerView.ViewHolder {
         TextView noteText;
 
@@ -96,6 +98,6 @@ public class LogisticsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public interface OnLogisticsClickListener {
-        void onLogisticsClick(User user);
+        void onLogisticsClick(Object object);
     }
 }
