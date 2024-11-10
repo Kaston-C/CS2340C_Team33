@@ -44,10 +44,12 @@ public class LogisticsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_USER) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_user, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_user, parent,
+                    false);
             return new UserViewHolder(view);
         } else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note, parent,
+                    false);
             return new NoteViewHolder(view);
         }
     }
@@ -57,12 +59,14 @@ public class LogisticsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (getItemViewType(position) == TYPE_USER) {
             User user = (User) itemList.get(position);
             UserViewHolder userHolder = (UserViewHolder) holder;
-            userHolder.username.setText(user.getUsername().substring(0, user.getUsername().indexOf('@')));
+            userHolder.username.setText(user.getUsername().substring(0, user.getUsername()
+                    .indexOf('@')));
             if (user.getStartVacation() == null) {
                 userHolder.vacation.setText("Vacation not set");
 
             } else {
-                userHolder.vacation.setText("Vacation: " + user.getStartVacation() + "–" + user.getEndVacation());
+                userHolder.vacation.setText("Vacation: " + user.getStartVacation() + "–"
+                        + user.getEndVacation());
             }
             userHolder.itemView.setOnClickListener(v -> listener.onLogisticsClick(user));
         } else {
@@ -79,7 +83,8 @@ public class LogisticsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     static class UserViewHolder extends RecyclerView.ViewHolder {
-        TextView username, vacation;
+        private TextView username;
+        private TextView vacation;
 
         UserViewHolder(View itemView) {
             super(itemView);
@@ -89,7 +94,7 @@ public class LogisticsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     static class NoteViewHolder extends RecyclerView.ViewHolder {
-        TextView noteText;
+        private TextView noteText;
 
         NoteViewHolder(View itemView) {
             super(itemView);

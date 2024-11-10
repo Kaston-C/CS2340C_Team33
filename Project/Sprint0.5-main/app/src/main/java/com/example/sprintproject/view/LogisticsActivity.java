@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ObservableList;
@@ -18,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sprintproject.R;
-import com.example.sprintproject.databinding.ActivityDestinationBinding;
 import com.example.sprintproject.databinding.ActivityLogisticsBinding;
 import com.example.sprintproject.model.DatabaseSingleton;
 import com.example.sprintproject.model.Destination;
@@ -132,7 +130,8 @@ public class LogisticsActivity extends AppCompatActivity {
                             }
                             viewModel.onSubmitContributor(friendName);
                         } else {
-                            Toast.makeText(getApplicationContext(), "Name cannot be empty", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Name cannot be empty",
+                                    Toast.LENGTH_SHORT).show();
                         }
                     })
                     .setNegativeButton("Cancel", null)
@@ -151,7 +150,8 @@ public class LogisticsActivity extends AppCompatActivity {
                         if (!note.isEmpty()) {
                             viewModel.onSubmitNote(note);
                         } else {
-                            Toast.makeText(getApplicationContext(), "Note cannot be empty", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Note cannot be empty",
+                                    Toast.LENGTH_SHORT).show();
                         }
                     })
                     .setNegativeButton("Cancel", null)
@@ -163,70 +163,81 @@ public class LogisticsActivity extends AppCompatActivity {
         combinedList.addAll(viewModel.getContributorList());
         combinedList.addAll(viewModel.getNoteList());
 
-        adapter = new LogisticsAdapter(combinedList, new LogisticsAdapter.OnLogisticsClickListener() {
-            @Override
-            public void onLogisticsClick(Object object) {
-                if (object instanceof User) {
-                    showUserDetails((User) object);
-                } else {
-                    showNoteDetails((String) object);
-                }
-            }
-        });
+        adapter = new LogisticsAdapter(combinedList,
+                new LogisticsAdapter.OnLogisticsClickListener() {
+                    @Override
+                    public void onLogisticsClick(Object object) {
+                        if (object instanceof User) {
+                            showUserDetails((User) object);
+                        } else {
+                            showNoteDetails((String) object);
+                        }
+                    }
+                });
 
         binding.logisticsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.logisticsRecyclerView.setAdapter(adapter);
 
-        viewModel.getContributorList().addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<User>>() {
+        viewModel.getContributorList().addOnListChangedCallback(new ObservableList
+                .OnListChangedCallback<ObservableList<User>>() {
             @Override
             public void onChanged(ObservableList<User> sender) {
                 refreshCombinedList();
             }
 
             @Override
-            public void onItemRangeChanged(ObservableList<User> sender, int positionStart, int itemCount) {
+            public void onItemRangeChanged(ObservableList<User> sender,
+                                           int positionStart, int itemCount) {
                 refreshCombinedList();
             }
 
             @Override
-            public void onItemRangeInserted(ObservableList<User> sender, int positionStart, int itemCount) {
+            public void onItemRangeInserted(ObservableList<User> sender,
+                                            int positionStart, int itemCount) {
                 refreshCombinedList();
             }
 
             @Override
-            public void onItemRangeMoved(ObservableList<User> sender, int fromPosition, int toPosition, int itemCount) {
+            public void onItemRangeMoved(ObservableList<User> sender, int fromPosition,
+                                         int toPosition, int itemCount) {
                 refreshCombinedList();
             }
 
             @Override
-            public void onItemRangeRemoved(ObservableList<User> sender, int positionStart, int itemCount) {
+            public void onItemRangeRemoved(ObservableList<User> sender,
+                                           int positionStart, int itemCount) {
                 refreshCombinedList();
             }
         });
 
-        viewModel.getNoteList().addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<String>>() {
+        viewModel.getNoteList().addOnListChangedCallback(new ObservableList
+                .OnListChangedCallback<ObservableList<String>>() {
             @Override
             public void onChanged(ObservableList<String> sender) {
                 refreshCombinedList();
             }
 
             @Override
-            public void onItemRangeChanged(ObservableList<String> sender, int positionStart, int itemCount) {
+            public void onItemRangeChanged(ObservableList<String> sender,
+                                           int positionStart, int itemCount) {
                 refreshCombinedList();
             }
 
             @Override
-            public void onItemRangeInserted(ObservableList<String> sender, int positionStart, int itemCount) {
+            public void onItemRangeInserted(ObservableList<String> sender,
+                                            int positionStart, int itemCount) {
                 refreshCombinedList();
             }
 
             @Override
-            public void onItemRangeMoved(ObservableList<String> sender, int fromPosition, int toPosition, int itemCount) {
+            public void onItemRangeMoved(ObservableList<String> sender, int fromPosition,
+                                         int toPosition, int itemCount) {
                 refreshCombinedList();
             }
 
             @Override
-            public void onItemRangeRemoved(ObservableList<String> sender, int positionStart, int itemCount) {
+            public void onItemRangeRemoved(ObservableList<String> sender,
+                                           int positionStart, int itemCount) {
                 refreshCombinedList();
             }
         });
@@ -257,11 +268,14 @@ public class LogisticsActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot userSnapshot) {
                         if (userSnapshot.exists()) {
-                            String startVacationStr = userSnapshot.child("startVacation").getValue(String.class);
-                            String endVacationStr = userSnapshot.child("endVacation").getValue(String.class);
+                            String startVacationStr = userSnapshot.child("startVacation")
+                                    .getValue(String.class);
+                            String endVacationStr = userSnapshot.child("endVacation")
+                                    .getValue(String.class);
 
                             if (startVacationStr == null || endVacationStr == null) {
-                                Toast.makeText(LogisticsActivity.this, "Vacation dates not set", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LogisticsActivity.this,
+                                        "Vacation dates not set", Toast.LENGTH_SHORT).show();
                                 return;
                             }
 
@@ -271,12 +285,16 @@ public class LogisticsActivity extends AppCompatActivity {
                                 startVacationDate = dateFormat.parse(startVacationStr);
                                 endVacationDate = dateFormat.parse(endVacationStr);
                             } catch (ParseException e) {
-                                Toast.makeText(LogisticsActivity.this, "Invalid vacation date format", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LogisticsActivity.this,
+                                        "Invalid vacation date format",
+                                        Toast.LENGTH_SHORT).show();
                                 return;
                             }
 
-                            if (startVacationDate == null || endVacationDate == null || startVacationDate.after(endVacationDate)) {
-                                Toast.makeText(LogisticsActivity.this, "Invalid vacation dates", Toast.LENGTH_SHORT).show();
+                            if (startVacationDate == null || endVacationDate == null
+                                    || startVacationDate.after(endVacationDate)) {
+                                Toast.makeText(LogisticsActivity.this,
+                                        "Invalid vacation dates", Toast.LENGTH_SHORT).show();
                                 return;
                             }
 
@@ -284,45 +302,57 @@ public class LogisticsActivity extends AppCompatActivity {
 
                             String tripId = userSnapshot.child("trip").getValue(String.class);
                             if (tripId == null) {
-                                Toast.makeText(LogisticsActivity.this, "User's trip not found", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LogisticsActivity.this,
+                                        "User's trip not found", Toast.LENGTH_SHORT).show();
                                 return;
                             }
 
-                            tripDatabaseReference.child(tripId).child("destinations").addListenerForSingleValueEvent(
-                                    new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot destinationsSnapshot) {
-                                            if (destinationsSnapshot.exists()) {
-                                                List<String> destinationIds = new ArrayList<>();
-                                                for (DataSnapshot dEntry : destinationsSnapshot.getChildren()) {
-                                                    String destinationId = dEntry.getValue(String.class);
-                                                    if (destinationId != null) {
-                                                        destinationIds.add(destinationId);
+                            tripDatabaseReference.child(tripId).child("destinations")
+                                    .addListenerForSingleValueEvent(
+                                        new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot
+                                                                             destinationsSnapshot) {
+                                                if (destinationsSnapshot.exists()) {
+                                                    List<String> destinationIds = new ArrayList<>();
+                                                    for (DataSnapshot dEntry : destinationsSnapshot
+                                                            .getChildren()) {
+                                                        String destinationId
+                                                                = dEntry.getValue(String.class);
+                                                        if (destinationId != null) {
+                                                            destinationIds.add(destinationId);
+                                                        }
                                                     }
-                                                }
-                                                if (!destinationIds.isEmpty()) {
-                                                    fetchDestinationsAndCalculateTotalDuration(destinationIds, vacDur, startVacationDate, endVacationDate);
+                                                    if (!destinationIds.isEmpty()) {
+                                                        fetchDestinationsAndCalculateTotalDuration(
+                                                                destinationIds, vacDur,
+                                                                startVacationDate,
+                                                                endVacationDate);
+                                                    } else {
+                                                        displayPieChart(vacDur, 0);
+                                                    }
                                                 } else {
                                                     displayPieChart(vacDur, 0);
                                                 }
-                                            } else {
-                                                displayPieChart(vacDur, 0);
                                             }
-                                        }
 
-                                        @Override
-                                        public void onCancelled(DatabaseError databaseError) {
-                                            Toast.makeText(LogisticsActivity.this, "Failed to fetch destinations", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+                                                Toast.makeText(LogisticsActivity.this,
+                                                        "Failed to fetch destinations",
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                         } else {
-                            Toast.makeText(LogisticsActivity.this, "User data not found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LogisticsActivity.this,
+                                    "User data not found", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        Toast.makeText(LogisticsActivity.this, "Failed to fetch user data", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LogisticsActivity.this,
+                                "Failed to fetch user data", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
