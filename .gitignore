@@ -28,6 +28,7 @@ render.experimental.xml
 
 # MacOS Finder file
 **/.DS_Store
+.DS_Store
 
 # Google Services (e.g. APIs or Firebase)
 google-services.json

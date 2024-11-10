@@ -22,7 +22,7 @@ public class HawthorneTest {
     }
 
     @Test
-    public void calculateVacationTime() {
+    public void calculateVacationTimeCheck() {
         Destination trip = new Destination("dubai", "tuesday", "wednesday", 1);
 
         assertEquals(trip.getDuration(), 1);
