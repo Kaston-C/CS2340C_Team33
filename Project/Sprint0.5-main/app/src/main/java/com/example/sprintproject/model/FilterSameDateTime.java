@@ -17,7 +17,7 @@ public class FilterSameDateTime implements FilterStrategy {
             }
         } else if (items.get(0) instanceof Accommodation) {
             for (T accommodation : items) {
-                if (((Accommodation) accommodation).getCheckIn().equals(dateTime)) {
+                if (((Accommodation) accommodation).getCheckInDate().equals(dateTime)) {
                     filteredList.add(accommodation);
                 }
             }

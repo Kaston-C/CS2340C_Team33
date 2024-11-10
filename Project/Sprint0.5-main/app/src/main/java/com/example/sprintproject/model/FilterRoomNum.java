@@ -8,13 +8,16 @@ public class FilterRoomNum implements FilterStrategy {
     public <T> List<T> filter(List<T> items, String param) {
         int numRooms = Integer.parseInt(param);
         List<T> filteredList = new ArrayList<>();
-        if (items.get(0) instanceof Accommodation) {
-            for (T accommodation : items) {
-                if (((Accommodation) accommodation).getRoomNumber() == numRooms) {
-                    filteredList.add(accommodation);
+
+        if (!items.isEmpty() && items.get(0) instanceof Accommodation) {
+            for (T item : items) {
+                Accommodation accommodation = (Accommodation) item;
+                if (accommodation.getNumberOfRooms() == numRooms) {
+                    filteredList.add(item);
                 }
             }
         }
+
         return filteredList;
     }
 }
