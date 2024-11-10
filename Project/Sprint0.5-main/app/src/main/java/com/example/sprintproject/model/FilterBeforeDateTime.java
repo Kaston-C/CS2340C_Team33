@@ -26,7 +26,8 @@ public class FilterBeforeDateTime implements FilterStrategy {
                 for (T item : items) {
                     Accommodation accommodation = (Accommodation) item;
                     String checkInDateStr = accommodation.getCheckInDate();
-                    LocalDateTime checkInDate = LocalDateTime.parse(checkInDateStr + "T00:00:00", formatter);
+                    LocalDateTime checkInDate
+                            = LocalDateTime.parse(checkInDateStr + "T00:00:00", formatter);
 
                     if (checkInDate.isBefore(dateTime)) {
                         filteredList.add(item);

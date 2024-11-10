@@ -56,7 +56,8 @@ public class AccommodationActivity extends AppCompatActivity {
         }
 
         String userId = currentUser.getUid();
-        databaseReference = FirebaseDatabase.getInstance().getReference("accommodation").child(userId);
+        databaseReference = FirebaseDatabase.getInstance()
+                .getReference("accommodation").child(userId);
 
         recyclerViewAccommodation = findViewById(R.id.accommodation_recycler_view);
         recyclerViewAccommodation.setLayoutManager(new LinearLayoutManager(this));
@@ -70,23 +71,29 @@ public class AccommodationActivity extends AppCompatActivity {
 
 
         ImageButton logisticsButton = findViewById(R.id.logistics_button);
-        logisticsButton.setOnClickListener(v -> startActivity(new Intent(AccommodationActivity.this, LogisticsActivity.class)));
+        logisticsButton.setOnClickListener(v -> startActivity(
+                new Intent(AccommodationActivity.this, LogisticsActivity.class)));
 
         ImageButton destinationButton = findViewById(R.id.destination_button);
-        destinationButton.setOnClickListener(v -> startActivity(new Intent(AccommodationActivity.this, DestinationActivity.class)));
+        destinationButton.setOnClickListener(v -> startActivity(
+                new Intent(AccommodationActivity.this, DestinationActivity.class)));
 
         ImageButton diningButton = findViewById(R.id.dining_button);
-        diningButton.setOnClickListener(v -> startActivity(new Intent(AccommodationActivity.this, DiningActivity.class)));
+        diningButton.setOnClickListener(v -> startActivity(
+                new Intent(AccommodationActivity.this, DiningActivity.class)));
 
         ImageButton accommodationButton = findViewById(R.id.accommodation_button);
         accommodationButton.setSelected(true);
-        accommodationButton.setOnClickListener(v -> startActivity(new Intent(AccommodationActivity.this, AccommodationActivity.class)));
+        accommodationButton.setOnClickListener(v -> startActivity(
+                new Intent(AccommodationActivity.this, AccommodationActivity.class)));
 
         ImageButton communityButton = findViewById(R.id.community_button);
-        communityButton.setOnClickListener(v -> startActivity(new Intent(AccommodationActivity.this, CommunityActivity.class)));
+        communityButton.setOnClickListener(v -> startActivity(
+                new Intent(AccommodationActivity.this, CommunityActivity.class)));
 
         ImageButton transportButton = findViewById(R.id.transportation_button);
-        transportButton.setOnClickListener(v -> startActivity(new Intent(AccommodationActivity.this, Transportation.class)));
+        transportButton.setOnClickListener(v -> startActivity(
+                new Intent(AccommodationActivity.this, Transportation.class)));
 
         // Form fields
         EditText checkInDate = findViewById(R.id.check_in_date);
@@ -101,13 +108,17 @@ public class AccommodationActivity extends AppCompatActivity {
             String checkInDateStr = checkInDate.getText().toString();
             String checkOutDateStr = checkOutDate.getText().toString();
 
-            if (!Accommodation.isValidDate(checkInDateStr) || !Accommodation.isValidDate(checkOutDateStr)) {
-                Toast.makeText(this, "Invalid date format. Please use MM/DD/YYYY.", Toast.LENGTH_SHORT).show();
+            if (!Accommodation.isValidDate(checkInDateStr)
+                    || !Accommodation.isValidDate(checkOutDateStr)) {
+                Toast.makeText(this, "Invalid date format. Please use MM/DD/YYYY.",
+                        Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if (!Accommodation.isCheckOutDateValid(checkInDateStr, checkOutDateStr)) {
-                Toast.makeText(this, "Check-out date must be on or after the check-in date.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,
+                        "Check-out date must be on or after the check-in date.",
+                        Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -119,7 +130,8 @@ public class AccommodationActivity extends AppCompatActivity {
                 accommodation.setCheckOutDate(checkOutDateStr);
                 accommodation.setLocation(location.getText().toString());
                 accommodation.setName(name.getText().toString());
-                accommodation.setNumberOfRooms(Integer.parseInt(numberOfRooms.getText().toString()));
+                accommodation.setNumberOfRooms(
+                        Integer.parseInt(numberOfRooms.getText().toString()));
                 accommodation.setRoomType(roomType.getText().toString());
 
                 // Save to firebase
@@ -152,7 +164,8 @@ public class AccommodationActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(AccommodationActivity.this, "Failed to include accommodations.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AccommodationActivity.this,
+                        "Failed to include accommodations.", Toast.LENGTH_SHORT).show();
             }
         });
     }

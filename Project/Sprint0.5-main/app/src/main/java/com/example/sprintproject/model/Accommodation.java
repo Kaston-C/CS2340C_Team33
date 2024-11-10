@@ -2,7 +2,6 @@ package com.example.sprintproject.model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Locale;
 
@@ -88,7 +87,8 @@ public class Accommodation {
         try {
             Date checkInDate = sdf.parse(checkInDateStr);
             Date checkOutDate = sdf.parse(checkOutDateStr);
-            return checkOutDate != null && checkOutDate.after(checkInDate) || checkOutDate.equals(checkInDate);
+            return checkOutDate != null && checkOutDate.after(checkInDate) || checkOutDate
+                    .equals(checkInDate);
         } catch (ParseException e) {
             return false;
         }
