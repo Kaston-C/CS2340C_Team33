@@ -18,8 +18,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
-import java.util.UUID;
-
 /**
  * The LoginActivity class extends AppCompatActivity.
  * This class is part of the ViewModel folder within the MVVM architecture.
