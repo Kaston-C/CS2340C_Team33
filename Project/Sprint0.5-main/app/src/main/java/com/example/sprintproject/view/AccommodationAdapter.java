@@ -16,7 +16,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-public class AccommodationAdapter extends RecyclerView.Adapter<AccommodationAdapter.AccommodationViewHolder> {
+public class AccommodationAdapter extends RecyclerView.Adapter<AccommodationAdapter
+        .AccommodationViewHolder> {
     private List<Accommodation> accommodationList;
 
     public AccommodationAdapter(List<Accommodation> accommodationList) {
@@ -25,7 +26,8 @@ public class AccommodationAdapter extends RecyclerView.Adapter<AccommodationAdap
 
     @Override
     public AccommodationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_accommodation, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_accommodation, parent, false);
         return new AccommodationViewHolder(view);
     }
 
@@ -34,7 +36,8 @@ public class AccommodationAdapter extends RecyclerView.Adapter<AccommodationAdap
         Accommodation accommodation = accommodationList.get(position);
         holder.nameText.setText(accommodation.getName());
         holder.locationText.setText(accommodation.getLocation());
-        holder.datesText.setText("Check-in: " + accommodation.getCheckInDate() + " - Check-out: " + accommodation.getCheckOutDate());
+        holder.datesText.setText("Check-in: " + accommodation.getCheckInDate()
+                + " - Check-out: " + accommodation.getCheckOutDate());
         holder.roomsText.setText("Rooms: " + accommodation.getNumberOfRooms());
 
         //Check if past reservation
@@ -49,7 +52,10 @@ public class AccommodationAdapter extends RecyclerView.Adapter<AccommodationAdap
     }
 
     public static class AccommodationViewHolder extends RecyclerView.ViewHolder {
-        TextView nameText, locationText, datesText, roomsText;
+        private TextView nameText;
+        private TextView locationText;
+        private TextView datesText;
+        private TextView roomsText;
 
         public AccommodationViewHolder(View itemView) {
             super(itemView);

@@ -41,7 +41,8 @@ public class DiningAdapter extends RecyclerView.Adapter<DiningAdapter.DiningView
         holder.tvWebsite.setText(dining.getWebsite());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
-        LocalDateTime reservationDateTime = LocalDateTime.parse(dining.getDate() + " " + dining.getTime(), formatter);
+        LocalDateTime reservationDateTime = LocalDateTime.parse(dining.getDate()
+                + " " + dining.getTime(), formatter);
         LocalDateTime currentDateTime = LocalDateTime.now();
 
         if (reservationDateTime.isBefore(currentDateTime)) {
@@ -71,11 +72,11 @@ public class DiningAdapter extends RecyclerView.Adapter<DiningAdapter.DiningView
     }
 
     public static class DiningViewHolder extends RecyclerView.ViewHolder {
-        TextView tvDate;
-        TextView tvTime;
-        TextView tvLocation;
-        TextView tvWebsite;
-        Button btnDelete;
+        private TextView tvDate;
+        private TextView tvTime;
+        private TextView tvLocation;
+        private TextView tvWebsite;
+        private Button btnDelete;
 
         public DiningViewHolder(View itemView) {
             super(itemView);

@@ -1,7 +1,4 @@
 package com.example.sprintproject.model;
-import com.example.sprintproject.model.Accommodation;
-import com.example.sprintproject.model.Dining;
-import com.example.sprintproject.model.FilterStrategy;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -25,7 +22,8 @@ public class FilterAfterDateTime implements FilterStrategy {
         } else if (items.get(0) instanceof Accommodation) {
             for (T accommodation : items) {
                 String checkInDateStr = ((Accommodation) accommodation).getCheckInDate();
-                LocalDateTime checkInDate = LocalDateTime.parse(checkInDateStr + "T00:00:00", formatter);
+                LocalDateTime checkInDate = LocalDateTime.parse(
+                        checkInDateStr + "T00:00:00", formatter);
                 if (checkInDate.isAfter(dateTime)) {
                     filteredList.add(accommodation);
                 }

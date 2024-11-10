@@ -117,10 +117,12 @@ public class DiningActivity extends AppCompatActivity {
                     Toast.makeText(this, "Reservation added!", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 } else {
-                    Toast.makeText(this, "User not authenticated. Please log in.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "User not authenticated. Please log in.",
+                            Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please fill in all fields",
+                        Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -144,8 +146,10 @@ public class DiningActivity extends AppCompatActivity {
                 Collections.sort(diningList, new Comparator<Dining>() {
                     @Override
                     public int compare(Dining d1, Dining d2) {
-                        LocalDateTime dateTime1 = LocalDateTime.parse(d1.getDate() + " " + d1.getTime(), formatter);
-                        LocalDateTime dateTime2 = LocalDateTime.parse(d2.getDate() + " " + d2.getTime(), formatter);
+                        LocalDateTime dateTime1 = LocalDateTime.parse(d1.getDate()
+                                + " " + d1.getTime(), formatter);
+                        LocalDateTime dateTime2 = LocalDateTime.parse(d2.getDate()
+                                + " " + d2.getTime(), formatter);
                         return dateTime1.compareTo(dateTime2);
                     }
                 });
@@ -154,7 +158,8 @@ public class DiningActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(DiningActivity.this, "Failed to load data.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DiningActivity.this, "Failed to load data.",
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
