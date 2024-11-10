@@ -7,16 +7,37 @@
     tools:context=".view.DiningActivity">
 
     <TextView
+        android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dining Establishments Screen"
+        android:text="Dining Reservations"
         android:textStyle="bold"
-        android:textSize="30dp"
-        android:layout_centerInParent="true"/>
+        android:textSize="24sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/btnAddReservation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Reservation"
+        android:layout_below="@id/tvTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvDiningReservations"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/btnAddReservation"
+        android:layout_marginTop="16dp"
+        android:padding="8dp" />
 
     <include
+        android:id="@+id/navbar"
         layout="@layout/navbar"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" />
+
 </RelativeLayout>

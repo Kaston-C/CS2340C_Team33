@@ -1,27 +1,48 @@
 package com.example.sprintproject.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Dining {
-    private String name;
+    private String id;
+    private String date;
+    private String time;
     private String location;
     private String website;
-    private LocalDateTime reservationDateTime;
 
-    public Dining(String name, String location, String website, LocalDateTime reservationDateTime) {
-        this.name = name;
+    public Dining() {
+    }
+
+    public Dining(String id, String date, String time, String location, String website) {
+        this.id = id;
+        this.date = date;
+        this.time = time;
         this.location = location;
         this.website = website;
-        this.reservationDateTime = reservationDateTime;
     }
 
-    // Getters and setters
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getLocation() {
@@ -41,10 +62,7 @@ public class Dining {
     }
 
     public LocalDateTime getReservationDateTime() {
-        return reservationDateTime;
-    }
-
-    public void setReservationDateTime(LocalDateTime reservationDateTime) {
-        this.reservationDateTime = reservationDateTime;
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+        return LocalDateTime.parse(date + " " + time, dateFormatter);
     }
 }
