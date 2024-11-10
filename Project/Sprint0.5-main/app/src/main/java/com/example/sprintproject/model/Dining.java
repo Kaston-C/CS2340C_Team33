@@ -15,6 +15,7 @@ public class Dining {
         this.reservationDateTime = reservationDateTime;
     }
 
+    // Getters and setters
     public String getName() {
         return name;
     }
