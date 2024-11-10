@@ -14,15 +14,23 @@ public class FilterBeforeDateTime implements FilterStrategy {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
-        if (!items.isEmpty() && items.get(0) instanceof Accommodation) {
-            for (T item : items) {
-                Accommodation accommodation = (Accommodation) item;
-                String checkInDateStr = accommodation.getCheckInDate();
+        if (!items.isEmpty()) {
+            if (items.get(0) instanceof Dining) {
+                for (T item : items) {
+                    Dining dining = (Dining) item;
+                    if (dining.getReservationDateTime().isBefore(dateTime)) {
+                        filteredList.add(item);
+                    }
+                }
+            } else if (items.get(0) instanceof Accommodation) {
+                for (T item : items) {
+                    Accommodation accommodation = (Accommodation) item;
+                    String checkInDateStr = accommodation.getCheckInDate();
+                    LocalDateTime checkInDate = LocalDateTime.parse(checkInDateStr + "T00:00:00", formatter);
 
-                LocalDateTime checkInDate = LocalDateTime.parse(checkInDateStr + "T00:00:00", formatter);
-
-                if (checkInDate.isBefore(dateTime)) {
-                    filteredList.add(item);
+                    if (checkInDate.isBefore(dateTime)) {
+                        filteredList.add(item);
+                    }
                 }
             }
         }
