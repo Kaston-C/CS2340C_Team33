@@ -58,6 +58,13 @@
         android:hint="Room Type"
         android:layout_below="@id/number_of_rooms" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/accommodation_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/submit_button"
+        android:layout_alignParentBottom="true" />
+
     <Button
         android:id="@+id/submit_button"
         android:layout_width="match_parent"

@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/accommodation_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Accommodation Name" />
+
+    <TextView
+        android:id="@+id/accommodation_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Location" />
+
+    <TextView
+        android:id="@+id/accommodation_dates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Check-in: MM/DD/YYYY - Check-out: MM/DD/YYYY" />
+
+    <TextView
+        android:id="@+id/accommodation_rooms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rooms: 0" />
+</LinearLayout>
