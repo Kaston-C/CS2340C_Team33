@@ -1,3 +1,4 @@
+package com.example.sprintproject.model;
 import com.example.sprintproject.model.Accommodation;
 import com.example.sprintproject.model.Dining;
 import com.example.sprintproject.model.FilterStrategy;
