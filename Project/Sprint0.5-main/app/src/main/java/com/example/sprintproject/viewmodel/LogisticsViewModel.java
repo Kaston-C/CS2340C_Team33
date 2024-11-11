@@ -42,26 +42,6 @@ public class LogisticsViewModel extends AndroidViewModel {
         loadNotes();
     }
 
-    public void onSubmitNote(String note) {
-        String userId = mAuth.getCurrentUser().getUid();
-        userDatabaseReference.child(userId).child("trip")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            String tripId = dataSnapshot.getValue(String.class);
-                            String key = UUID.randomUUID().toString();
-                            tripDatabaseReference.child(tripId).child("notes")
-                                    .child(key).setValue(note);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
-    }
-
     public void onSubmitContributor(String contributorName) {
         getUserKey(contributorName, new UserKeyCallback() {
             @Override
@@ -126,6 +106,26 @@ public class LogisticsViewModel extends AndroidViewModel {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+    }
+
+    public void onSubmitNote(String note) {
+        String userId = mAuth.getCurrentUser().getUid();
+        userDatabaseReference.child(userId).child("trip")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            String tripId = dataSnapshot.getValue(String.class);
+                            String key = UUID.randomUUID().toString();
+                            tripDatabaseReference.child(tripId).child("notes")
+                                    .child(key).setValue(note);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
     }
 
     private void loadContributors() {
@@ -244,7 +244,6 @@ public class LogisticsViewModel extends AndroidViewModel {
                     }
                 });
     }
-
     public interface UserKeyCallback {
         void onUserKeyFound(String userKey);
     }

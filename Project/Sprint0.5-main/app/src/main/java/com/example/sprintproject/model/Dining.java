@@ -20,6 +20,13 @@ public class Dining {
         this.location = location;
         this.website = website;
     }
+    public Dining(String id, String location, String website, LocalDateTime dateTime) {
+        this.id = id;
+        this.date = dateTime.toLocalDate().toString();
+        this.time = dateTime.toLocalTime().toString();
+        this.location = location;
+        this.website = website;
+    }
 
     public String getId() {
         return id;
@@ -59,6 +66,17 @@ public class Dining {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public static boolean isValidDateTimeFormat(String date, String time) {
+        try {
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+            LocalDateTime.parse(date + " " + time, DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm"));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public LocalDateTime getReservationDateTime() {

@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -109,15 +108,21 @@ public class DiningActivity extends AppCompatActivity {
             String website = etWebsite.getText().toString();
 
             if (!date.isEmpty() && !time.isEmpty() && !location.isEmpty() && !website.isEmpty()) {
-                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-                if (currentUser != null) {
-                    String id = databaseReference.push().getKey();
-                    Dining dining = new Dining(id, date, time, location, website);
-                    databaseReference.child(id).setValue(dining);
-                    Toast.makeText(this, "Reservation added!", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
+                if (Dining.isValidDateTimeFormat(date, time)) {
+                    FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                    if (currentUser != null) {
+                        String id = databaseReference.push().getKey();
+                        Dining dining = new Dining(id, date, time, location, website);
+                        databaseReference.child(id).setValue(dining);
+                        Toast.makeText(this, "Reservation added!", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    } else {
+                        Toast.makeText(this, "User not authenticated. Please log in.",
+                                Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(this, "User not authenticated. Please log in.",
+                    Toast.makeText(this, "Invalid date or time format."
+                                    + "Please use MM/dd/yyyy for date and HH:mm for time.",
                             Toast.LENGTH_SHORT).show();
                 }
             } else {
@@ -125,14 +130,14 @@ public class DiningActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }
         });
-
         dialog.show();
     }
+
 
     private void loadDiningReservations() {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(DataSnapshot snapshot) {
                 diningList.clear();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
 
@@ -157,7 +162,7 @@ public class DiningActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(DatabaseError error) {
                 Toast.makeText(DiningActivity.this, "Failed to load data.",
                         Toast.LENGTH_SHORT).show();
             }
