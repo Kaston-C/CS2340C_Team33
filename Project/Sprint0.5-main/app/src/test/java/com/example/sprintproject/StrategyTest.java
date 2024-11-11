@@ -45,8 +45,7 @@ public class StrategyTest {
     }
 
     @Test
-    public void testFilterDate() {
-        // Dining
+    public void testFilterDining() {
         filterStrategy = new FilterBeforeDateTime();
         List<Dining> diningToCheck = filterStrategy.filter(diningList, "11/05/2024 12:05");
         assertArrayEquals(diningToCheck.toArray(), diningList.subList(0,4).toArray());
@@ -58,8 +57,10 @@ public class StrategyTest {
         filterStrategy = new FilterSameDateTime();
         diningToCheck = filterStrategy.filter(diningList, "11/05/2024 12:05");
         assertArrayEquals(diningToCheck.toArray(), diningList.subList(4, 5).toArray());
+    }
 
-        // Accommodation
+    @Test
+    public void testFilterAccommodation() {
         filterStrategy = new FilterBeforeDateTime();
         List<Accommodation> accommodationToCheck = filterStrategy.filter(accommodationList, "11/05/2024");
         assertArrayEquals(accommodationToCheck.toArray(), accommodationList.subList(0,4).toArray());
@@ -74,19 +75,29 @@ public class StrategyTest {
     }
 
     @Test
-    public void testFilterOther() {
+    public void testFilterLocation() {
         filterStrategy = new FilterLocation();
         List<Dining> diningToCheck = filterStrategy.filter(diningList, "item1");
         assertArrayEquals(diningToCheck.toArray(), diningList.subList(0, 1).toArray());
         List<Accommodation> accommodationToCheck = filterStrategy.filter(accommodationList, "item3");
         assertArrayEquals(accommodationToCheck.toArray(), accommodationList.subList(2, 3).toArray());
+    }
 
-        filterStrategy = new FilterRoomType();
-        accommodationToCheck = filterStrategy.filter(accommodationList, "king");
-        assertArrayEquals(accommodationToCheck.toArray(), accommodationList.subList(0, 4).toArray());
-
+    @Test
+    public void testFilterRoomNum() {
         filterStrategy = new FilterRoomNum();
-        accommodationToCheck = filterStrategy.filter(accommodationList, "1");
+        List<Accommodation> accommodationToCheck = filterStrategy.filter(accommodationList, "1");
         assertArrayEquals(accommodationToCheck.toArray(), accommodationList.subList(0, 1).toArray());
     }
+
+
+    @Test
+    public void testFilterRoomType() {
+        filterStrategy = new FilterRoomType();
+        List<Accommodation> accommodationToCheck = filterStrategy.filter(accommodationList, "item3");
+        accommodationToCheck = filterStrategy.filter(accommodationList, "king");
+        assertArrayEquals(accommodationToCheck.toArray(), accommodationList.subList(0, 4).toArray());
+    }
+
+
 }
