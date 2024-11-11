@@ -19,6 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Visualize Allotted vs Planned Days"
+            android:backgroundTint="@color/primary"
             android:layout_marginTop="50dp"
             android:layout_centerHorizontal="true"/>
 

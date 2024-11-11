@@ -45,6 +45,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:text="Log Vacation Time"
+            android:backgroundTint="@color/primary"
             android:textSize="12sp"
             android:onClick="@{(view) -> viewModel.onLogVacationClicked(view)}"
             android:enabled="@{!viewModel.showVacationInputs}" />
