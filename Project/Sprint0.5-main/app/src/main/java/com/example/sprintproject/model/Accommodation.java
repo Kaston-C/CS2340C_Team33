@@ -2,6 +2,7 @@ package com.example.sprintproject.model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -121,5 +122,15 @@ public class Accommodation {
         } catch (ParseException e) {
             return false;
         }
+    }
+
+    public LocalDateTime getCheckInDateTime() {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+        return LocalDateTime.parse(checkInDate + " 12:00", dateFormatter);
+    }
+
+    public LocalDateTime getCheckOutDateTime() {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+        return LocalDateTime.parse(checkOutDate + " 12:00", dateFormatter);
     }
 }

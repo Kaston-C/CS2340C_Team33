@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sprintproject.R;
 import com.example.sprintproject.model.Accommodation;
+import com.example.sprintproject.model.FilterStrategy;
+import com.example.sprintproject.model.SortByTime;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -40,24 +42,22 @@ public class AccommodationActivity extends AppCompatActivity {
     private RecyclerView recyclerViewAccommodation;
     private AccommodationAdapter accommodationAdapter;
     private List<Accommodation> accommodationList;
+    private FilterStrategy filterStrategy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accommodation);
-
         ImageButton logisticsButton = findViewById(R.id.logistics_button);
         logisticsButton.setOnClickListener(v -> {
             Intent intent = new Intent(AccommodationActivity.this, LogisticsActivity.class);
             startActivity(intent);
         });
-
         ImageButton destinationButton = findViewById(R.id.destination_button);
         destinationButton.setOnClickListener(v -> {
             Intent intent = new Intent(AccommodationActivity.this, DestinationActivity.class);
             startActivity(intent);
         });
-
         ImageButton diningButton = findViewById(R.id.dining_button);
         diningButton.setOnClickListener(v -> {
             Intent intent = new Intent(AccommodationActivity.this, DiningActivity.class);
@@ -85,13 +85,11 @@ public class AccommodationActivity extends AppCompatActivity {
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-
         if (currentUser == null) {
             Toast.makeText(this, "User not logged in correctly.", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
-
         String userId = currentUser.getUid();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance()
                 .getReference("accommodation").child(userId);
@@ -112,24 +110,7 @@ public class AccommodationActivity extends AppCompatActivity {
         AccommodationAdapter accommodationAdapter = new AccommodationAdapter(accommodationList);
         recyclerViewAccommodation.setAdapter(accommodationAdapter);
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                accommodationList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Accommodation accommodation = dataSnapshot.getValue(Accommodation.class);
-                    if (accommodation != null) {
-                        accommodationList.add(accommodation);
-                    }
-                }
-                accommodationAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(AccommodationActivity.this, "Error", Toast.LENGTH_SHORT).show();
-            }
-        });
+        createAccommodationList();
 
         formContainer.setVisibility(View.GONE);
 
@@ -189,6 +170,49 @@ public class AccommodationActivity extends AppCompatActivity {
             } catch (NumberFormatException e) {
                 Toast.makeText(this,
                         "Number of Rooms must be a valid number.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Button sortCheckIn = findViewById(R.id.sort_by_checkIn);
+        sortCheckIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filterStrategy = new SortByTime();
+                List<Accommodation> filteredList = filterStrategy
+                        .filter(accommodationList, "checkIn");
+                accommodationAdapter.updateList(filteredList);
+            }
+        });
+
+        Button sortCheckOut = findViewById(R.id.sort_by_checkOut);
+        sortCheckOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filterStrategy = new SortByTime();
+                List<Accommodation> filteredList = filterStrategy
+                        .filter(accommodationList, "checkOut");
+                accommodationAdapter.updateList(filteredList);
+            }
+        });
+    }
+
+    private void createAccommodationList() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                accommodationList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Accommodation accommodation = dataSnapshot.getValue(Accommodation.class);
+                    if (accommodation != null) {
+                        accommodationList.add(accommodation);
+                    }
+                }
+                accommodationAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(AccommodationActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });
     }
