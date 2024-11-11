@@ -3,6 +3,7 @@ package com.example.sprintproject.model;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Locale;
 
 public class Accommodation {
@@ -13,8 +14,25 @@ public class Accommodation {
     private int numberOfRooms;
     private String roomType;
     private String name;
+    private LocalDateTime startDateTime;
+    private LocalDateTime endDateTime;
+    private int roomNumber;
 
-    // Getters and Setters
+    public Accommodation() {
+    }
+
+    public Accommodation(String id, String name, String location,
+                         LocalDateTime startDateTime, LocalDateTime endDateTime,
+                         String roomType, int roomNumber) {
+        this.id = id;
+        this.name = name;
+        this.location = location;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        this.roomType = roomType;
+        this.roomNumber = roomNumber;
+    }
+
     public String getId() {
         return id;
     }
