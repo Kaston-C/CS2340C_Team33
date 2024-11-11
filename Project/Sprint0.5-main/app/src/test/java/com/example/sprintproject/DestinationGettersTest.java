@@ -11,7 +11,7 @@ public class DestinationGettersTest {
 
     @Test
     public void testSetAndGetStartDate() {
-        destination = new Destination();
+        destination = new Destination("", "09/15/2023", "", 0);
         String expectedStartDate = "09/15/2023";
         assertEquals(expectedStartDate, destination.getStartDate());
     }
