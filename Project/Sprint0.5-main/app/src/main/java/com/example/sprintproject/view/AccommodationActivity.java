@@ -48,40 +48,7 @@ public class AccommodationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accommodation);
-        ImageButton logisticsButton = findViewById(R.id.logistics_button);
-        logisticsButton.setOnClickListener(v -> {
-            Intent intent = new Intent(AccommodationActivity.this, LogisticsActivity.class);
-            startActivity(intent);
-        });
-        ImageButton destinationButton = findViewById(R.id.destination_button);
-        destinationButton.setOnClickListener(v -> {
-            Intent intent = new Intent(AccommodationActivity.this, DestinationActivity.class);
-            startActivity(intent);
-        });
-        ImageButton diningButton = findViewById(R.id.dining_button);
-        diningButton.setOnClickListener(v -> {
-            Intent intent = new Intent(AccommodationActivity.this, DiningActivity.class);
-            startActivity(intent);
-        });
-
-        ImageButton accomButton = findViewById(R.id.accommodation_button);
-        accomButton.setSelected(true);
-        accomButton.setOnClickListener(v -> {
-            Intent intent = new Intent(AccommodationActivity.this, AccommodationActivity.class);
-            startActivity(intent);
-        });
-
-        ImageButton communityButton = findViewById(R.id.community_button);
-        communityButton.setOnClickListener(v -> {
-            Intent intent = new Intent(AccommodationActivity.this, CommunityActivity.class);
-            startActivity(intent);
-        });
-
-        ImageButton transportButton = findViewById(R.id.transportation_button);
-        transportButton.setOnClickListener(v -> {
-            Intent intent = new Intent(AccommodationActivity.this, Transportation.class);
-            startActivity(intent);
-        });
+        setUpButtons();
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
@@ -110,7 +77,24 @@ public class AccommodationActivity extends AppCompatActivity {
         AccommodationAdapter accommodationAdapter = new AccommodationAdapter(accommodationList);
         recyclerViewAccommodation.setAdapter(accommodationAdapter);
 
-        createAccommodationList();
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                accommodationList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Accommodation accommodation = dataSnapshot.getValue(Accommodation.class);
+                    if (accommodation != null) {
+                        accommodationList.add(accommodation);
+                    }
+                }
+                accommodationAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(AccommodationActivity.this, "Error", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         formContainer.setVisibility(View.GONE);
 
@@ -196,24 +180,40 @@ public class AccommodationActivity extends AppCompatActivity {
         });
     }
 
-    private void createAccommodationList() {
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                accommodationList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Accommodation accommodation = dataSnapshot.getValue(Accommodation.class);
-                    if (accommodation != null) {
-                        accommodationList.add(accommodation);
-                    }
-                }
-                accommodationAdapter.notifyDataSetChanged();
-            }
+    private void setUpButtons() {
+        ImageButton logisticsButton = findViewById(R.id.logistics_button);
+        logisticsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(AccommodationActivity.this, LogisticsActivity.class);
+            startActivity(intent);
+        });
+        ImageButton destinationButton = findViewById(R.id.destination_button);
+        destinationButton.setOnClickListener(v -> {
+            Intent intent = new Intent(AccommodationActivity.this, DestinationActivity.class);
+            startActivity(intent);
+        });
+        ImageButton diningButton = findViewById(R.id.dining_button);
+        diningButton.setOnClickListener(v -> {
+            Intent intent = new Intent(AccommodationActivity.this, DiningActivity.class);
+            startActivity(intent);
+        });
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(AccommodationActivity.this, "Error", Toast.LENGTH_SHORT).show();
-            }
+        ImageButton accomButton = findViewById(R.id.accommodation_button);
+        accomButton.setSelected(true);
+        accomButton.setOnClickListener(v -> {
+            Intent intent = new Intent(AccommodationActivity.this, AccommodationActivity.class);
+            startActivity(intent);
+        });
+
+        ImageButton communityButton = findViewById(R.id.community_button);
+        communityButton.setOnClickListener(v -> {
+            Intent intent = new Intent(AccommodationActivity.this, CommunityActivity.class);
+            startActivity(intent);
+        });
+
+        ImageButton transportButton = findViewById(R.id.transportation_button);
+        transportButton.setOnClickListener(v -> {
+            Intent intent = new Intent(AccommodationActivity.this, Transportation.class);
+            startActivity(intent);
         });
     }
 

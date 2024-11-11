@@ -123,7 +123,7 @@ public class DiningActivity extends AppCompatActivity {
                     if (currentUser != null) {
                         String id = databaseReference.push().getKey();
                         Dining dining = new Dining(id, date, time, location, website);
-                        databaseReference.child(id).setValue(dining);
+                        databaseReference.child(currentUser.getUid()).child(id).setValue(dining);
                         Toast.makeText(this, "Reservation added!", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                     } else {
@@ -145,7 +145,10 @@ public class DiningActivity extends AppCompatActivity {
 
 
     private void loadDiningReservations() {
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+        databaseReference.child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 diningList.clear();
