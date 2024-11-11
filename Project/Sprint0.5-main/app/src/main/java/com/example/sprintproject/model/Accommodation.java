@@ -14,7 +14,20 @@ public class Accommodation {
     private String roomType;
     private String name;
 
-    // Getters and Setters
+    public Accommodation() {
+    }
+
+    public Accommodation(String id, String checkInDate, String checkOutDate,
+                         String location, int numberOfRooms, String roomType, String name) {
+        this.id = id;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.location = location;
+        this.numberOfRooms = numberOfRooms;
+        this.roomType = roomType;
+        this.name = name;
+    }
+
     public String getId() {
         return id;
     }
