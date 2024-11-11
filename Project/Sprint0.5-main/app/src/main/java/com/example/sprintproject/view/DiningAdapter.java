@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.sprintproject.R;
+import com.example.sprintproject.model.Accommodation;
 import com.example.sprintproject.model.Dining;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -25,6 +26,12 @@ public class DiningAdapter extends RecyclerView.Adapter<DiningAdapter.DiningView
         this.databaseReference = FirebaseDatabase.getInstance().getReference("dining");
     }
 
+    public void updateList(List<Dining> newList) {
+        this.diningList.clear();
+        this.diningList.addAll(newList);
+        notifyDataSetChanged();
+    }
+
     @Override
     public DiningViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -34,6 +41,10 @@ public class DiningAdapter extends RecyclerView.Adapter<DiningAdapter.DiningView
 
     @Override
     public void onBindViewHolder(DiningViewHolder holder, int position) {
+        holder.itemView.setBackgroundColor(Color.WHITE);
+        holder.tvDate.setTextColor(Color.BLACK);
+        holder.tvTime.setTextColor(Color.BLACK);
+
         Dining dining = diningList.get(position);
         holder.tvDate.setText(dining.getDate());
         holder.tvTime.setText(dining.getTime());

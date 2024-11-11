@@ -13,7 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.sprintproject.R;
+import com.example.sprintproject.model.Accommodation;
 import com.example.sprintproject.model.Dining;
+import com.example.sprintproject.model.FilterStrategy;
+import com.example.sprintproject.model.SortByTime;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -35,6 +38,7 @@ public class DiningActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private DiningAdapter diningAdapter;
     private List<Dining> diningList;
+    private FilterStrategy filterStrategy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,16 @@ public class DiningActivity extends AppCompatActivity {
 
         Button btnAddReservation = findViewById(R.id.btnAddReservation);
         btnAddReservation.setOnClickListener(v -> showAddReservationDialog());
+
+        Button sortButton = findViewById(R.id.btnSort);
+        sortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filterStrategy = new SortByTime();
+                List<Dining> filteredList = filterStrategy.filter(diningList, "time");
+                diningAdapter.updateList(filteredList);
+            }
+        });
 
         ImageButton logisticsButton = findViewById(R.id.logistics_button);
         logisticsButton.setOnClickListener(v -> startActivity(
@@ -147,17 +161,6 @@ public class DiningActivity extends AppCompatActivity {
                         diningList.add(dining);
                     }
                 }
-
-                Collections.sort(diningList, new Comparator<Dining>() {
-                    @Override
-                    public int compare(Dining d1, Dining d2) {
-                        LocalDateTime dateTime1 = LocalDateTime.parse(d1.getDate()
-                                + " " + d1.getTime(), formatter);
-                        LocalDateTime dateTime2 = LocalDateTime.parse(d2.getDate()
-                                + " " + d2.getTime(), formatter);
-                        return dateTime1.compareTo(dateTime2);
-                    }
-                });
                 diningAdapter.notifyDataSetChanged();
             }
 

@@ -25,11 +25,20 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp" />
 
+    <Button
+        android:id="@+id/btnSort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sort"
+        android:layout_below="@id/btnAddReservation"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvDiningReservations"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/btnAddReservation"
+        android:layout_below="@id/btnSort"
         android:layout_marginTop="16dp"
         android:padding="8dp" />
 

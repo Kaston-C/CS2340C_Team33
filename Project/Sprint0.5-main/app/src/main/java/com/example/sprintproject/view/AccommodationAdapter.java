@@ -24,6 +24,12 @@ public class AccommodationAdapter extends RecyclerView.Adapter<AccommodationAdap
         this.accommodationList = accommodationList;
     }
 
+    public void updateList(List<Accommodation> newList) {
+        this.accommodationList.clear();
+        this.accommodationList.addAll(newList);
+        notifyDataSetChanged();
+    }
+
     @Override
     public AccommodationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -33,6 +39,8 @@ public class AccommodationAdapter extends RecyclerView.Adapter<AccommodationAdap
 
     @Override
     public void onBindViewHolder(AccommodationViewHolder holder, int position) {
+        holder.datesText.setTextColor(Color.BLACK);
+
         Accommodation accommodation = accommodationList.get(position);
         holder.nameText.setText(accommodation.getName());
         holder.locationText.setText(accommodation.getLocation());

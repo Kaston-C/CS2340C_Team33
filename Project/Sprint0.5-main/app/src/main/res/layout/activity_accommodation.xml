@@ -77,11 +77,31 @@
             android:text="Submit" />
     </LinearLayout>
 
+    <Button
+        android:id="@+id/sort_by_checkIn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sort by check in"
+        android:layout_below="@id/form_container"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        />
+
+    <Button
+        android:id="@+id/sort_by_checkOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sort by check out"
+        android:layout_below="@id/sort_by_checkIn"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="16dp"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/accommodation_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/form_container"
+        android:layout_below="@id/sort_by_checkOut"
         android:layout_marginTop="16dp"
         android:layout_alignParentBottom="true" />
 
