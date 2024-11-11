@@ -108,10 +108,6 @@ public class LogisticsViewModel extends AndroidViewModel {
         });
     }
 
-    public interface UserKeyCallback {
-        void onUserKeyFound(String userKey);
-    }
-
     public void onSubmitNote(String note) {
         String userId = mAuth.getCurrentUser().getUid();
         userDatabaseReference.child(userId).child("trip")
@@ -247,5 +243,8 @@ public class LogisticsViewModel extends AndroidViewModel {
                     public void onCancelled(DatabaseError databaseError) {
                     }
                 });
+    }
+    public interface UserKeyCallback {
+        void onUserKeyFound(String userKey);
     }
 }
