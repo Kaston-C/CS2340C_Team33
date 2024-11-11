@@ -28,20 +28,17 @@ public class StrategyTest {
     public void setup() {
         diningList = new ArrayList<Dining>();
         for (int i = 1; i < 9; i++) {
-            LocalDateTime localDateTime = LocalDateTime.parse("2007-12-0" + i+ "T10:15:30");
-            Dining dining = new Dining("item" + i, "item" + i, "item" + i, localDateTime);
+            Dining dining = new Dining("item" + i, "11/0" + i + "/2024", "12:0" + i, "item" + i, "item" + i);
             diningList.add(dining);
         }
 
         accommodationList = new ArrayList<Accommodation>();
         for (int i = 1; i < 9; i++) {
-            LocalDateTime startDateTime = LocalDateTime.parse("2007-12-0" + i + "T10:15:30");
-            LocalDateTime endDateTime = LocalDateTime.parse("2007-12-0" + (i + 1) + "T10:15:30");
             Accommodation accommodation;
             if (i < 5) {
-                accommodation = new Accommodation("item" + i, "item" + i, "item" + i, startDateTime, endDateTime, "king", i);
+                accommodation = new Accommodation("item" + i, "11/0" + i + "/2024", "11/0" + (i + 1) + "/2024", "item" + i, i, "king", "item" + i);
             } else {
-                accommodation = new Accommodation("item" + i, "item" + i, "item" + i, startDateTime, endDateTime, "queen", i);
+                accommodation = new Accommodation("item" + i, "11/0" + i + "/2024", "11/0" + (i + 1) + "/2024", "item" + i, i, "queen", "item" + i);
             }
             accommodationList.add(accommodation);
         }
@@ -51,28 +48,28 @@ public class StrategyTest {
     public void testFilterDate() {
         // Dining
         filterStrategy = new FilterBeforeDateTime();
-        List<Dining> diningToCheck = filterStrategy.filter(diningList, "2007-12-05T10:15:30");
+        List<Dining> diningToCheck = filterStrategy.filter(diningList, "11/05/2024 12:05");
         assertArrayEquals(diningToCheck.toArray(), diningList.subList(0,4).toArray());
 
         filterStrategy = new FilterAfterDateTime();
-        diningToCheck = filterStrategy.filter(diningList, "2007-12-05T10:15:30");
+        diningToCheck = filterStrategy.filter(diningList, "11/05/2024 12:05");
         assertArrayEquals(diningToCheck.toArray(), diningList.subList(5, 8).toArray());
 
         filterStrategy = new FilterSameDateTime();
-        diningToCheck = filterStrategy.filter(diningList, "2007-12-05T10:15:30");
+        diningToCheck = filterStrategy.filter(diningList, "11/05/2024 12:05");
         assertArrayEquals(diningToCheck.toArray(), diningList.subList(4, 5).toArray());
 
         // Accommodation
         filterStrategy = new FilterBeforeDateTime();
-        List<Accommodation> accommodationToCheck = filterStrategy.filter(accommodationList, "2007-12-05T10:15:30");
+        List<Accommodation> accommodationToCheck = filterStrategy.filter(accommodationList, "11/05/2024");
         assertArrayEquals(accommodationToCheck.toArray(), accommodationList.subList(0,4).toArray());
 
         filterStrategy = new FilterAfterDateTime();
-        accommodationToCheck = filterStrategy.filter(accommodationList, "2007-12-05T10:15:30");
+        accommodationToCheck = filterStrategy.filter(accommodationList, "11/05/2024");
         assertArrayEquals(accommodationToCheck.toArray(), accommodationList.subList(5, 8).toArray());
 
         filterStrategy = new FilterSameDateTime();
-        accommodationToCheck = filterStrategy.filter(accommodationList, "2007-12-05T10:15:30");
+        accommodationToCheck = filterStrategy.filter(accommodationList, "11/05/2024");
         assertArrayEquals(accommodationToCheck.toArray(), accommodationList.subList(4, 5).toArray());
     }
 

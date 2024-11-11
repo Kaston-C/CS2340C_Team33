@@ -8,12 +8,12 @@ import java.util.List;
 public class FilterSameDateTime implements FilterStrategy {
     @Override
     public <T> List<T> filter(List<T> items, String param) {
-        LocalDateTime dateTime = LocalDateTime.parse(param);
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
         List<T> filteredList = new ArrayList<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
         if (!items.isEmpty()) {
             if (items.get(0) instanceof Dining) {
+                LocalDateTime dateTime = LocalDateTime.parse(param, dateFormatter);
                 for (T item : items) {
                     Dining dining = (Dining) item;
                     if (dining.getReservationDateTime().equals(dateTime)) {
@@ -23,9 +23,11 @@ public class FilterSameDateTime implements FilterStrategy {
             } else if (items.get(0) instanceof Accommodation) {
                 for (T item : items) {
                     Accommodation accommodation = (Accommodation) item;
+                    LocalDateTime dateTime = LocalDateTime.parse(param + " 12:00", dateFormatter);
+
                     String checkInDateStr = accommodation.getCheckInDate();
                     LocalDateTime checkInDate
-                            = LocalDateTime.parse(checkInDateStr + "T00:00:00", formatter);
+                            = LocalDateTime.parse(checkInDateStr + " 12:00", dateFormatter);
 
                     if (checkInDate.equals(dateTime)) {
                         filteredList.add(item);
