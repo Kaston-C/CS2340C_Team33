@@ -48,19 +48,16 @@ public class AccommodationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accommodation);
-
         ImageButton logisticsButton = findViewById(R.id.logistics_button);
         logisticsButton.setOnClickListener(v -> {
             Intent intent = new Intent(AccommodationActivity.this, LogisticsActivity.class);
             startActivity(intent);
         });
-
         ImageButton destinationButton = findViewById(R.id.destination_button);
         destinationButton.setOnClickListener(v -> {
             Intent intent = new Intent(AccommodationActivity.this, DestinationActivity.class);
             startActivity(intent);
         });
-
         ImageButton diningButton = findViewById(R.id.dining_button);
         diningButton.setOnClickListener(v -> {
             Intent intent = new Intent(AccommodationActivity.this, DiningActivity.class);
@@ -88,13 +85,11 @@ public class AccommodationActivity extends AppCompatActivity {
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-
         if (currentUser == null) {
             Toast.makeText(this, "User not logged in correctly.", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
-
         String userId = currentUser.getUid();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance()
                 .getReference("accommodation").child(userId);
@@ -115,24 +110,7 @@ public class AccommodationActivity extends AppCompatActivity {
         AccommodationAdapter accommodationAdapter = new AccommodationAdapter(accommodationList);
         recyclerViewAccommodation.setAdapter(accommodationAdapter);
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                accommodationList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Accommodation accommodation = dataSnapshot.getValue(Accommodation.class);
-                    if (accommodation != null) {
-                        accommodationList.add(accommodation);
-                    }
-                }
-                accommodationAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(AccommodationActivity.this, "Error", Toast.LENGTH_SHORT).show();
-            }
-        });
+        createAccommodationList();
 
         formContainer.setVisibility(View.GONE);
 
@@ -200,7 +178,8 @@ public class AccommodationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 filterStrategy = new SortByTime();
-                List<Accommodation> filteredList = filterStrategy.filter(accommodationList, "checkIn");
+                List<Accommodation> filteredList = filterStrategy
+                        .filter(accommodationList, "checkIn");
                 accommodationAdapter.updateList(filteredList);
             }
         });
@@ -210,8 +189,30 @@ public class AccommodationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 filterStrategy = new SortByTime();
-                List<Accommodation> filteredList = filterStrategy.filter(accommodationList, "checkOut");
+                List<Accommodation> filteredList = filterStrategy
+                        .filter(accommodationList, "checkOut");
                 accommodationAdapter.updateList(filteredList);
+            }
+        });
+    }
+
+    private void createAccommodationList() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                accommodationList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Accommodation accommodation = dataSnapshot.getValue(Accommodation.class);
+                    if (accommodation != null) {
+                        accommodationList.add(accommodation);
+                    }
+                }
+                accommodationAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(AccommodationActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });
     }
