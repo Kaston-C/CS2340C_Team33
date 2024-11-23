@@ -146,9 +146,9 @@ public class DiningActivity extends AppCompatActivity {
 
     private void loadDiningReservations() {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        FirebaseUser currUser = firebaseAuth.getCurrentUser();
 
-        databaseReference.child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
+        databaseReference.child(currUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 diningList.clear();
