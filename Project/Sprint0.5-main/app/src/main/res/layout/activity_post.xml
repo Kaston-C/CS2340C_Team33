@@ -1,0 +1,72 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/formTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Travel Form"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:padding="10dp"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/inputDestination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter the Destination" />
+
+        <EditText
+            android:id="@+id/inputStartDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Start Date" />
+
+        <EditText
+            android:id="@+id/inputEndDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter End Date" />
+
+        <EditText
+            android:id="@+id/inputAccommodation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Accommodation" />
+
+        <EditText
+            android:id="@+id/inputDining"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Dining Reservations" />
+
+        <EditText
+            android:id="@+id/inputTransportation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Transportation" />
+
+        <EditText
+            android:id="@+id/inputNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Notes and Review" />
+
+        <Button
+            android:id="@+id/submitButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit" />
+
+    </LinearLayout>
+</ScrollView>
