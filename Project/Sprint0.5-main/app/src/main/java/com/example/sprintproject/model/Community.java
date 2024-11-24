@@ -20,5 +20,9 @@ public class Community {
     public CommunityListItem getItem (int index) {
         return communityPostList.get(index);
     }
+
+    public int getDuration() {
+        return duration;
+    }
 }
 
