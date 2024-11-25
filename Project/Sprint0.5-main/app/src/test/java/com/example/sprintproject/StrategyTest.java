@@ -27,7 +27,7 @@ public class StrategyTest {
     public void setup() {
         diningList = new ArrayList<Dining>();
         for (int i = 1; i < 9; i++) {
-            Dining dining = new Dining("item" + i, "11/0" + i + "/2024", "12:0" + i, "item" + i, "item" + i);
+            Dining dining = new Dining("11/0" + i + "/2024", "12:0" + i, "item" + i, "item" + i);
             diningList.add(dining);
         }
 

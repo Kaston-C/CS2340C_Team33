@@ -48,7 +48,6 @@ public class AccommodationAdapter extends RecyclerView.Adapter<AccommodationAdap
                 + " - Check-out: " + accommodation.getCheckOutDate());
         holder.roomsText.setText("Rooms: " + accommodation.getNumberOfRooms());
 
-        //Check if past reservation
         if (isPastReservation(accommodation.getCheckInDate())) {
             holder.datesText.setTextColor(Color.RED); //EXPIRED
         }
@@ -56,10 +55,12 @@ public class AccommodationAdapter extends RecyclerView.Adapter<AccommodationAdap
 
     @Override
     public int getItemCount() {
-        return accommodationList.size();
+        if (accommodationList != null) {
+            return accommodationList.size();
+        }
+        return -1;
     }
 
-    // Checks if in the past
     private boolean isPastReservation(String checkInDateStr) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
         try {

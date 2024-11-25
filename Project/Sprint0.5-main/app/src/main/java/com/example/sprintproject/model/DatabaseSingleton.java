@@ -6,7 +6,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class DatabaseSingleton {
     private static DatabaseSingleton instance;
-    private final String databaseName = "users";
 
     public DatabaseSingleton() {
     }
