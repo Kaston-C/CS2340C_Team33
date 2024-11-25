@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.sprintproject.R;
 import com.example.sprintproject.model.TravelPost;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -44,6 +45,7 @@ public class PostActivity extends AppCompatActivity {
 
         submitButton.setOnClickListener(v -> {
             if (validateInputs()) {
+                String username = FirebaseAuth.getInstance().getCurrentUser().getEmail();
                 String destination = inputDestination.getText().toString();
                 String startDate = inputStartDate.getText().toString();
                 String endDate = inputEndDate.getText().toString();
@@ -52,9 +54,9 @@ public class PostActivity extends AppCompatActivity {
                 String transportation = inputTransportation.getText().toString();
                 String notes = inputNotes.getText().toString();
 
-                TravelPost newPost = new TravelPost(
-                        destination,
-                        startDate, endDate, accommodation, dining, transportation, notes);
+
+                TravelPost newPost = new TravelPost(username, destination, startDate, endDate, accommodation, dining, transportation, notes);
+
                 postRef.push().setValue(newPost);
 
                 Toast.makeText(this, "Post added successfully!", Toast.LENGTH_SHORT).show();
@@ -74,18 +76,17 @@ public class PostActivity extends AppCompatActivity {
         }
 
         if (TextUtils.isEmpty(startDate) || TextUtils.isEmpty(endDate)) {
-            showToast("Need to enter start and end .");
+            showToast("Need to enter start and end dates.");
             return false;
         }
 
         if (!isCheckOutDateValid(startDate, endDate)) {
-            showToast("The start date has to be before end date.");
+            showToast("The start date has to be before the end date.");
             return false;
         }
 
         return true;
     }
-
 
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
