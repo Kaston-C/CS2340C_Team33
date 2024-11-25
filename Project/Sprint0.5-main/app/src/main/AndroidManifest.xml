@@ -40,6 +40,9 @@
             android:name=".view.LoginActivity"
             android:exported="false" />
         <activity
+            android:name=".view.TripActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.MainActivity"
             android:exported="true">
             <intent-filter>

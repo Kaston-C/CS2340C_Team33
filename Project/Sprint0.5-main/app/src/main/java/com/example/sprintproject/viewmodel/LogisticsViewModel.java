@@ -1,12 +1,14 @@
 package com.example.sprintproject.viewmodel;
 
 import android.app.Application;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableArrayList;
 import androidx.lifecycle.AndroidViewModel;
 
+import com.example.sprintproject.model.CurrentTrip;
 import com.example.sprintproject.model.DatabaseSingleton;
 import com.example.sprintproject.model.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,44 +49,13 @@ public class LogisticsViewModel extends AndroidViewModel {
             @Override
             public void onUserKeyFound(String userKey) {
                 if (userKey != null) {
-                    String userId = mAuth.getCurrentUser().getUid();
-                    userDatabaseReference.child(userId).child("trip")
-                            .addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    if (dataSnapshot.exists()) {
-                                        String tripId = dataSnapshot.getValue(String.class);
-                                        tripDatabaseReference.child(tripId).child("users")
-                                                .child(userKey).setValue(contributorName);
+                    tripDatabaseReference.child(CurrentTrip.getInstance().getCurrentTripId())
+                            .child("users")
+                            .child(userKey).setValue(contributorName);
 
-                                        userDatabaseReference.child(userKey).child("trip")
-                                                .addListenerForSingleValueEvent(
-                                                        new ValueEventListener() {
-                                                        @Override
-                                                        public void onDataChange(
-                                                                @NonNull DataSnapshot snapshot) {
-                                                            String oldTripId = snapshot
-                                                                    .getValue(String.class);
-                                                            tripDatabaseReference.child(oldTripId)
-                                                                    .removeValue();
-                                                            userDatabaseReference.child(userKey)
-                                                                    .child("trip")
-                                                                    .setValue(tripId);
-                                                        }
-
-                                                        @Override
-                                                        public void onCancelled(
-                                                                @NonNull DatabaseError error) {
-
-                                                        }
-                                                    });
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-                                }
-                            });
+                    userDatabaseReference.child(userKey).child("trips")
+                            .child(CurrentTrip.getInstance().getCurrentTripName())
+                            .setValue(CurrentTrip.getInstance().getCurrentTripId());
                 }
             }
         });
@@ -109,35 +80,14 @@ public class LogisticsViewModel extends AndroidViewModel {
     }
 
     public void onSubmitNote(String note) {
-        String userId = mAuth.getCurrentUser().getUid();
-        userDatabaseReference.child(userId).child("trip")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            String tripId = dataSnapshot.getValue(String.class);
-                            String key = UUID.randomUUID().toString();
-                            tripDatabaseReference.child(tripId).child("notes")
-                                    .child(key).setValue(note);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
+        String key = UUID.randomUUID().toString();
+        tripDatabaseReference.child(CurrentTrip.getInstance().getCurrentTripId())
+                .child("notes")
+                .child(key).setValue(note);
     }
 
     private void loadContributors() {
-        String userId = mAuth.getCurrentUser().getUid();
-        userDatabaseReference.child(userId).child("trip")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            String tripId = dataSnapshot.getValue(String.class);
-
-                            tripDatabaseReference.child(tripId).child("users")
+        tripDatabaseReference.child(CurrentTrip.getInstance().getCurrentTripId()).child("users")
                                     .addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot userSnapshot) {
@@ -168,16 +118,7 @@ public class LogisticsViewModel extends AndroidViewModel {
                                                     Toast.LENGTH_SHORT).show();
                                         }
                                     });
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Toast.makeText(getApplication(),
-                                "Failed to load contributors", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
+                           }
 
     private void loadContributorById(String contributorId, List<User> tempContributor,
                                      int totalContributors, int[] loadedCount) {
@@ -205,15 +146,8 @@ public class LogisticsViewModel extends AndroidViewModel {
     }
 
     private void loadNotes() {
-        String userId = mAuth.getCurrentUser().getUid();
-        userDatabaseReference.child(userId).child("trip")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            String tripId = dataSnapshot.getValue(String.class);
-
-                            tripDatabaseReference.child(tripId).child("notes")
+                            tripDatabaseReference.child(CurrentTrip.getInstance().getCurrentTripId())
+                                    .child("notes")
                                     .addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot notesSnapshot) {
@@ -237,13 +171,6 @@ public class LogisticsViewModel extends AndroidViewModel {
                                         }
                                     });
                         }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
-    }
     public interface UserKeyCallback {
         void onUserKeyFound(String userKey);
     }

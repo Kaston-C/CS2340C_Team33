@@ -8,49 +8,24 @@ import java.time.LocalDateTime;
 import java.util.Locale;
 
 public class Accommodation {
-    private String id;
     private String checkInDate;
     private String checkOutDate;
     private String location;
     private int numberOfRooms;
     private String roomType;
     private String name;
-    private LocalDateTime startDateTime;
-    private LocalDateTime endDateTime;
-    private int roomNumber;
 
     public Accommodation() {
     }
 
-    public Accommodation(String id, String name, String location,
-                         LocalDateTime startDateTime, LocalDateTime endDateTime,
-                         String roomType, int roomNumber) {
-        this.id = id;
-        this.name = name;
-        this.location = location;
-        this.startDateTime = startDateTime;
-        this.endDateTime = endDateTime;
-        this.roomType = roomType;
-        this.roomNumber = roomNumber;
-    }
-
-    public Accommodation(String id, String checkInDate, String checkOutDate,
+    public Accommodation(String checkInDate, String checkOutDate,
                          String location, int numberOfRooms, String roomType, String name) {
-        this.id = id;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.location = location;
         this.numberOfRooms = numberOfRooms;
         this.roomType = roomType;
         this.name = name;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getCheckInDate() {
