@@ -1,6 +1,7 @@
 package com.example.sprintproject;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import com.example.sprintproject.model.DatabaseSingleton;
 import com.example.sprintproject.model.Destination;
@@ -13,7 +14,11 @@ public class KastonTest {
     @Test
     public void testDbSingleton() {
         DatabaseSingleton db = DatabaseSingleton.getDatabase();
+
         assertEquals(DatabaseSingleton.class, db.getClass());
+        assertNotNull(db.getFirebaseAuthorization());
+        assertNotNull(db.userDb());
+        assertNotNull(db.destinationsDb());
 
         assertEquals(FirebaseAuth.class, db.getFirebaseAuthorization().getClass());
         assertEquals(DatabaseReference.class, db.userDb().getClass());
@@ -23,15 +28,15 @@ public class KastonTest {
     @Test
     public void calculateVacationTime() {
         int dur;
-        dur = Destination.calculateDurationInDays("10/31/24", "11/5/24");
+        dur = Destination.calculateDurationInDays("10/31/2024", "11/05/2024");
         assertEquals(dur, 6);
 
         String end;
         end = Destination.calculateEndDate("10/31/2024", 6);
-        assertEquals("11/5/2024", end);
+        assertEquals("11/05/2024", end);
 
         String start;
-        start = Destination.calculateStartDate("11/5/2024", 6);
+        start = Destination.calculateStartDate("11/05/2024", 6);
         assertEquals("10/31/2024", start);
     }
 }
