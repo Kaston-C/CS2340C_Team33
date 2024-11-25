@@ -3,7 +3,6 @@ package com.example.sprintproject.view;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import com.example.sprintproject.R;
 import com.example.sprintproject.model.CurrentTrip;
 import com.example.sprintproject.model.Trip;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +37,11 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
         tripDatabaseReference = FirebaseDatabase.getInstance().getReference("trips");
         userDatabaseReference = FirebaseDatabase.getInstance().getReference("users");
         firebaseAuth = FirebaseAuth.getInstance();
+    }
+
+    @Override
+    public int getItemCount() {
+        return tripList.size();
     }
 
     public void updateList(List<Trip> newList) {
@@ -116,12 +119,6 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
 
     public interface TripIdCallback {
         void onCallback(String tripId);
-    }
-
-
-    @Override
-    public int getItemCount() {
-        return tripList.size();
     }
 
     public static class TripViewHolder extends RecyclerView.ViewHolder {

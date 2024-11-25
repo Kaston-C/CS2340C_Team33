@@ -10,7 +10,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,9 +53,12 @@ public class AccommodationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_accommodation);
         setUpButtons();
 
-        accommodationDatabaseReference = FirebaseDatabase.getInstance().getReference("accommodations");
-        tripDatabaseReference = FirebaseDatabase.getInstance().getReference("trips");
-        userDatabaseReference = FirebaseDatabase.getInstance().getReference("users");
+        accommodationDatabaseReference = FirebaseDatabase.getInstance()
+                .getReference("accommodations");
+        tripDatabaseReference = FirebaseDatabase.getInstance()
+                .getReference("trips");
+        userDatabaseReference = FirebaseDatabase.getInstance()
+                .getReference("users");
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         if (currentUser == null) {
@@ -131,7 +133,7 @@ public class AccommodationActivity extends AppCompatActivity {
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if (dataSnapshot.exists()) {
                                     String tripId = dataSnapshot.getValue(String.class);
-                                     accommodationDatabaseReference.child(id)
+                                    accommodationDatabaseReference.child(id)
                                                 .setValue(accommodation)
                                                 .addOnCompleteListener(task -> {
                                                     if (task.isSuccessful()) {
