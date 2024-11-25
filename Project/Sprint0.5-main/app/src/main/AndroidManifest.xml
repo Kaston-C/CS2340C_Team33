@@ -31,6 +31,9 @@
             android:name=".view.LogisticsActivity"
             android:exported="false" />
         <activity
+            android:name=".view.PostActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.RegistrationActivity"
             android:exported="false" />
         <activity
