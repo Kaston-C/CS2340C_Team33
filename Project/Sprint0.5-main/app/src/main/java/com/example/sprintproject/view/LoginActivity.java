@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (user != null) {
                             //log in to account
                             Toast.makeText(LoginActivity.this, "Login successful.", length).show();
-                            Intent goHome = new Intent(LoginActivity.this, LogisticsActivity.class);
+                            Intent goHome = new Intent(LoginActivity.this, TripActivity.class);
                             startActivity(goHome);
                         }
                     } else {

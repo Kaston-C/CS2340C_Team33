@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Dining {
-    private String id;
     private String date;
     private String time;
     private String location;
@@ -13,27 +12,17 @@ public class Dining {
     public Dining() {
     }
 
-    public Dining(String id, String date, String time, String location, String website) {
-        this.id = id;
+    public Dining(String date, String time, String location, String website) {
         this.date = date;
         this.time = time;
         this.location = location;
         this.website = website;
     }
-    public Dining(String id, String location, String website, LocalDateTime dateTime) {
-        this.id = id;
+    public Dining(String location, String website, LocalDateTime dateTime) {
         this.date = dateTime.toLocalDate().toString();
         this.time = dateTime.toLocalTime().toString();
         this.location = location;
         this.website = website;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getDate() {
