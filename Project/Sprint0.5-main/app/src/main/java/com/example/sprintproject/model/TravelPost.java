@@ -24,18 +24,45 @@ public class TravelPost {
     }
 
     // Getters and Setters
-    public String getDestination() { return destination; }
-    public void setDestination(String destination) { this.destination = destination; }
-    public String getStartDate() { return startDate; }
-    public void setStartDate(String startDate) { this.startDate = startDate; }
-    public String getEndDate() { return endDate; }
-    public void setEndDate(String endDate) { this.endDate = endDate; }
-    public String getAccommodation() { return accommodation; }
-    public void setAccommodation(String accommodation) { this.accommodation = accommodation; }
-    public String getDining() { return dining; }
-    public void setDining(String dining) { this.dining = dining; }
-    public String getTransportation() { return transportation; }
-    public void setTransportation(String transportation) { this.transportation = transportation; }
-    public String getNotes() { return notes; }
-    public void setNotes(String notes) { this.notes = notes; }
+    public String getDestination() {
+        return destination; }
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+    public String getStartDate() {
+        return startDate;
+    }
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+    public String getEndDate() {
+        return endDate;
+    }
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+    public String getAccommodation() {
+        return accommodation;
+    }
+    public void setAccommodation(String accommodation) {
+        this.accommodation = accommodation;
+    }
+    public String getDining() {
+        return dining;
+    }
+    public void setDining(String dining) {
+        this.dining = dining;
+    }
+    public String getTransportation() {
+        return transportation;
+    }
+    public void setTransportation(String transportation) {
+        this.transportation = transportation;
+    }
+    public String getNotes() {
+        return notes;
+    }
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
 }

@@ -9,15 +9,15 @@ public class Community {
 
     public Community() {
         this.duration = 0;
-        this.communityPostList = new ArrayList<CommunityListItem>() {};
+        this.communityPostList = new ArrayList<CommunityListItem>() { };
     }
 
-    public void addDestination(int duration, Destination destination, Accommodation accommodation, Dining dining, String transport) {
-        this.communityPostList.add(new CommunityListItem(duration, destination, accommodation, dining, transport));
-        this.duration += duration;
+    public void addDestination(int dur, Destination d, Accommodation acc, Dining din, String tran) {
+        this.communityPostList.add(new CommunityListItem(dur, d, acc, din, tran));
+        this.duration += dur;
     }
 
-    public CommunityListItem getItem (int index) {
+    public CommunityListItem getItem(int index) {
         return communityPostList.get(index);
     }
 
@@ -29,4 +29,3 @@ public class Community {
         return this.communityPostList;
     }
 }
-

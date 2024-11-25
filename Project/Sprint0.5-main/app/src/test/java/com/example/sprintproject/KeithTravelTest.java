@@ -3,17 +3,9 @@ import com.example.sprintproject.model.Accommodation;
 import com.example.sprintproject.model.Community;
 import com.example.sprintproject.model.CommunityListItem;
 import com.example.sprintproject.model.Destination;
-
 import static org.junit.Assert.assertEquals;
-
-import com.example.sprintproject.model.DatabaseSingleton;
-import com.example.sprintproject.model.Destination;
 import com.example.sprintproject.model.Dining;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-
 import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 
