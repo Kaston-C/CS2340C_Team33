@@ -47,6 +47,9 @@ public class CommunityActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_community);
 
+        CommunityObserver obs1 = new CommunityObserver();
+        registerObserver(obs1);
+
         recyclerViewTravelPosts = findViewById(R.id.recycler_view_travel_posts);
         recyclerViewTravelPosts.setLayoutManager(new LinearLayoutManager(this));
         travelPostList = new ArrayList<>();
