@@ -55,7 +55,9 @@ public class PostActivity extends AppCompatActivity {
                 String notes = inputNotes.getText().toString();
 
 
-                TravelPost newPost = new TravelPost(username, destination, startDate, endDate, accommodation, dining, transportation, notes);
+                TravelPost newPost = new TravelPost(
+                        username, destination, startDate, endDate,
+                        accommodation, dining, transportation, notes);
 
                 postRef.push().setValue(newPost);
 
