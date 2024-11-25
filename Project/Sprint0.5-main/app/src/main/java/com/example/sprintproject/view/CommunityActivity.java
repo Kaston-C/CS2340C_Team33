@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sprintproject.R;
-import com.example.sprintproject.model.Community;
 import com.example.sprintproject.model.CommunityObserver;
 import com.example.sprintproject.model.TravelPost;
 import com.google.firebase.database.DataSnapshot;
@@ -103,7 +102,9 @@ public class CommunityActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(CommunityActivity.this, "Failed to load travel posts.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(
+                        CommunityActivity.this,
+                        "Failed to load travel posts.", Toast.LENGTH_SHORT).show();
             }
         });
     }

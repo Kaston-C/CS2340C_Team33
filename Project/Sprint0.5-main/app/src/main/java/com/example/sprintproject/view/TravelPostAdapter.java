@@ -15,7 +15,8 @@ import com.example.sprintproject.model.TravelPost;
 
 import java.util.List;
 
-public class TravelPostAdapter extends RecyclerView.Adapter<TravelPostAdapter.TravelPostViewHolder> {
+public class TravelPostAdapter
+        extends RecyclerView.Adapter<TravelPostAdapter.TravelPostViewHolder> {
 
     private List<TravelPost> travelPostList;
 
@@ -26,7 +27,8 @@ public class TravelPostAdapter extends RecyclerView.Adapter<TravelPostAdapter.Tr
     @NonNull
     @Override
     public TravelPostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_travel_post, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.item_travel_post, parent, false);
         return new TravelPostViewHolder(view);
     }
 
@@ -35,7 +37,8 @@ public class TravelPostAdapter extends RecyclerView.Adapter<TravelPostAdapter.Tr
         TravelPost travelPost = travelPostList.get(position);
         holder.usernameTextView.setText(travelPost.getUsername());
         holder.destinationTextView.setText(travelPost.getDestination());
-        holder.durationTextView.setText(travelPost.getStartDate() + " -- " + travelPost.getEndDate());
+        holder.durationTextView.setText(
+                travelPost.getStartDate() + " -- " + travelPost.getEndDate());
         holder.accommodationTextView.setText(travelPost.getAccommodation());
         holder.transportationTextView.setText(travelPost.getTransportation());
         holder.diningTextView.setText(travelPost.getDining());
@@ -56,15 +59,15 @@ public class TravelPostAdapter extends RecyclerView.Adapter<TravelPostAdapter.Tr
     }
 
     public static class TravelPostViewHolder extends RecyclerView.ViewHolder {
-        TextView usernameTextView;
-        TextView destinationTextView;
-        TextView durationTextView;
-        TextView accommodationTextView;
-        TextView transportationTextView;
-        TextView diningTextView;
-        TextView notesTextView;
-        Button detailsButton;
-        LinearLayout detailsLayout;
+        private TextView usernameTextView;
+        private TextView destinationTextView;
+        private TextView durationTextView;
+        private TextView accommodationTextView;
+        private TextView transportationTextView;
+        private TextView diningTextView;
+        private TextView notesTextView;
+        private Button detailsButton;
+        private LinearLayout detailsLayout;
 
         public TravelPostViewHolder(@NonNull View itemView) {
             super(itemView);
