@@ -1,10 +1,8 @@
 package com.example.sprintproject.viewmodel;
 
 import android.app.Application;
-import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.databinding.ObservableArrayList;
 import androidx.lifecycle.AndroidViewModel;
 
@@ -88,37 +86,37 @@ public class LogisticsViewModel extends AndroidViewModel {
 
     private void loadContributors() {
         tripDatabaseReference.child(CurrentTrip.getInstance().getCurrentTripId()).child("users")
-                                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot userSnapshot) {
-                                            if (userSnapshot.exists()) {
-                                                ArrayList<User> tempContributors
-                                                        = new ArrayList<>();
-                                                int totalContributors
-                                                        = (int) userSnapshot.getChildrenCount();
-                                                if (totalContributors == 0) {
-                                                    contributorList.clear();
-                                                }
-                                                int[] loadedCount = {0};
-                                                for (DataSnapshot dataSnapshot
-                                                        : userSnapshot.getChildren()) {
-                                                    String contributorId
-                                                            = dataSnapshot.getKey().toString();
-                                                    loadContributorById(contributorId,
-                                                            tempContributors, totalContributors,
-                                                            loadedCount);
-                                                }
-                                            }
-                                        }
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot userSnapshot) {
+                        if (userSnapshot.exists()) {
+                            ArrayList<User> tempContributors
+                                    = new ArrayList<>();
+                            int totalContributors
+                                    = (int) userSnapshot.getChildrenCount();
+                            if (totalContributors == 0) {
+                                contributorList.clear();
+                            }
+                            int[] loadedCount = {0};
+                            for (DataSnapshot dataSnapshot
+                                    : userSnapshot.getChildren()) {
+                                String contributorId
+                                        = dataSnapshot.getKey().toString();
+                                loadContributorById(contributorId,
+                                        tempContributors, totalContributors,
+                                        loadedCount);
+                            }
+                        }
+                    }
 
-                                        @Override
-                                        public void onCancelled(DatabaseError databaseError) {
-                                            Toast.makeText(getApplication(),
-                                                    "Failed to load destination",
-                                                    Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                           }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(getApplication(),
+                                "Failed to load destination",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
     private void loadContributorById(String contributorId, List<User> tempContributor,
                                      int totalContributors, int[] loadedCount) {
@@ -146,31 +144,30 @@ public class LogisticsViewModel extends AndroidViewModel {
     }
 
     private void loadNotes() {
-                            tripDatabaseReference.child(CurrentTrip.getInstance().getCurrentTripId())
-                                    .child("notes")
-                                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot notesSnapshot) {
-                                            if (notesSnapshot.exists()) {
-                                                for (DataSnapshot dataSnapshot
-                                                        : notesSnapshot.getChildren()) {
-                                                    String noteValue
-                                                            = Objects.requireNonNull(
-                                                                    dataSnapshot.getValue())
-                                                            .toString();
-                                                    noteList.add(noteValue);
-                                                }
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onCancelled(DatabaseError databaseError) {
-                                            Toast.makeText(getApplication(),
-                                                    "Failed to load destination",
-                                                    Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+        tripDatabaseReference.child(CurrentTrip.getInstance().getCurrentTripId())
+                .child("notes")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot notesSnapshot) {
+                        if (notesSnapshot.exists()) {
+                            for (DataSnapshot dataSnapshot
+                                    : notesSnapshot.getChildren()) {
+                                String noteValue
+                                        = Objects.requireNonNull(
+                                                dataSnapshot.getValue())
+                                        .toString();
+                                noteList.add(noteValue);
+                            }
                         }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(getApplication(),
+                                "Failed to load destination",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
     public interface UserKeyCallback {
         void onUserKeyFound(String userKey);
     }
