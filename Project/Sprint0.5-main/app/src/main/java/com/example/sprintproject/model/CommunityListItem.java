@@ -7,21 +7,31 @@ public class CommunityListItem {
     private Dining dining;
     private String transport;
 
-    public CommunityListItem (int duration, Destination destination, Accommodation accommodation, Dining dining, String transport) {
-        this.duration = duration;
-        this.destination = destination;
-        this.accommodation = accommodation;
-        this.dining = dining;
-        this.transport = transport;
+    public CommunityListItem(int dur, Destination d, Accommodation acc, Dining din, String tran) {
+        this.duration = dur;
+        this.destination = d;
+        this.accommodation = acc;
+        this.dining = din;
+        this.transport = tran;
     }
 
-    public int getDuration() {return duration;}
+    public int getDuration() {
+        return duration;
+    }
 
-    public Destination getDestination() {return destination;}
+    public Destination getDestination() {
+        return destination;
+    }
 
-    public Accommodation getAccommodation() {return accommodation;}
+    public Accommodation getAccommodation() {
+        return accommodation;
+    }
 
-    public Dining getDining() {return dining;}
+    public Dining getDining() {
+        return dining;
+    }
 
-    public String getTransport() {return transport;}
+    public String getTransport() {
+        return transport;
+    }
 }
