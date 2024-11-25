@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sprintproject.R;
+import com.example.sprintproject.model.Community;
+import com.example.sprintproject.model.CommunityObserver;
 import com.example.sprintproject.model.TravelPost;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,6 +31,17 @@ public class CommunityActivity extends AppCompatActivity {
     private List<TravelPost> travelPostList;
     private DatabaseReference databaseReference;
 
+    private List<CommunityObserver> observers = new ArrayList<>();
+
+    public void registerObserver(CommunityObserver observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(CommunityObserver observer) {
+        observers.remove(observer);
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +54,7 @@ public class CommunityActivity extends AppCompatActivity {
         recyclerViewTravelPosts.setAdapter(travelPostAdapter);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("communityTravelPosts");
-        fetchTravelPosts();
+        notifyObservers();
 
         ImageButton logisticsButton = findViewById(R.id.logistics_button);
         logisticsButton.setOnClickListener(
@@ -75,16 +88,12 @@ public class CommunityActivity extends AppCompatActivity {
                 });
     }
 
-    private void fetchTravelPosts() {
+    private void notifyObservers() {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                travelPostList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    TravelPost travelPost = dataSnapshot.getValue(TravelPost.class);
-                    if (travelPost != null) {
-                        travelPostList.add(travelPost);
-                    }
+                for (CommunityObserver observer : observers) {
+                    observer.update(travelPostList, snapshot);
                 }
                 travelPostAdapter.notifyDataSetChanged();
             }
