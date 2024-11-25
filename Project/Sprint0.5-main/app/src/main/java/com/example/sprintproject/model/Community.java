@@ -8,13 +8,13 @@ public class Community {
     private List<CommunityListItem> communityPostList;
 
     public Community() {
-        duration = 0;
-        communityPostList = new ArrayList<CommunityListItem>() {};
+        this.duration = 0;
+        this.communityPostList = new ArrayList<CommunityListItem>() {};
     }
 
     public void addDestination(int duration, Destination destination, Accommodation accommodation, Dining dining, String transport) {
-        communityPostList.add(new CommunityListItem(duration, destination, accommodation, dining, transport));
-        duration += duration;
+        this.communityPostList.add(new CommunityListItem(duration, destination, accommodation, dining, transport));
+        this.duration += duration;
     }
 
     public CommunityListItem getItem (int index) {
@@ -22,7 +22,11 @@ public class Community {
     }
 
     public int getDuration() {
-        return duration;
+        return this.duration;
+    }
+
+    public List<CommunityListItem> getCommunityPostList() {
+        return this.communityPostList;
     }
 }
 
