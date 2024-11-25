@@ -16,8 +16,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class PostActivity extends AppCompatActivity {
 
-    private EditText inputDestination, inputStartDate, inputEndDate, inputAccommodation,
-            inputDining, inputTransportation, inputNotes;
+    private EditText inputDestination;
+    private EditText inputStartDate;
+    private EditText inputEndDate;
+    private EditText inputAccommodation;
+    private EditText inputDining;
+    private EditText inputTransportation;
+    private EditText inputNotes;
 
     private Button submitButton;
 
@@ -35,7 +40,8 @@ public class PostActivity extends AppCompatActivity {
         inputNotes = findViewById(R.id.inputNotes);
         submitButton = findViewById(R.id.submitButton);
 
-        DatabaseReference postRef = FirebaseDatabase.getInstance().getReference("communityTravelPosts");
+        DatabaseReference postRef = FirebaseDatabase.getInstance()
+                .getReference("communityTravelPosts");
 
         submitButton.setOnClickListener(v -> {
             if (validateInputs()) {
@@ -48,7 +54,9 @@ public class PostActivity extends AppCompatActivity {
                 String transportation = inputTransportation.getText().toString();
                 String notes = inputNotes.getText().toString();
 
+
                 TravelPost newPost = new TravelPost(username, destination, startDate, endDate, accommodation, dining, transportation, notes);
+
                 postRef.push().setValue(newPost);
 
                 Toast.makeText(this, "Post added successfully!", Toast.LENGTH_SHORT).show();

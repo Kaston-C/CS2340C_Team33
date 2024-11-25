@@ -25,7 +25,7 @@ public class TravelPost {
         this.notes = notes;
     }
 
-    // Getters and Setters
+    
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
     public String getDestination() { return destination; }
@@ -42,5 +42,6 @@ public class TravelPost {
     public void setTransportation(String transportation) { this.transportation = transportation; }
     public String getNotes() { return notes; }
     public void setNotes(String notes) { this.notes = notes; }
+
 }
 
