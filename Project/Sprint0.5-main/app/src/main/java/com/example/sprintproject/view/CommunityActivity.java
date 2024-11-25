@@ -4,15 +4,44 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.sprintproject.R;
+import com.example.sprintproject.model.TravelPost;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommunityActivity extends AppCompatActivity {
+
+    private RecyclerView recyclerViewTravelPosts;
+    private TravelPostAdapter travelPostAdapter;
+    private List<TravelPost> travelPostList;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_community);
+
+        recyclerViewTravelPosts = findViewById(R.id.recycler_view_travel_posts);
+        recyclerViewTravelPosts.setLayoutManager(new LinearLayoutManager(this));
+        travelPostList = new ArrayList<>();
+        travelPostAdapter = new TravelPostAdapter(travelPostList);
+        recyclerViewTravelPosts.setAdapter(travelPostAdapter);
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("communityTravelPosts");
+        fetchTravelPosts();
 
         ImageButton logisticsButton = findViewById(R.id.logistics_button);
         logisticsButton.setOnClickListener(v -> startActivity(new Intent(CommunityActivity.this, LogisticsActivity.class)));
@@ -36,6 +65,27 @@ public class CommunityActivity extends AppCompatActivity {
         addPostButton.setOnClickListener(v -> {
             Intent intent = new Intent(CommunityActivity.this, PostActivity.class);
             startActivity(intent);
+        });
+    }
+
+    private void fetchTravelPosts() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                travelPostList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    TravelPost travelPost = dataSnapshot.getValue(TravelPost.class);
+                    if (travelPost != null) {
+                        travelPostList.add(travelPost);
+                    }
+                }
+                travelPostAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(CommunityActivity.this, "Failed to load travel posts.", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 }

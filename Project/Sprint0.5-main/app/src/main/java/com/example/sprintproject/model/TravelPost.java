@@ -1,6 +1,7 @@
 package com.example.sprintproject.model;
 
 public class TravelPost {
+    private String username;
     private String destination;
     private String startDate;
     private String endDate;
@@ -12,8 +13,9 @@ public class TravelPost {
     public TravelPost() {
     }
 
-    public TravelPost(String destination, String startDate, String endDate,
+    public TravelPost(String username, String destination, String startDate, String endDate,
                       String accommodation, String dining, String transportation, String notes) {
+        this.username = username;
         this.destination = destination;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -24,6 +26,8 @@ public class TravelPost {
     }
 
     // Getters and Setters
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
     public String getDestination() { return destination; }
     public void setDestination(String destination) { this.destination = destination; }
     public String getStartDate() { return startDate; }
@@ -39,3 +43,4 @@ public class TravelPost {
     public String getNotes() { return notes; }
     public void setNotes(String notes) { this.notes = notes; }
 }
+

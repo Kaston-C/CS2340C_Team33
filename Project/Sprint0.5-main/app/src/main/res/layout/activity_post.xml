@@ -1,72 +1,148 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".view.PostActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:padding="16dp">
 
-        <TextView
-            android:id="@+id/formTitle"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Travel Form"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_marginBottom="16dp" />
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/inputDestination"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter the Destination" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Destination:"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:paddingBottom="8dp" />
 
-        <EditText
-            android:id="@+id/inputStartDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter Start Date" />
+            <EditText
+                android:id="@+id/inputDestination"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter destination"
+                android:background="#F9F9F9"
+                android:padding="8dp"
+                android:layout_marginBottom="16dp" />
 
-        <EditText
-            android:id="@+id/inputEndDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter End Date" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Start Date:"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:paddingBottom="8dp" />
 
-        <EditText
-            android:id="@+id/inputAccommodation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter Accommodation" />
+            <EditText
+                android:id="@+id/inputStartDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter start date"
+                android:background="#F9F9F9"
+                android:padding="8dp"
+                android:layout_marginBottom="16dp" />
 
-        <EditText
-            android:id="@+id/inputDining"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter Dining Reservations" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="End Date:"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:paddingBottom="8dp" />
 
-        <EditText
-            android:id="@+id/inputTransportation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter Transportation" />
+            <EditText
+                android:id="@+id/inputEndDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter end date"
+                android:background="#F9F9F9"
+                android:padding="8dp"
+                android:layout_marginBottom="16dp" />
 
-        <EditText
-            android:id="@+id/inputNotes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter Notes and Review" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Accommodations:"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:paddingBottom="8dp" />
 
-        <Button
-            android:id="@+id/submitButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Submit" />
+            <EditText
+                android:id="@+id/inputAccommodation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter accommodation"
+                android:background="#F9F9F9"
+                android:padding="8dp"
+                android:layout_marginBottom="16dp" />
 
-    </LinearLayout>
-</ScrollView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dining Reservations:"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:paddingBottom="8dp" />
+
+            <EditText
+                android:id="@+id/inputDining"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter dining"
+                android:background="#F9F9F9"
+                android:padding="8dp"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Transportation:"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:paddingBottom="8dp" />
+
+            <EditText
+                android:id="@+id/inputTransportation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter transportation"
+                android:background="#F9F9F9"
+                android:padding="8dp"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Notes about your trip:"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:paddingBottom="8dp" />
+
+            <EditText
+                android:id="@+id/inputNotes"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:hint="Add trip details/review here..."
+                android:background="#F9F9F9"
+                android:gravity="top"
+                android:padding="8dp"
+                android:layout_marginBottom="16dp" />
+
+            <Button
+                android:id="@+id/submitButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Submit Post"
+                android:background="#4CAF50"
+                android:textColor="#FFFFFF"
+                android:padding="12dp"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
