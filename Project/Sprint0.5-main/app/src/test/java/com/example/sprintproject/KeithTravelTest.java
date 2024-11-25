@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KeithTravelTest {
-    //Test if the data from the form gets into the database and is accedssible
     @Test
     public void testDurationInitialization() {
         Community community = new Community();
