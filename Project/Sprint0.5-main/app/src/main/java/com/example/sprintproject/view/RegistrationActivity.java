@@ -23,11 +23,6 @@ import java.util.UUID;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    private DatabaseReference databaseReference;
-    private EditText usernameInput;
-    private EditText passwordInput;
-    private FirebaseAuth mAuth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,12 +31,12 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
 
         //connect firebase database and firebase authentication
-        databaseReference = DatabaseSingleton.getDatabase().userDb();
-        mAuth = DatabaseSingleton.getDatabase().getFirebaseAuthorization();
+        DatabaseReference databaseReference = DatabaseSingleton.getDatabase().userDb();
+        FirebaseAuth mAuth = DatabaseSingleton.getDatabase().getFirebaseAuthorization();
 
         //set up username and password fields
-        usernameInput = findViewById(R.id.input_username);
-        passwordInput = findViewById(R.id.input_password);
+        EditText usernameInput = findViewById(R.id.input_username);
+        EditText passwordInput = findViewById(R.id.input_password);
 
         //set up account registration button
         Button registerButton = findViewById(R.id.registerButton);

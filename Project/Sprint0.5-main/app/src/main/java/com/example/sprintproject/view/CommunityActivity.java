@@ -25,7 +25,6 @@ import java.util.List;
 
 public class CommunityActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerViewTravelPosts;
     private TravelPostAdapter travelPostAdapter;
     private List<TravelPost> travelPostList;
     private DatabaseReference databaseReference;
@@ -49,7 +48,7 @@ public class CommunityActivity extends AppCompatActivity {
         CommunityObserver obs1 = new CommunityObserver();
         registerObserver(obs1);
 
-        recyclerViewTravelPosts = findViewById(R.id.recycler_view_travel_posts);
+        RecyclerView recyclerViewTravelPosts = findViewById(R.id.recycler_view_travel_posts);
         recyclerViewTravelPosts.setLayoutManager(new LinearLayoutManager(this));
         travelPostList = new ArrayList<>();
         travelPostAdapter = new TravelPostAdapter(travelPostList);

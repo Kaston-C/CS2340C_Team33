@@ -27,14 +27,12 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
 
     private Context context;
     private List<Trip> tripList;
-    private DatabaseReference tripDatabaseReference;
     private DatabaseReference userDatabaseReference;
     private FirebaseAuth firebaseAuth;
 
     public TripAdapter(Context context, List<Trip> tripList) {
         this.context = context;
         this.tripList = tripList;
-        tripDatabaseReference = FirebaseDatabase.getInstance().getReference("trips");
         userDatabaseReference = FirebaseDatabase.getInstance().getReference("users");
         firebaseAuth = FirebaseAuth.getInstance();
     }
@@ -65,9 +63,8 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
         Trip trip = tripList.get(position);
         holder.tvName.setText(trip.getName());
 
-        holder.btnDelete.setOnClickListener(v -> {
-            getTripId(trip.getName(), tripId -> deleteTrip(tripId));
-        });
+        holder.btnDelete.setOnClickListener(v ->
+            getTripId(trip.getName(), tripId -> deleteTrip(tripId)));
 
         holder.itemView.setOnClickListener(v -> {
             getTripId(trip.getName(), tripId -> CurrentTrip.getInstance().setCurrentTripId(tripId));

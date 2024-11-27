@@ -28,7 +28,6 @@ public class TripActivity extends AppCompatActivity {
     private DatabaseReference tripDatabaseReference;
     private DatabaseReference userDatabaseReference;
     private FirebaseAuth firebaseAuth;
-    private RecyclerView recyclerView;
     private TripAdapter tripAdapter;
     private List<Trip> tripList;
 
@@ -41,7 +40,7 @@ public class TripActivity extends AppCompatActivity {
         userDatabaseReference = FirebaseDatabase.getInstance().getReference("users");
         firebaseAuth = FirebaseAuth.getInstance();
 
-        recyclerView = findViewById(R.id.rvTrips);
+        RecyclerView recyclerView = findViewById(R.id.rvTrips);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         tripList = new ArrayList<>();
         loadTripReservations();

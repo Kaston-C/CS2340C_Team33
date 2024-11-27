@@ -34,7 +34,6 @@ public class DiningActivity extends AppCompatActivity {
     private DatabaseReference tripDatabaseReference;
     private DatabaseReference userDatabaseReference;
     private FirebaseAuth firebaseAuth;
-    private RecyclerView recyclerView;
     private DiningAdapter diningAdapter;
     private List<Dining> diningList;
     private FilterStrategy filterStrategy;
@@ -49,7 +48,7 @@ public class DiningActivity extends AppCompatActivity {
         userDatabaseReference = FirebaseDatabase.getInstance().getReference("users");
         firebaseAuth = FirebaseAuth.getInstance();
 
-        recyclerView = findViewById(R.id.rvDiningReservations);
+        RecyclerView recyclerView = findViewById(R.id.rvDiningReservations);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         diningList = new ArrayList<>();
         diningAdapter = new DiningAdapter(diningList);
@@ -126,40 +125,7 @@ public class DiningActivity extends AppCompatActivity {
                 if (Dining.isValidDateTimeFormat(date, time)) {
                     FirebaseUser currentUser = firebaseAuth.getCurrentUser();
                     if (currentUser != null) {
-                        String id = UUID.randomUUID().toString();
-                        Dining dining = new Dining(date, time, location, website);
-                        diningDatabaseReference.child(id).setValue(dining)
-                                .addOnCompleteListener(task -> {
-                                    if (task.isSuccessful()) {
-                                        userDatabaseReference.child(currentUser.getUid())
-                                                .child("trip")
-                                                .addListenerForSingleValueEvent(new ValueEventListener() {
-                                                    @Override
-                                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                                        if (dataSnapshot.exists()) {
-                                                            String tripId = dataSnapshot.getValue(String.class);
-                                                            if (tripId != null) {
-                                                                tripDatabaseReference.child(tripId)
-                                                                        .child("dining")
-                                                                        .child(dining.getLocation())
-                                                                        .setValue(id)
-                                                                        .addOnCompleteListener(task -> {
-                                                                        });
-                                                            }
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void onCancelled(DatabaseError databaseError) {
-                                                        Toast.makeText(getApplication(),
-                                                                "Failed to save destination",
-                                                                Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
-                                    }
-                                });
-                        Toast.makeText(this, "Reservation added!", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
+                        addHelper(date, time, location, website);
                     } else {
                         Toast.makeText(this, "User not authenticated. Please log in.",
                                 Toast.LENGTH_SHORT).show();
@@ -177,6 +143,42 @@ public class DiningActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    private void addHelper(String date, String time, String location, String website) {
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        String id = UUID.randomUUID().toString();
+        Dining dining = new Dining(date, time, location, website);
+        diningDatabaseReference.child(id).setValue(dining)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        userDatabaseReference.child(currentUser.getUid())
+                                .child("trip")
+                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.exists()) {
+                                            String tripId = dataSnapshot.getValue(String.class);
+                                            if (tripId != null) {
+                                                tripDatabaseReference.child(tripId)
+                                                        .child("dining")
+                                                        .child(dining.getLocation())
+                                                        .setValue(id)
+                                                        .addOnCompleteListener(task -> {
+                                                        });
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                        Toast.makeText(getApplication(),
+                                                "Failed to save destination",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }
+                });
+        Toast.makeText(this, "Reservation added!", Toast.LENGTH_SHORT).show();
+    }
 
     private void loadDiningReservations() {
         String userId = firebaseAuth.getCurrentUser().getUid();
@@ -191,8 +193,6 @@ public class DiningActivity extends AppCompatActivity {
                                         @Override
                                         public void onDataChange(DataSnapshot snapshot) {
                                             diningList.clear();
-                                            DateTimeFormatter formatter = DateTimeFormatter
-                                                    .ofPattern("MM/dd/yyyy HH:mm");
 
                                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                                 String diningKey = dataSnapshot.getValue(String.class);

@@ -44,8 +44,7 @@ public class Destination {
             return -1;
         }
         int diffInMillis = (int) (endDate.getTimeInMillis() - startDate.getTimeInMillis());
-        int diffInDays = (int) (diffInMillis / (1000 * 60 * 60 * 24)) + 1;
-        return diffInDays;
+        return  (diffInMillis / (1000 * 60 * 60 * 24)) + 1;
     }
 
     public static String calculateEndDate(String startDateStr, int durationDays) {

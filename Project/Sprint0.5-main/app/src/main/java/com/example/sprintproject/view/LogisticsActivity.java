@@ -39,12 +39,9 @@ public class LogisticsActivity extends AppCompatActivity {
     private DatabaseReference destinationsDatabaseReference;
     private FirebaseAuth mAuth;
     private PieChart pieChart;
-    private Button btnVisualizeTrip;
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
     private LogisticsViewModel viewModel;
-    private RecyclerView logisticsRecyclerView;
     private LogisticsAdapter adapter;
-    private List<User> userList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +59,11 @@ public class LogisticsActivity extends AppCompatActivity {
         tripDatabaseReference = DatabaseSingleton.getDatabase().tripDb();
         destinationsDatabaseReference = DatabaseSingleton.getDatabase().destinationsDb();
 
-        btnVisualizeTrip = findViewById(R.id.btnVisualizeTrip);
+        Button btnVisualizeTrip = findViewById(R.id.btnVisualizeTrip);
         pieChart = findViewById(R.id.pieChart);
 
-        btnVisualizeTrip.setOnClickListener(v -> {
-            fetchAndDisplayChartData();
-        });
+        btnVisualizeTrip.setOnClickListener(v ->
+            fetchAndDisplayChartData());
 
         setupNavigationButtons();
         setupAdditionalButtons();
@@ -415,7 +411,7 @@ public class LogisticsActivity extends AppCompatActivity {
 
     private int calculateDaysBetween(Date startDate, Date endDate) {
         int diffInMillis = (int) (endDate.getTime() - startDate.getTime());
-        return (int) (diffInMillis / (1000 * 60 * 60 * 24)) + 1;
+        return (diffInMillis / (1000 * 60 * 60 * 24)) + 1;
     }
 
     private int calculateOverlappingDays(
