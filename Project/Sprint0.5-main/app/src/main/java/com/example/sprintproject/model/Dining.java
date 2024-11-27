@@ -59,8 +59,6 @@ public class Dining {
 
     public static boolean isValidDateTimeFormat(String date, String time) {
         try {
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
             LocalDateTime.parse(date + " " + time, DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm"));
             return true;
         } catch (Exception e) {

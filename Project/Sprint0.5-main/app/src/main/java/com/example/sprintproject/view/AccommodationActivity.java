@@ -42,7 +42,6 @@ public class AccommodationActivity extends AppCompatActivity {
     private DatabaseReference userDatabaseReference;
     private DatabaseReference accommodationDatabaseReference;
     private FirebaseAuth firebaseAuth;
-    private RecyclerView recyclerViewAccommodation;
     private AccommodationAdapter accommodationAdapter;
     private List<Accommodation> accommodationList;
     private FilterStrategy filterStrategy;
@@ -77,7 +76,7 @@ public class AccommodationActivity extends AppCompatActivity {
         EditText name = findViewById(R.id.name);
         EditText numberOfRooms = findViewById(R.id.number_of_rooms);
         EditText roomType = findViewById(R.id.room_type);
-        recyclerViewAccommodation = findViewById(R.id.accommodation_recycler_view);
+        RecyclerView recyclerViewAccommodation = findViewById(R.id.accommodation_recycler_view);
 
         recyclerViewAccommodation.setLayoutManager(new LinearLayoutManager(this));
         accommodationAdapter = new AccommodationAdapter(accommodationList);
@@ -117,44 +116,8 @@ public class AccommodationActivity extends AppCompatActivity {
                 return;
             }
             try {
-                int numberOfRoomsInt = Integer.parseInt(numberOfRoomsStr);
-
-                String id = UUID.randomUUID().toString();
-                Accommodation accommodation = new Accommodation();
-                accommodation.setCheckInDate(checkInDateStr);
-                accommodation.setCheckOutDate(checkOutDateStr);
-                accommodation.setLocation(locationStr);
-                accommodation.setName(nameStr);
-                accommodation.setNumberOfRooms(numberOfRoomsInt);
-                accommodation.setRoomType(roomTypeStr);
-                userDatabaseReference.child(userId).child("trip")
-                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.exists()) {
-                                    String tripId = dataSnapshot.getValue(String.class);
-                                    accommodationDatabaseReference.child(id)
-                                                .setValue(accommodation)
-                                                .addOnCompleteListener(task -> {
-                                                    if (task.isSuccessful()) {
-                                                        tripDatabaseReference.child(tripId)
-                                                                .child("accommodations")
-                                                                .child(accommodation.getName())
-                                                                .setValue(id)
-                                                                .addOnCompleteListener(addKeyTask -> {
-                                                                });
-                                                    }
-                                                });
-                                    }
-                                }
-
-                            @Override
-                            public void onCancelled(DatabaseError error) {
-
-                            }
-                        });
-                Toast.makeText(this,
-                        "Accommodation added successfully.", Toast.LENGTH_SHORT).show();
+                addAccommodation(numberOfRoomsStr, checkInDateStr,
+                        checkOutDateStr, locationStr, nameStr, roomTypeStr, userId);
                 formContainer.setVisibility(View.GONE);
                 addAccommodationButton.setVisibility(View.VISIBLE);
 
@@ -192,6 +155,50 @@ public class AccommodationActivity extends AppCompatActivity {
                 accommodationAdapter.updateList(filteredList);
             }
         });
+    }
+
+    private void addAccommodation(String numberOfRoomsStr, String checkInDateStr,
+                                  String checkOutDateStr, String locationStr,
+                                  String nameStr, String roomTypeStr,
+                                  String userId) {
+        int numberOfRoomsInt = Integer.parseInt(numberOfRoomsStr);
+
+        String id = UUID.randomUUID().toString();
+        Accommodation accommodation = new Accommodation();
+        accommodation.setCheckInDate(checkInDateStr);
+        accommodation.setCheckOutDate(checkOutDateStr);
+        accommodation.setLocation(locationStr);
+        accommodation.setName(nameStr);
+        accommodation.setNumberOfRooms(numberOfRoomsInt);
+        accommodation.setRoomType(roomTypeStr);
+        userDatabaseReference.child(userId).child("trip")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            String tripId = dataSnapshot.getValue(String.class);
+                            accommodationDatabaseReference.child(id)
+                                    .setValue(accommodation)
+                                    .addOnCompleteListener(task -> {
+                                        if (task.isSuccessful()) {
+                                            tripDatabaseReference.child(tripId)
+                                                    .child("accommodations")
+                                                    .child(accommodation.getName())
+                                                    .setValue(id)
+                                                    .addOnCompleteListener(addKeyTask -> {
+                                                    });
+                                        }
+                                    });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        // not added successfully
+                    }
+                });
+        Toast.makeText(this,
+                "Accommodation added successfully.", Toast.LENGTH_SHORT).show();
     }
 
     private void setUpButtons() {

@@ -8,6 +8,7 @@ public class DatabaseSingleton {
     private static DatabaseSingleton instance;
 
     public DatabaseSingleton() {
+        // empty constructor for singleton
     }
 
     public static synchronized DatabaseSingleton getDatabase() {

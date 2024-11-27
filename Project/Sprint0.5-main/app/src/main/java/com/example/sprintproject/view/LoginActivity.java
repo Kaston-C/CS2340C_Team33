@@ -25,13 +25,6 @@ import com.google.firebase.database.DatabaseReference;
  * It also helps with Firebase authentication and connection in tandem with Model.
  */
 public class LoginActivity extends AppCompatActivity {
-    private EditText usernameInput;
-    private EditText passwordInput;
-    private Button submitUserPass;
-    private Button registerButton;
-
-    private DatabaseReference databaseReference;
-    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +32,15 @@ public class LoginActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         //set view to login screen
         setContentView(R.layout.activity_login);
-        databaseReference = DatabaseSingleton.getDatabase().userDb();
-        mAuth = DatabaseSingleton.getDatabase().getFirebaseAuthorization();
+        DatabaseReference databaseReference = DatabaseSingleton.getDatabase().userDb();
+        FirebaseAuth mAuth = DatabaseSingleton.getDatabase().getFirebaseAuthorization();
 
         //set up username and password fields
         EditText usernameInput = findViewById(R.id.input_username);
         EditText passwordInput = findViewById(R.id.input_password);
 
         //set up login submit button
-        submitUserPass = findViewById(R.id.submit_button);
+        Button submitUserPass = findViewById(R.id.submit_button);
 
         //log in verification process
         submitUserPass.setOnClickListener(view -> {
@@ -89,16 +82,15 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         //set up button to account creation screen
-        registerButton = findViewById(R.id.goRegisterButton);
+        Button registerButton = findViewById(R.id.goRegisterButton);
         registerButton.setOnClickListener(view -> {
             Intent goRegister = new Intent(LoginActivity.this, RegistrationActivity.class);
             startActivity(goRegister);
         });
 
         View exitButton = findViewById(R.id.go_exitButton);
-        exitButton.setOnClickListener(view -> {
-            finishAffinity();
-        });
+        exitButton.setOnClickListener(view ->
+            finishAffinity());
 
         //create window insets if needed
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

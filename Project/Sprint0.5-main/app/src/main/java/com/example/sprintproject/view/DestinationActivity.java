@@ -23,7 +23,6 @@ public class DestinationActivity extends AppCompatActivity
         implements DestinationViewModel.DatePickerListener {
 
     private DestinationViewModel viewModel;
-    private DestinationAdapter destinationAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,10 +75,9 @@ public class DestinationActivity extends AppCompatActivity
     }
 
     private void setupRecyclerView(ActivityDestinationBinding binding) {
-        destinationAdapter = new DestinationAdapter(
-                viewModel.getDestinationsList(), destination -> {
-                    showDestinationDetails(destination);
-                });
+        DestinationAdapter destinationAdapter = new DestinationAdapter(
+                viewModel.getDestinationsList(), destination ->
+                    showDestinationDetails(destination));
         binding.destinationsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.destinationsRecyclerView.setAdapter(destinationAdapter);
 

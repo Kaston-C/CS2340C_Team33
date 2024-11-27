@@ -92,8 +92,12 @@ public class Accommodation {
         try {
             Date checkInDate = sdf.parse(checkInDateStr);
             Date checkOutDate = sdf.parse(checkOutDateStr);
-            return checkOutDate != null && checkOutDate.after(checkInDate) || checkOutDate
-                    .equals(checkInDate);
+            if (checkOutDate != null && checkInDate != null) {
+                return checkOutDate.after(checkInDate) || checkOutDate
+                        .equals(checkInDate);
+            } else {
+                return false;
+            }
         } catch (ParseException e) {
             return false;
         }

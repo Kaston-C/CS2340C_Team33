@@ -19,12 +19,6 @@ public class PostActivity extends AppCompatActivity {
     private EditText inputDestination;
     private EditText inputStartDate;
     private EditText inputEndDate;
-    private EditText inputAccommodation;
-    private EditText inputDining;
-    private EditText inputTransportation;
-    private EditText inputNotes;
-
-    private Button submitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +28,11 @@ public class PostActivity extends AppCompatActivity {
         inputDestination = findViewById(R.id.inputDestination);
         inputStartDate = findViewById(R.id.inputStartDate);
         inputEndDate = findViewById(R.id.inputEndDate);
-        inputAccommodation = findViewById(R.id.inputAccommodation);
-        inputDining = findViewById(R.id.inputDining);
-        inputTransportation = findViewById(R.id.inputTransportation);
-        inputNotes = findViewById(R.id.inputNotes);
-        submitButton = findViewById(R.id.submitButton);
+        EditText inputAccommodation = findViewById(R.id.inputAccommodation);
+        EditText inputDining = findViewById(R.id.inputDining);
+        EditText inputTransportation = findViewById(R.id.inputTransportation);
+        EditText inputNotes = findViewById(R.id.inputNotes);
+        Button submitButton = findViewById(R.id.submitButton);
 
         DatabaseReference postRef = FirebaseDatabase.getInstance()
                 .getReference("communityTravelPosts");
